@@ -449,6 +449,34 @@ body.th-m .skylbl,body.th-d .skylbl{text-shadow:0 2px 0 #6aa514}
 @keyframes spin{to{transform:rotate(360deg)}}
 .fbchips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 textarea.inp{width:100%;resize:none}
+
+.stepper{position:relative;padding-right:4px}
+.stp{display:flex;gap:12px;position:relative;padding-bottom:14px}
+.stp:not(:last-child)::before{content:"";position:absolute;right:17px;top:36px;bottom:0;width:3px;border-radius:3px;background:#efe6cf}
+.stp.past:not(:last-child)::before{background:#8fe35a}
+.sdot{width:37px;height:37px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:18px;background:#f3ecda;font-weight:900;color:#9a9278;z-index:1}
+.stp.past .sdot{background:linear-gradient(#8fe35a,#4cb21f);color:#fff;font-size:15px}
+.stp.now .sdot{background:linear-gradient(#ffd34d,#ff8a1a);box-shadow:0 0 0 4px #fff3c4;animation:pulse 1.6s infinite}
+.stp.loop .sdot{background:linear-gradient(135deg,#d7c4ff,#9fd0ff)}
+.sbody{flex:1;padding-top:6px}
+.sbody b{font-size:14.5px}
+.sbody small{color:var(--muted);font-weight:700;font-size:11.5px}
+.stp.now .sbody{background:linear-gradient(135deg,#fff8e1,#fff1d0);border-radius:16px;padding:10px 12px;margin-top:-2px}
+.stp.now .sbody b{color:#b55a00}
+.sf{font-size:13px;margin-top:3px;line-height:1.45}
+.sfeel{font-size:12.5px;margin-top:6px;color:#6b5a2a;font-weight:700}
+.sbody ul{margin:6px 0 0;padding-right:18px;font-size:13px;line-height:1.55}
+.sexit{margin-top:6px;font-size:12.5px;font-weight:800;color:#3c8a10}
+.stp:not(.now):not(.past) .sbody{opacity:.75}
+.acc{background:#fff;border-radius:18px;margin-bottom:9px;box-shadow:0 3px 0 #efe5c9;overflow:hidden}
+.acc summary{list-style:none;cursor:pointer;padding:13px 14px;font-weight:900;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"‹";font-size:20px;color:#b8ad8c;transition:transform .2s}
+.acc[open] summary::after{transform:rotate(-90deg)}
+.accb{padding:0 14px 12px}
+.subt{display:block;font-weight:600;color:var(--muted);font-size:12px;text-decoration:none}
+.vals2{display:flex;flex-wrap:wrap;gap:6px}
+.vals2 span{background:#fff3d6;color:#a86400;border-radius:99px;padding:6px 12px;font-weight:900;font-size:13px}
 </style>
 </head>
 <body class="th-d">
@@ -1490,73 +1518,141 @@ const DOM={
  create:{k:/ליצור|יציר|אמנות|מוזיק|וידאו|תוכן|יוטיוב|אפליקצי|מוצר|עיצוב|ספר/,q:[['יסודות היצירה',['זמן יצירה יומי קבוע','בנק רעיונות','תוצר ראשון קטן']],['פרסום',['פרסום שבועי קבוע','איסוף משוב','שיפור הסגנון']],['קהל',['100 עוקבים/משתמשים ראשונים','שיתוף פעולה','תוצר גדול']],['השקה',['השקת התוצר המרכזי','מערכת שעובדת','החזון הבא']]],h:[['🎨','30 דק׳ יצירה','m'],['💡','רעיון אחד ביומן','e'],['📤','שיתוף/פרסום','d']],w:['בחר פרויקט יצירה אחד','צור טיוטה ראשונה – גרועה בכוונה','שתף משהו קטן עם אדם אחד','30 דקות יצירה בלי הפרעות'],m:['שעות יצירה בשבוע','תוצרים שפורסמו']},
  inner:{k:/שקט|רוגע|שמח|ביטחון|אושר|מדיטצ|רוחני|רגש|לחץ|שלו/,q:[['רוגע',['5 דק׳ מדיטציה ביום','יומן הודיה','שינה איכותית']],['מודעות',['זיהוי טריגרים','שינוי מצב יומי','גבולות בריאים']],['עוצמה',['יציאה חודשית מאזור הנוחות','עזרה לאחרים','אמונות חדשות ומחזקות']],['שלמות',['שגרה פנימית יציבה','השראה לאחרים','חזון חדש']]],h:[['🧘','5 דק׳ מדיטציה','m'],['🙏','3 הודיות','e'],['⚡','שינוי מצב','d']],w:['עשה את תרגיל שינוי המצב 3 פעמים','כתוב 3 הודיות כל ערב','זהה דבר אחד שמלחיץ וכתוב תוכנית','5 דקות שקט בבוקר'],m:['ממוצע מצב רוח','ימים עם מדיטציה']}
 };
+const EXTRA={
+ health:{sk:[['טכניקת אימון נכונה','שיעור מאמן אחד או 3 סרטוני הדרכה, ואז תרגול איטי'],['תכנון ארוחות','הכנה של 3 ארוחות מראש פעם בשבוע'],['הקשבה לגוף והתאוששות','דירוג אנרגיה 1-10 כל בוקר והתאמת האימון']],tr:['התמדה','משמעת עצמית','סבלנות לתהליך'],af:['הגוף שלי חזק יותר בכל יום','אני מכבד את הגוף שלי בבחירות קטנות','תנועה היא האנרגיה שלי'],le:['יסודות תזונה מאוזנת','עקרונות אימון כוח למתחילים','מדע השינה וההתאוששות'],en:['בגדי אימון מוכנים מהערב','מים זמינים תמיד בהישג יד','שותף או קבוצת אימון','להוציא ג׳אנק פוד מהבית']},
+ money:{sk:[['מכירה ושיחות עם לקוחות','5 שיחות בשבוע + כתיבת מה עבד אחרי כל שיחה'],['שיווק ובניית קהל','פרסום ערך 3 פעמים בשבוע במקום אחד'],['תמחור וניהול כספים','בדיקת הכנסות/הוצאות שבועית של 15 דקות'],['עבודה עמוקה','בלוק של 60 דקות בלי טלפון כל יום']],tr:['יוזמה','עמידות בדחייה','אחריות','חשיבה ארוכת טווח'],af:['אני יוצר ערך – והכסף הוא התוצאה','כל "לא" מקרב אותי ל"כן"','אני ראוי לשפע שאני בונה'],le:['ספר על מכירות או שיווק','קורס קצר בתמחור והצעת ערך','לימוד לעומק של עסק שהצליח בתחום שלך'],en:['פינת עבודה נקייה ושקטה','מנטור או קבוצת יזמים','חסימת אפליקציות מסיחות בשעות עבודה','לוח יעדים מספרי מול העיניים']},
+ family:{sk:[['הקשבה פעילה','לשקף במשפט אחד מה הילד/בן הזוג אמר לפני שעונים'],['תקשורת רגשית','לשתף רגש אחד ביום במשפט "אני מרגיש..."'],['ויסות תגובות','3 נשימות לפני תגובה ברגע מתוח'],['תכנון זמן משפחתי','תכנון בילוי שבועי ביום ראשון']],tr:['נוכחות','סבלנות','חום','עקביות'],af:['אני נוכח לגמרי עם האנשים שאני אוהב','הבית שלי הוא מקום של חום וביטחון','הילדים לומדים ממה שאני עושה'],le:['ספר על הורות מקשיבה','תקשורת זוגית מקרבת','פעילויות ומשחקים לגיל הילדים'],en:['סל טלפונים בכניסה לבית בערב','לוח משפחתי עם בילויים','פינת משחק/קריאה משותפת','זמן קבוע ביומן למשפחה']},
+ learn:{sk:[['למידה עמוקה וחזרה מרווחת','חזרה על החומר אחרי יום, 3 ימים ושבוע'],['סיכום ומיפוי ידע','מפת חשיבה של עמוד אחד לכל נושא'],['יישום מעשי','תרגיל מעשי אחד על כל דבר שלמדת'],['למידה מאנשים','שאלה אחת בשבוע למומחה']],tr:['סקרנות','התמדה','צניעות ללמוד'],af:['אני לומד מהר ומיישם עוד יותר מהר','כל יום אני יודע יותר מאתמול','טעויות הן חלק מהלמידה'],le:['שיטת חזרה מרווחת (כרטיסיות)','טכניקת פומודורו','ספר על למידה אפקטיבית'],en:['פינת למידה קבועה','אוזניות לביטול רעשים','קבוצת לימוד או חברותא','חומרי הלמידה זמינים בטלפון']},
+ create:{sk:[['יצירה יומית בלי שיפוט','20 דקות יצירה – בלי למחוק כלום'],['סיפור סיפורים','לכל תוצר: בעיה, מסע, פתרון'],['עריכה וגימור','לסיים תוצר אחד בשבוע עד הסוף'],['פרסום ושיווק עצמי','שיתוף שבועי + תגובה לכל משוב']],tr:['אומץ לשתף','סבלנות לתהליך','סקרנות'],af:['אני יוצר כל יום – גם כשזה לא מושלם','הקול שלי חשוב','גמור עדיף על מושלם'],le:['קורס במיומנות הליבה של היצירה שלך','ניתוח של 3 יוצרים שאתה מעריך','ספר על הרגלי יצירה'],en:['סביבת יצירה מוכנה מראש','קבוצת יוצרים למשוב','זמן יצירה חסום ביומן','בנק רעיונות בטלפון']},
+ inner:{sk:[['נשימה ומדיטציה','5 דקות נשימה מודעת כל בוקר'],['זיהוי וויסות רגשות','לתת שם לרגש ולשאול מה הוא מבקש'],['שינוי מסגור (NLP)','בכל אתגר לשאול: "מה עוד זה יכול להיות?"'],['הצבת גבולות','להגיד "לא" נעים פעם בשבוע']],tr:['שלווה','מודעות עצמית','חמלה עצמית','אומץ'],af:['אני בוחר את המצב שלי','אני רגוע, ממוקד ובטוח בעצמי','הרגש הוא אות – ואני מקשיב לו'],le:['יסודות מדיטציה (10 דק׳ ביום)','ספר על אינטליגנציה רגשית','טכניקות עוגן ושינוי מסגור'],en:['פינת שקט בבית','פחות חדשות ורשתות','אנשים מעוררי השראה סביבך','מוזיקה מרגיעה זמינה']}
+};
+const DOMNAME={health:'בריאות וכושר',money:'פרנסה ועסק',family:'משפחה וזוגיות',learn:'למידה ומיומנות',create:'יצירה',inner:'שקט פנימי'};
+const STAGES=[
+ {n:'התעוררות ובהירות',d:[1,21],e:'🌅',f:'להבין את החלום, להתחיל קטן ולהוכיח לעצמך שאתה יכול.',x:'7 ימי הצלחה ותוכנית כתובה',feel:'התרגשות וקצת חוסר ודאות – זה טבעי.'},
+ {n:'יסודות',d:[22,66],e:'🧱',f:'ההרגלים נקלטים. עקביות לפני עוצמה.',x:'הרגלי הליבה קורים כמעט אוטומטית',feel:'ימים של "אין חשק" – פה נבנית המשמעת.'},
+ {n:'תנופה',d:[67,120],e:'🌊',f:'פעולה מסיבית ותוצאות ראשונות.',x:'תוצאה ראשונה מדידה בדרך לחלום',feel:'ביטחון עולה כשרואים תוצאות.'},
+ {n:'מיומנות',d:[121,200],e:'🛠️',f:'לפתח את המיומנויות שהחלום דורש.',x:'מיומנות ליבה ברמה טובה',feel:'מישור – נראה שאין שינוי, אבל מתחת לפני השטח הכל זז.'},
+ {n:'האצה',d:[201,300],e:'🚀',f:'להעלות סטנדרטים ולהכפיל את מה שעובד.',x:'קצב התקדמות כפול מתחילת הדרך',feel:'זהות חדשה – "ככה אני".'},
+ {n:'הגשמה והתחדשות',d:[301,365],e:'🏔️',f:'להשלים, לחגוג ולהציב את החלום הבא.',x:'החלום מתגשם – ומתחיל מסע חדש ברמה גבוהה יותר',feel:'גאווה, הכרת תודה ורעב לשלב הבא.'}
+];
+function stageIdx(){const n=Math.min(dayNum(),365);return Math.max(0,STAGES.findIndex(s=>n>=s.d[0]&&n<=s.d[1]))}
 function localPlan(mode,fb){
-  const P=S.profile;const txt=[P.dream,P.why,P.purpose,(P.values||[]).join(' ')].join(' ');
-  let keys=Object.keys(DOM).filter(k=>DOM[k].k.test(txt));if(!keys.length)keys=['inner','learn'];
-  const A=DOM[keys[0]],B=DOM[keys[1]]||null;
-  const easy=/קשה|עמוס|מדי|לאט|עייף/.test(fb||''),hard=/אתגר|יותר|מהר|קל מדי|להגביר/.test(fb||'');
-  const names=['רבעון 1 · ','רבעון 2 · ','רבעון 3 · ','רבעון 4 · '];const fo=['בנה יסודות – עקביות לפני עוצמה','פעולה מסיבית – הגבר את הקצב','העלה סטנדרטים – מה שהיה "כדאי" הופך ל"חייב"','קציר – סיים חזק וחגוג'];
-  const quarters=A.q.map((q,i)=>({name:names[i]+q[0],months:`חודשים ${i*3+1}-${i*3+3}`,goal:q[1][0],milestones:q[1].concat(B?[B.q[i][1][0]]:[]),focus:fo[i]}));
-  let week=A.w.slice(0,easy?2:3).concat(B?[B.w[0]]:[]);if(hard)week=week.concat(['הוסף עוד 15 דקות לפעולה החשובה ביותר','הצב יעד שבועי מספרי ושתף מישהו']);
+  const P=S.profile;const I=P.intake||{};const txt=[P.dream,P.why,P.purpose,I.success,(P.values||[]).join(' ')].join(' ');
+  const dt=(P.dream||'')+' '+(I.success||'');let keys=Object.keys(DOM).filter(k=>DOM[k].k.test(txt)).sort((x,y)=>{const ix=dt.search(DOM[x].k),iy=dt.search(DOM[y].k);return (ix<0?999:ix)-(iy<0?999:iy)}).slice(0,2);if(!keys.length)keys=['inner','learn'];
+  const A=DOM[keys[0]],B=DOM[keys[1]]||null,XA=EXTRA[keys[0]],XB=keys[1]?EXTRA[keys[1]]:null;
+  const time=+I.time||20;const easy=/קשה|עמוס|מדי|לאט|עייף/.test(fb||'')||time<=10,hard=/אתגר|יותר|מהר|קל מדי|להגביר/.test(fb||'')||time>=60;
   const exist=new Set(habits().map(h=>h.name));
-  const hs=A.h.concat(B?B.h.slice(0,1):[]).filter(h=>!exist.has(h[1])).slice(0,easy?1:3).map(h=>({emoji:h[0],name:h[1],sec:h[2],why:'מקדם ישירות את החלום שלך'}));
-  return {title:P.dream?`הדרך אל: ${P.dream}`:'התוכנית שלי לשנה',
-    vision:P.dream?`בעוד שנה: ${P.dream}. אתה מרגיש את זה בגוף, רואה את זה בתוצאות, ומי שסביבך רואה את השינוי.`:'בעוד שנה אתה אדם עקבי, ממוקד ומלא אנרגיה.',
+  const hs=A.h.concat(B?B.h.slice(0,1):[]).filter(h=>!exist.has(h[1])).slice(0,easy?1:3).map(h=>({emoji:h[0],name:h[1],sec:h[2],why:`מקדם את ${DOMNAME[keys[0]]}`}));
+  let week=A.w.slice(0,easy?2:3).concat(B?[B.w[0]]:[]);if(hard)week=week.concat(['הוסף 15 דקות לפעולה החשובה ביותר','הצב יעד שבועי מספרי ושתף מישהו']);
+  const obsMap={'זמן':['אין לי זמן','אם אין זמן – אז גרסת 2 דקות. חוסמים 20 דקות קבועות ביומן כמו פגישה.'],'מוטיבציה':['אין מוטיבציה','אם אין חשק – אז "שינוי מצב" + קריאת ה"למה". המוטיבציה מגיעה אחרי הפעולה.'],'ידע':['לא יודע איך','אם לא יודע – אז לומדים 10 דקות ומיישמים מיד צעד אחד.'],'כסף':['חסר כסף','אם חסר כסף – אז מתחילים בגרסה החינמית ובונים מהתוצאות הראשונות.'],'פחד':['פחד מכישלון','אם מפחד – אז צעד כל כך קטן שאי אפשר להיכשל בו. אין כישלון – יש משוב.'],'סביבה':['סביבה לא תומכת','אם הסביבה לא תומכת – אז מוצאים אדם אחד או קבוצה אחת שכן.']};
+  const obstacles=[];(I.obstacles||[]).forEach(o=>{if(obsMap[o])obstacles.push({risk:obsMap[o][0],plan:obsMap[o][1]})});
+  obstacles.push({risk:'פספוס של יום',plan:'אם פספסתי – אז אתגר החזרה מחזיר אותי מחר. לעולם לא פעמיים ברצף.'});
+  if(obstacles.length<3)obstacles.unshift({risk:'יום עמוס במיוחד',plan:'אם היום עמוס – אז גרסה של 2 דקות מכל הרגל. העיקר הרצף.'});
+  const qOf=i=>A.q[Math.min(3,Math.floor(i*4/6))];
+  const stages=STAGES.map((s,i)=>({name:s.n,days:`ימים ${s.d[0]}–${s.d[1]}`,emoji:s.e,focus:s.f,feel:s.feel,exit:s.x,actions:qOf(i)[1].slice(0,2).concat(B?[B.q[Math.min(3,Math.floor(i*4/6))][1][i%3]]:[])}));
+  const strengths=I.strengths||[];
+  const skills=XA.sk.concat(XB?XB.sk.slice(0,1):[]).map(x=>({name:x[0],how:x[1]}));
+  const env=XA.en.concat(XB?XB.en.slice(0,1):[]);if((I.obstacles||[]).includes('סביבה'))env.unshift('למצוא אדם אחד שמאמין בחלום שלך ולעדכן אותו פעם בשבוע');
+  const agent=`הבנתי: החלום שלך בתחום ${keys.map(k=>DOMNAME[k]).join(' + ')}.${I.score?` היום אתה מדרג את עצמך ${I.score}/10 ביחס לחלום.`:''} יש לך כ-${time} דקות ביום${(I.obstacles||[]).length?`, והמכשול המרכזי: ${I.obstacles.join(', ')}`:''}.${strengths.length?` נשען על החוזקות שלך – ${strengths.join(', ')}.`:''} לכן המפה מתחילה ${easy?'בצעדים קטנים מאוד':'בקצב יציב'} ובונה אותך שלב אחרי שלב.`;
+  return {title:P.dream?`מפת הדרכים אל: ${P.dream}`:'מפת הדרכים שלי',agent,
+    vision:P.dream?`בעוד שנה: ${P.dream}. ${I.success?`ואתה יודע שזה קרה כי ${I.success}.`:'אתה מרגיש את זה בגוף, רואה את זה בתוצאות, ומי שסביבך רואה את השינוי.'}`:'בעוד שנה אתה אדם עקבי, ממוקד ומלא אנרגיה.',
     why:P.why||'כי אתה ראוי לחיים שבחרת בהם.',identity:`אני האדם ש${(P.values||[]).length?'חי לפי '+P.values.join(', ')+' ו':''}עושה את הצעד הקטן גם כשאין חשק.`,
-    quarters,thisWeek:week,todayStep:week[(dayNum()-1)%week.length],habits:hs,
-    obstacles:[{risk:'יום עמוס במיוחד',plan:'אם היום עמוס – אז עושים גרסה של 2 דקות מכל הרגל, העיקר לא לשבור את הרצף.'},{risk:'ירידה במוטיבציה',plan:'אם אין חשק – אז עושים תרגיל "שינוי מצב" וקוראים את ה"למה".'},{risk:'פספוס של יום',plan:'אם פספסתי – אז משבצת אתגר החזרה מחזירה אותי מחר. לעולם לא פעמיים ברצף.'}],
-    metrics:A.m.concat(['ימי הצלחה מתוך 365']),
-    message:easy?'הורדנו הילוך – עקביות קטנה מנצחת עוצמה גדולה. (ברוח ג׳ים רון)':hard?'העלינו את הסטנדרט – פעולה מסיבית מקרבת את החלום. (ברוח טוני רובינס)':'החלום ברור, ה"למה" חזק – עכשיו צעד קטן כל יום. ככה בונים שנה של ניצחונות.'};
+    stages,quarters:A.q.map((q,i)=>({name:`רבעון ${i+1} · ${q[0]}`,months:`חודשים ${i*3+1}-${i*3+3}`,goal:q[1][0],milestones:q[1]})),
+    thisWeek:week,todayStep:week[(dayNum()-1)%week.length],habits:hs,skills,
+    traits:XA.tr.concat(strengths.length?[]:[]).slice(0,4),affirmations:XA.af.concat(XB?[XB.af[0]]:[]),
+    learning:XA.le.concat(XB?[XB.le[0]]:[]).map(t=>({title:t})),environment:env.map(c=>({change:c})),
+    obstacles:obstacles.slice(0,4),metrics:A.m.concat(['ימי הצלחה מתוך 365']),
+    message:easy?'הורדנו הילוך – עקביות קטנה מנצחת עוצמה גדולה. (ברוח ג׳ים רון)':hard?'העלינו את הסטנדרט – פעולה מסיבית מקרבת את החלום. (ברוח טוני רובינס)':'זה תהליך מתמשך, לא אירוע. כל שלב בונה את הבא – ואתה כבר בדרך.'};
+}
+/* intake interview */
+let IQ=null;
+const INTAKE=[
+ {k:'success',q:'איך תדע שהחלום התגשם? מה תראה, תשמע ותרגיש?',type:'text',ph:'למשל: אני רץ 10 ק״מ, מרוויח 30 אלף בחודש, חוזר הביתה רגוע…'},
+ {k:'score',q:'איפה אתה היום ביחס לחלום? (1 = רק מתחיל, 10 = כמעט שם)',type:'pick',opts:['1','2','3','4','5','6','7','8','9','10']},
+ {k:'time',q:'כמה זמן ביום אתה יכול להקדיש לחלום באמת?',type:'pick',opts:['10','20','30','60'],lbl:v=>v+' דק׳'},
+ {k:'obstacles',q:'מה הכי עלול לעצור אותך? (אפשר כמה)',type:'multi',opts:['זמן','מוטיבציה','ידע','כסף','פחד','סביבה']},
+ {k:'strengths',q:'על מה אפשר להישען? החוזקות שלך:',type:'multi',opts:['התמדה','יצירתיות','אנשים','למידה מהירה','משמעת','אנרגיה','אמונה','ניסיון']}
+];
+function openIntake(then){
+  IQ={i:0,a:Object.assign({obstacles:[],strengths:[]},S.profile.intake||{}),then};drawIntake();
+}
+function drawIntake(){
+  const q=INTAKE[IQ.i];const a=IQ.a;
+  let h=`<div class="mhead">${mascotSVG('happy',56)}<div class="bubble">${IQ.i===0?'היי, אני הסוכן של המסע שלך. כמה שאלות קצרות כדי לבנות מפה שמתאימה בדיוק לך.<br><br>':''}<b>${q.q}</b></div></div><div class="hint" style="text-align:center">שאלה ${IQ.i+1} מתוך ${INTAKE.length}</div>`;
+  if(q.type==='text')h+=`<textarea class="inp" id="iqT" rows="3" placeholder="${q.ph}">${esc(a[q.k]||'')}</textarea>`;
+  else h+=`<div class="fbchips" style="justify-content:center">${q.opts.map(o=>{const on=q.type==='multi'?(a[q.k]||[]).includes(o):String(a[q.k])===o;return `<button class="ch${on?' on':''}" data-o="${o}">${q.lbl?q.lbl(o):o}</button>`}).join('')}</div>`;
+  h+=`<div class="row" style="margin-top:14px"><button class="btn green" id="iqN">${IQ.i===INTAKE.length-1?'✨ בנה לי מפת דרכים':'הבא ←'}</button>${IQ.i?'<button class="btn ghost" id="iqB">חזרה</button>':''}</div>`;
+  openSheet(h);const sh=$('sheet');
+  sh.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>{const o=b.dataset.o;
+    if(q.type==='multi'){const arr=a[q.k]=a[q.k]||[];const i=arr.indexOf(o);if(i>=0)arr.splice(i,1);else arr.push(o);b.classList.toggle('on',i<0)}
+    else{a[q.k]=o;sh.querySelectorAll('[data-o]').forEach(x=>x.classList.toggle('on',x===b))}});
+  if($('iqB'))$('iqB').onclick=()=>{IQ.i--;drawIntake()};
+  $('iqN').onclick=()=>{if(q.type==='text')a[q.k]=$('iqT').value.trim();
+    if(IQ.i<INTAKE.length-1){IQ.i++;drawIntake();return}
+    S.profile.intake=a;save();const t=IQ.then;IQ=null;closeSheet();(t||(()=>generatePlan('create')))()};
 }
 async function generatePlan(mode,fb){
-  if(planBusy)return;planBusy=true;closeSheet();
-  $('pPlan').innerHTML=`<div style="text-align:center;padding-top:30%"><div class="spinner"></div><h2 style="font-family:'Secular One';font-weight:400">${mode==='update'?'משדרג את התוכנית…':'בונה לך תוכנית…'}</h2><div class="hint">מנתח את החלום, היעוד, הערכים וההתקדמות שלך</div></div>`;
+  if(planBusy)return;if(!S.profile.intake&&mode==='create'){openIntake();return}planBusy=true;closeSheet();
+  $('pPlan').innerHTML=`<div style="text-align:center;padding-top:30%"><div class="spinner"></div><h2 style="font-family:'Secular One';font-weight:400">${mode==='update'?'הסוכן משדרג את המפה…':'הסוכן בונה לך מפת דרכים…'}</h2><div class="hint">מנתח חלום, יעוד, ערכים, מכשולים, חוזקות והתקדמות</div></div>`;
   let plan=null,src='local';
   if(aiAvail===null)await probeAI();
   if(aiAvail){try{await push();const ctl=new AbortController();const tm=setTimeout(()=>ctl.abort(),60000);
     const r=await fetch(AI_URL,{method:'POST',signal:ctl.signal,headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({code:CODE,mode,profile:S.profile,habits:habits().map(h=>({emoji:h.emoji,name:h.name,sec:h.sec})),stats:planStats(),plan:S.plan,feedback:fb||''})});
-    clearTimeout(tm);const j=await r.json();if(j.plan&&j.plan.quarters){plan=j.plan;src='ai'}else if(j.error==='limit')toast('מגבלת AI יומית – נבנתה תוכנית חכמה מקומית')}catch(e){}}
+      body:JSON.stringify({code:CODE,mode,profile:S.profile,intake:S.profile.intake||{},habits:habits().map(h=>({emoji:h.emoji,name:h.name,sec:h.sec})),stats:planStats(),plan:S.plan,feedback:fb||''})});
+    clearTimeout(tm);const j=await r.json();if(j.plan&&j.plan.stages){plan=j.plan;src='ai'}else if(j.error==='limit')toast('מגבלת AI יומית – נבנתה תוכנית חכמה מקומית')}catch(e){}}
   if(!plan){await sleep(900);plan=localPlan(mode,fb)}
   if(S.plan){S.planHist=(S.planHist||[]).slice(-4);S.planHist.push(S.plan)}
-  plan.src=src;plan.created=today();plan.v=(S.plan&&S.plan.v||0)+1;S.plan=plan;save();planBusy=false;
+  if(src==='local')await sleep(600);plan.src=src;plan.created=today();plan.v=(S.plan&&S.plan.v||0)+1;S.plan=plan;save();planBusy=false;
   sfx.win();confetti(60);renderPlan();checkBadges();
   if(mode!=='update')addXP(15);
 }
 function weekIdx(){return Math.floor((dayNum()-1)/7)}
+function pdKey(k){S.planDone=S.planDone||{};return S.planDone}
 function renderPlan(){
-  if(planBusy)return;const P=S.profile;const sd=successDays();const dn=Math.min(dayNum(),365);const nextM=MILESTONES.find(m=>m.d>sd);
-  let h=`<h1>🗺️ התוכנית שלי</h1><div class="sub">מחלום → ליעדים → לצעד של היום.</div>
-  <div class="dreamcard"><button class="edit" id="pEdit">✏️ עריכה</button><div class="de">${dreamEmoji()}</div><h2>${P.dream?esc(P.dream):'עוד לא הגדרת חלום'}</h2>${P.why?`<p>💛 ${esc(P.why)}</p>`:''}${P.purpose?`<p>🧭 ${esc(P.purpose)}</p>`:''}${(P.values||[]).length?`<div class="vals">${P.values.map(v=>`<span>${esc(v)}</span>`).join('')}</div>`:''}</div>
-  <div class="jcard"><div class="jrow"><div><b>${dn}</b><span> / 365 ימים</span></div><div style="text-align:left"><b style="color:#3c9a14">${sd}</b><span> ימי הצלחה</span></div></div><div class="jbar"><i style="width:${Math.max(2,sd/365*100)}%"></i></div>
-   <div class="hint" style="margin:8px 0 0">${nextM?`התחנה הבאה: ${msEmoji(nextM)} ${esc(nextM.n)} – עוד ${nextM.d-sd} ימי הצלחה`:'השלמת את המסע! 🎉'}</div>
-   <div class="row" style="margin-top:8px"><button class="btn ghost sm" id="pYear">פתח מפת שנה</button></div></div>`;
+  if(planBusy)return;const P=S.profile;const sd=successDays();const dn=Math.min(dayNum(),365);
+  let h=`<h1>🗺️ מפת הדרכים שלי</h1><div class="sub">חלום → שלבים → הצעד של היום. תהליך מתמשך.</div>
+  <div class="dreamcard"><button class="edit" id="pEdit">✏️ עריכה</button><div class="de">${dreamEmoji()}</div><h2>${P.dream?esc(P.dream):'עוד לא הגדרת חלום'}</h2>${P.why?`<p>💛 ${esc(P.why)}</p>`:''}${P.purpose?`<p>🧭 ${esc(P.purpose)}</p>`:''}${(P.values||[]).length?`<div class="vals">${P.values.map(v=>`<span>${esc(v)}</span>`).join('')}</div>`:''}</div>`;
   const pl=S.plan;
-  if(!pl){
-    h+=`<div class="pcard" style="text-align:center;padding:22px">${mascotSVG('happy',80)}<h4 style="justify-content:center;font-size:18px">בוא נבנה תוכנית להגשמת החלום</h4><p class="hint">4 רבעונים, אבני דרך, פעולות לשבוע, צעד יומי והרגלים מומלצים – לפי החלום, היעוד והערכים שלך.</p>
-    <button class="btn green" id="pGen">✨ בנה לי תוכנית</button></div>`;
+  if(!pl||!pl.stages){
+    h+=`<div class="pcard" style="text-align:center;padding:22px">${mascotSVG('happy',80)}<h4 style="justify-content:center;font-size:18px">${pl?'שדרג למפת דרכים מלאה':'בוא נבנה את מפת הדרכים שלך'}</h4><p class="hint">הסוכן ישאל 5 שאלות קצרות ויבנה לך: שלבי התהליך, הרגלים, מיומנויות, כישורים, משפטי כוח, לימודים וסביבה – מותאמים לחלום וליעוד שלך.</p>
+    <button class="btn green" id="pGen">🤖 שיחה עם הסוכן</button></div>`;
   }else{
-    const d=day();const qi=Math.min(3,Math.floor((dayNum()-1)/91.25));const wk=weekIdx();S.planChecks=S.planChecks||{};const wc=S.planChecks[wk]||{};
-    h+=`<div class="pcard"><h4>${esc(pl.title||'התוכנית')}</h4><span class="aitag ${pl.src==='ai'?'':'local'}">${pl.src==='ai'?'✨ נבנה ע״י AI':'🧠 תוכנית חכמה'}</span> <small style="color:var(--muted);font-weight:700">גרסה ${pl.v||1} · ${pl.created||''}</small>
-      <p style="margin-top:10px">${esc(pl.vision||'')}</p>${pl.identity?`<p style="margin-top:8px;font-weight:800">🪞 ${esc(pl.identity)}</p>`:''}</div>
+    const d=day();const si=stageIdx();const st=STAGES[si];const prog=(dn-st.d[0]+1)/(st.d[1]-st.d[0]+1);const wk=weekIdx();S.planChecks=S.planChecks||{};const wc=S.planChecks[wk]||{};const PD=pdKey();
+    h+=`<div class="pcard" style="background:linear-gradient(135deg,#f6f1ff,#eef7ff)"><div class="mhead" style="margin:0">${mascotSVG('happy',54)}<div class="bubble">${esc(pl.agent||pl.message||'')}</div></div>
+      <div style="margin-top:8px"><span class="aitag ${pl.src==='ai'?'':'local'}">${pl.src==='ai'?'✨ נבנה ע״י AI':'🧠 סוכן חכם'}</span> <small style="color:var(--muted);font-weight:700">גרסה ${pl.v||1} · ${pl.created||''}</small></div></div>
+    <div class="pcard"><h4>🧭 השלבים בתהליך</h4><div class="hint" style="margin-bottom:10px">אתה בשלב ${si+1} מתוך 6 · ${sd} ימי הצלחה. זה מסע מתמשך – כל שלב בונה את הבא.</div><div class="stepper">
+    ${pl.stages.map((s,i)=>`<div class="stp${i===si?' now':(i<si?' past':'')}"><div class="sdot">${i<si?'✓':(s.emoji||STAGES[i]&&STAGES[i].e||i+1)}</div><div class="sbody"><b>${esc(s.name)}</b> <small>${esc(s.days||'')}${i===si?' · אתה כאן':''}</small>
+      ${i===si?`<div class="jbar" style="margin:6px 0"><i style="width:${Math.max(4,prog*100)}%"></i></div>`:''}
+      ${i<=si+1?`<div class="sf">${esc(s.focus||'')}</div>`:''}
+      ${i===si?`${s.feel?`<div class="sfeel">💭 מה טבעי להרגיש: ${esc(s.feel)}</div>`:''}<ul>${(s.actions||[]).map(a=>`<li>${esc(a)}</li>`).join('')}</ul><div class="sexit">🏁 סימן למעבר שלב: ${esc(s.exit||'')}</div>`:''}
+    </div></div>`).join('')}
+    <div class="stp loop"><div class="sdot">♾️</div><div class="sbody"><b>מסע חדש</b> <small>אחרי יום 365</small><div class="sf">חלום גדול יותר, סטנדרט גבוה יותר.</div></div></div></div></div>
     <div class="pcard"><h4>🎯 הצעד של היום</h4><button class="chk-row${d.planStep?' on':''}" id="pStep"><i>${d.planStep?'✓':''}</i><span>${esc(pl.todayStep||(pl.thisWeek||[])[0]||'')}</span></button></div>
-    <div class="pcard"><h4>📅 השבוע</h4>${(pl.thisWeek||[]).map((a,i)=>`<button class="chk-row${wc[i]?' on':''}" data-wk="${i}"><i>${wc[i]?'✓':''}</i><span>${esc(a)}</span></button>`).join('')}</div>
-    <div class="pcard"><h4>🧗 אבני הדרך לשנה</h4>${(pl.quarters||[]).map((q,i)=>`<div class="qtr${i===qi?' now':(i<qi?' past':'')}"><b>${esc(q.name)}</b> <small>${esc(q.months||'')}${i===qi?' · אתה כאן':''}</small><div style="font-size:13px;font-weight:700;margin-top:3px">🎯 ${esc(q.goal||'')}</div><ul>${(q.milestones||[]).map(m=>`<li>${esc(m)}</li>`).join('')}</ul>${q.focus?`<small>💡 ${esc(q.focus)}</small>`:''}</div>`).join('')}</div>`;
-    if((pl.habits||[]).length)h+=`<div class="pcard"><h4>🌱 הרגלים מומלצים</h4>${pl.habits.map((x,i)=>{const has=habits().some(y=>y.name===x.name);return `<div class="sugg"><span class="se">${esc(x.emoji)}</span><div>${esc(x.name)}<small>${esc(x.why||'')} · ${esc((secById(x.sec)||{}).short||'')}</small></div><button class="btn ${has?'ghost':'green'} sm" data-addh="${i}" ${has?'disabled':''}>${has?'✓ קיים':'+ הוסף'}</button></div>`}).join('')}</div>`;
-    if((pl.obstacles||[]).length)h+=`<div class="pcard"><h4>🛡️ אם… אז…</h4>${pl.obstacles.map(o=>`<p style="margin-bottom:8px"><b>${esc(o.risk)}:</b> ${esc(o.plan)}</p>`).join('')}</div>`;
-    if((pl.metrics||[]).length)h+=`<div class="pcard"><h4>📏 איך נמדוד הצלחה</h4><p>${pl.metrics.map(esc).join(' · ')}</p></div>`;
-    if(pl.message)h+=`<div class="pcard" style="background:linear-gradient(135deg,#f3fbe9,#e6f6d6)"><div class="mhead" style="margin:0">${mascotSVG('happy',54)}<div class="bubble">${esc(pl.message)}</div></div></div>`;
-    h+=`<div class="row" style="margin-top:6px"><button class="btn" id="pUpd">🔄 עדכן / שדרג תוכנית</button></div>
-    <div class="hint" style="text-align:center;margin-top:10px">${aiAvail?'✨ AI מחובר':'🧠 התוכנית נבנית בחכמה מקומית. לשדרוג ל-AI מלא יש להגדיר מפתח AI בשרת.'}</div>`;
+    <div class="pcard"><h4>📅 השבוע</h4>${(pl.thisWeek||[]).map((a,i)=>`<button class="chk-row${wc[i]?' on':''}" data-wk="${i}"><i>${wc[i]?'✓':''}</i><span>${esc(a)}</span></button>`).join('')}</div>`;
+    const sec=(id,title,inner,open)=>`<details class="acc"${open?' open':''}><summary>${title}</summary><div class="accb">${inner}</div></details>`;
+    const chk=(k,label,sub)=>`<button class="chk-row${PD[k]?' on':''}" data-pd="${k}"><i>${PD[k]?'✓':''}</i><span>${esc(label)}${sub?`<small class="subt">${esc(sub)}</small>`:''}</span></button>`;
+    if((pl.habits||[]).length)h+=sec('h','🌱 הרגלים מותאמים',pl.habits.map((x,i)=>{const has=habits().some(y=>y.name===x.name);return `<div class="sugg"><span class="se">${esc(x.emoji)}</span><div>${esc(x.name)}<small>${esc(x.why||'')} · ${esc((secById(x.sec)||{}).short||'')}</small></div><button class="btn ${has?'ghost':'green'} sm" data-addh="${i}" ${has?'disabled':''}>${has?'✓ קיים':'+ הוסף'}</button></div>`}).join(''),true);
+    if((pl.skills||[]).length)h+=sec('s','🛠️ מיומנויות לפתח',pl.skills.map((x,i)=>chk('sk'+i,x.name,x.how)).join(''));
+    if((pl.traits||[]).length)h+=sec('t','💪 כישורים ותכונות',`<div class="vals2">${pl.traits.map(t=>`<span>${esc(t)}</span>`).join('')}</div><div class="hint" style="margin-top:8px">בכל יום בחר תכונה אחת ושאל: "איך אדם עם ${esc(pl.traits[0])} היה פועל עכשיו?"</div>`);
+    if((pl.affirmations||[]).length)h+=sec('a','🗣️ משפטי כוח',pl.affirmations.map((a,i)=>`<div class="sugg"><span class="se">💬</span><div>"${esc(a)}"</div><button class="btn ${S.profile.mantra===a?'ghost':''} sm" data-mantra="${i}">${S.profile.mantra===a?'✓ המנטרה':'הפוך למנטרה'}</button></div>`).join(''));
+    if((pl.learning||[]).length)h+=sec('l','📚 לימודים',pl.learning.map((x,i)=>chk('le'+i,x.title||x,x.type||'')).join(''));
+    if((pl.environment||[]).length)h+=sec('e','🌍 סביבה תומכת',pl.environment.map((x,i)=>chk('en'+i,x.change||x,x.area||'')).join(''));
+    if((pl.obstacles||[]).length)h+=sec('o','🛡️ אם… אז…',pl.obstacles.map(o=>`<p style="margin:0 0 8px"><b>${esc(o.risk)}:</b> ${esc(o.plan)}</p>`).join(''));
+    if((pl.quarters||[]).length)h+=sec('q','🗓️ אבני דרך לפי רבעונים',pl.quarters.map(q=>`<div class="qtr"><b>${esc(q.name)}</b> <small>${esc(q.months||'')}</small><div style="font-size:13px;font-weight:700">🎯 ${esc(q.goal||'')}</div><ul>${(q.milestones||[]).map(m=>`<li>${esc(m)}</li>`).join('')}</ul></div>`).join(''));
+    if((pl.metrics||[]).length)h+=sec('m','📏 מדדי הצלחה',`<p>${pl.metrics.map(esc).join(' · ')}</p>`);
+    h+=`<div class="row" style="margin-top:12px"><button class="btn" id="pUpd">🔄 עדכן / שדרג</button><button class="btn ghost" id="pTalk">🤖 שיחה עם הסוכן</button></div>
+    <div class="hint" style="text-align:center;margin-top:10px">${aiAvail?'✨ AI מחובר':'🧠 הסוכן פועל בחכמה מקומית · עם מפתח AI בשרת הוא ישודרג אוטומטית'}</div>`;
   }
-  $('pPlan').innerHTML=h;
-  $('pEdit').onclick=openOnboarding;$('pYear').onclick=openYear;
-  if($('pGen'))$('pGen').onclick=()=>generatePlan('create');
+  $('pPlan').innerHTML=h;const pg=$('pPlan');
+  $('pEdit').onclick=openOnboarding;
+  if($('pGen'))$('pGen').onclick=()=>openIntake();
+  if($('pTalk'))$('pTalk').onclick=()=>openIntake(()=>generatePlan('update','עדכון לפי שיחה חדשה עם הסוכן'));
   if($('pUpd'))$('pUpd').onclick=openPlanUpdate;
   if($('pStep'))$('pStep').onclick=()=>{const d=day();if(d.planStep)return;d.planStep=true;save();sfx.pop();addXP(10);toast('🎯 צעד אל החלום! +10 XP');renderPlan()};
-  $('pPlan').querySelectorAll('[data-wk]').forEach(b=>b.onclick=()=>{const wk=weekIdx();S.planChecks=S.planChecks||{};const wc=S.planChecks[wk]=S.planChecks[wk]||{};const i=b.dataset.wk;
-    if(wc[i])delete wc[i];else{wc[i]=1;addXP(5);sfx.pop()}save();renderPlan()});
-  $('pPlan').querySelectorAll('[data-addh]').forEach(b=>b.onclick=()=>{const x=S.plan.habits[+b.dataset.addh];const sec=secById(x.sec)?x.sec:'d';
+  pg.querySelectorAll('[data-wk]').forEach(b=>b.onclick=()=>{const wk=weekIdx();S.planChecks=S.planChecks||{};const wc=S.planChecks[wk]=S.planChecks[wk]||{};const i=b.dataset.wk;if(wc[i])delete wc[i];else{wc[i]=1;addXP(5);sfx.pop()}save();renderPlan()});
+  pg.querySelectorAll('[data-pd]').forEach(b=>b.onclick=()=>{const PD=pdKey();const k=b.dataset.pd;if(PD[k])delete PD[k];else{PD[k]=today();addXP(5);sfx.pop()}save();const open=[...pg.querySelectorAll('details[open] summary')].map(x=>x.textContent);renderPlan();pg.querySelectorAll('details summary').forEach(x=>{if(open.includes(x.textContent))x.parentElement.open=true})});
+  pg.querySelectorAll('[data-mantra]').forEach(b=>b.onclick=()=>{S.profile.mantra=S.plan.affirmations[+b.dataset.mantra];save();toast('🗣️ המנטרה עודכנה');renderPlan()});
+  pg.querySelectorAll('[data-addh]').forEach(b=>b.onclick=()=>{const x=S.plan.habits[+b.dataset.addh];const sec=secById(x.sec)?x.sec:'d';
     applyHabits(habits().concat([{id:'h'+Date.now().toString(36),emoji:x.emoji||'⭐',name:x.name,sec,days:ALLDAYS.slice()}]));save();toast('ההרגל נוסף ✓');render(false);renderPlan()});
 }
 function openPlanUpdate(){

@@ -335,6 +335,120 @@ body.th-n .title,body.th-e .title{text-shadow:0 2px 0 #7a5cb4,0 4px 0 #5a3f94,0 
 .card .big svg{display:block}
 .vals{display:flex;flex-wrap:wrap;gap:6px}
 #rest .xpsum{font-family:'Secular One';font-size:22px;color:#b56a00;margin-bottom:8px}
+
+/* ===== v4: calm layout ===== */
+header{padding:calc(8px + var(--safeT)) 10px 18px}
+.topbar{display:flex;align-items:center;gap:8px}
+.tb-btn{width:40px;height:40px;border-radius:50%;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:18px;box-shadow:0 2px 0 rgba(0,0,0,.08);flex:none}
+.tb-av{position:relative;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#ffeef0);border:3px solid var(--red);font-size:22px;display:grid;place-items:center;flex:none;box-shadow:0 3px 8px rgba(0,0,0,.15)}
+.tb-av i{position:absolute;bottom:-5px;left:-5px;min-width:20px;height:20px;border-radius:10px;background:linear-gradient(#ffd34d,#ffa10a);color:#fff;font-style:normal;font-size:11px;font-weight:900;display:grid;place-items:center;border:2px solid #fff;padding:0 3px}
+.topbar .chips{flex:1;margin:0;flex-wrap:nowrap;overflow:hidden;justify-content:center;gap:5px}
+.chip{padding:5px 9px;font-size:12.5px}
+.sky{margin:9px 4px 0}
+.skybar{position:relative;height:12px;border-radius:9px;overflow:visible;background:rgba(255,255,255,.35);box-shadow:inset 0 1px 2px rgba(0,0,0,.08)}
+.skybar .sg{position:absolute;top:0;bottom:0;border-radius:9px;opacity:.95}
+.skybar .sg.m{background:linear-gradient(90deg,#ffe08a,#ffb347)}
+.skybar .sg.d{background:linear-gradient(90deg,#9fe0ff,#5cc0ff)}
+.skybar .sg.e{background:linear-gradient(90deg,#c79bff,#6f5bd6)}
+.skybar .sg.done::after{content:"🚩";position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:12px}
+.skybar .sun{position:absolute;top:50%;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:15px;box-shadow:0 2px 8px rgba(0,0,0,.25);transition:left 1s}
+.skylbl{display:flex;justify-content:center;margin-top:8px;font-family:'Secular One',Rubik;font-size:15px;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+body.th-m .skylbl,body.th-d .skylbl{text-shadow:0 2px 0 #6aa514}
+#tabs{position:absolute;inset:auto 0 0 0;z-index:60;height:calc(74px + var(--safeB));padding-bottom:var(--safeB);display:flex;align-items:stretch;background:rgba(255,253,246,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 -6px 20px rgba(0,0,0,.08);border-radius:22px 22px 0 0}
+.tab{flex:1;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative;color:#9a9278}
+.tab b{font-size:23px;filter:grayscale(.7);opacity:.7;transition:.2s}
+.tab span{font-size:11px;font-weight:900}
+.tab.on{color:var(--red2)}
+.tab.on b{filter:none;opacity:1;transform:translateY(-2px) scale(1.12)}
+.tab .dot{position:absolute;top:10px;right:calc(50% - 20px);width:11px;height:11px;border-radius:50%;background:var(--red);border:2px solid #fff;display:none}
+.tab-c{width:96px;position:relative;flex:none}
+.tab-c #go{position:absolute;left:50%;top:-30px;width:80px;height:80px;margin:0 0 0 -40px;z-index:2}
+.tab-c #go b{font-size:30px}
+.tab-c #go small{font-size:10.5px}
+.tab-c svg{pointer-events:none;position:absolute;left:50%;top:-41px;width:102px;height:102px;margin-left:-51px;z-index:1;transition:transform .9s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 4px 8px rgba(160,60,0,.25))}
+#plusMini{position:absolute;z-index:3;top:-40px;left:-6px;width:34px;height:34px;border-radius:50%;background:linear-gradient(#8fe35a,#4cb21f);color:#fff;font-size:22px;font-weight:900;box-shadow:0 3px 0 #2a7a0c,0 4px 8px rgba(0,0,0,.2);display:none}
+#plusMini.show{display:block;animation:pop .3s}
+#go.mk{background:radial-gradient(circle at 38% 28%,#a8f07a 0%,#58c22a 50%,#3b9a16 85%);box-shadow:0 7px 0 #2a7a0c,0 12px 18px rgba(30,100,10,.35),inset 0 -6px 10px rgba(0,0,0,.15),inset 0 4px 6px rgba(255,255,255,.35)}
+#go.mk b{font-size:40px}
+#go.empty{filter:none}
+.page{position:absolute;inset:0;z-index:50;overflow-y:auto;display:none;background:linear-gradient(#fffdf6,#fff6e6);padding:calc(16px + var(--safeT)) 16px calc(110px + var(--safeB))}
+.page.show{display:block;animation:fade .2s}
+.page h1{font-family:'Secular One',Rubik;font-weight:400;font-size:26px;margin:0 0 4px}
+.page .sub{color:var(--muted);font-size:13.5px;margin-bottom:14px}
+#mascot{right:10px;top:auto!important;bottom:calc(92px + var(--safeB));transform:translateX(130%);transition:transform .45s cubic-bezier(.3,1.4,.5,1)}
+#mascot.out{transform:translateX(0)}
+#mBubble{top:-4px}
+.dest{position:absolute;pointer-events:none;text-align:center;transform:translate(-50%,0)}
+.dest .em{font-size:64px;filter:drop-shadow(0 10px 8px rgba(20,60,0,.3));animation:bob 4s ease-in-out infinite}
+.dest .nm{display:inline-block;margin-top:2px;background:rgba(255,255,255,.85);border-radius:12px;padding:3px 12px;font-family:'Secular One';font-size:14px}
+.flagrow{position:absolute;display:flex;gap:4px;transform:translate(-50%,0);pointer-events:none}
+.flagrow span{background:#fff;border-radius:10px;padding:2px 7px;font-size:13px;font-weight:900;box-shadow:0 2px 0 rgba(0,0,0,.1)}
+.night{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;color:#fff;z-index:5;pointer-events:none}
+.night .moon{font-size:80px;filter:drop-shadow(0 0 30px rgba(255,255,200,.6));animation:bob 5s ease-in-out infinite}
+.night h2{font-family:'Secular One';font-weight:400;font-size:26px;margin:10px 0 6px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.night p{font-weight:700;opacity:.92;margin:0 0 14px}
+.night .flags{display:flex;gap:8px;justify-content:center}
+.night .flags span{font-size:30px;background:rgba(255,255,255,.18);border-radius:14px;padding:8px 10px}
+.night .flags span.off{opacity:.3;filter:grayscale(1)}
+/* collection */
+.prof{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#fff,#fff1d6);border-radius:22px;padding:14px;box-shadow:0 4px 0 #f1dfb8;margin-bottom:16px}
+.prof .av{width:70px;height:70px;font-size:38px;flex:none}
+.assets{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:18px}
+.asset{background:#fff;border-radius:20px;padding:12px 6px;text-align:center;box-shadow:0 4px 0 #efe5c9}
+.asset .ae{font-size:30px;line-height:1.1}
+.asset b{display:block;font-family:'Secular One';font-size:24px;color:var(--ink);line-height:1.1}
+.asset span{font-size:11px;font-weight:800;color:var(--muted)}
+.badges{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:18px}
+.badge2{text-align:center;background:#fff;border-radius:18px;padding:10px 4px;box-shadow:0 3px 0 #efe5c9}
+.badge2 .be{width:46px;height:46px;margin:0 auto 4px;border-radius:50%;display:grid;place-items:center;font-size:24px;background:radial-gradient(circle at 35% 30%,#fff6c8,#ffc93a);box-shadow:0 3px 0 #d99a12}
+.badge2 span{font-size:10.5px;font-weight:800;line-height:1.25;display:block}
+.badge2.lock .be{background:#eee8d8;box-shadow:none;filter:grayscale(1);opacity:.5}
+.badge2.lock span{color:#b0a888}
+.lib{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.libi{display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:10px 12px;box-shadow:0 3px 0 #efe5c9;text-align:right;font-weight:800;font-size:14px}
+.libi small{display:block;font-weight:700;color:var(--muted);font-size:11.5px}
+.libi .le{font-size:22px}
+.h3{font-weight:900;font-size:16px;margin:4px 0 10px;display:flex;justify-content:space-between;align-items:center}
+/* plan */
+.dreamcard{background:linear-gradient(135deg,#ffd76a,#ff7a5c);color:#fff;border-radius:24px;padding:18px;box-shadow:0 6px 0 #d4582f,0 12px 24px rgba(200,80,30,.25);margin-bottom:14px;position:relative;overflow:hidden}
+.dreamcard::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,rgba(255,255,255,.4),transparent 40%)}
+.dreamcard .de{font-size:46px}
+.dreamcard h2{font-family:'Secular One';font-weight:400;font-size:22px;margin:4px 0;text-shadow:0 2px 0 rgba(0,0,0,.15)}
+.dreamcard p{margin:2px 0;font-weight:700;opacity:.95;font-size:14px}
+.dreamcard .vals{margin-top:8px;display:flex;gap:5px;flex-wrap:wrap}
+.dreamcard .vals span{background:rgba(255,255,255,.25);border-radius:99px;padding:3px 10px;font-size:12px;font-weight:800}
+.dreamcard .edit{position:absolute;left:12px;top:12px;z-index:2;background:rgba(255,255,255,.3);color:#fff;border-radius:99px;padding:6px 12px;font-weight:900;font-size:12px}
+.jcard{background:#fff;border-radius:20px;padding:14px;box-shadow:0 4px 0 #efe5c9;margin-bottom:14px}
+.jrow{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px}
+.jrow b{font-family:'Secular One';font-size:26px;color:var(--red2);line-height:1}
+.jrow span{font-size:12px;font-weight:800;color:var(--muted)}
+.jbar{height:12px;border-radius:9px;background:#f1ead8;overflow:hidden}
+.jbar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#ffb020,var(--red))}
+.pcard{background:#fff;border-radius:20px;padding:14px;box-shadow:0 4px 0 #efe5c9;margin-bottom:12px}
+.pcard h4{margin:0 0 8px;font-size:15px;font-weight:900;display:flex;align-items:center;gap:6px}
+.pcard p{margin:0;font-size:14px;line-height:1.55}
+.qtr{border-radius:16px;background:#faf6ea;padding:10px 12px;margin-bottom:7px}
+.qtr.now{background:linear-gradient(135deg,#fff5d6,#ffe9c2);box-shadow:inset 0 0 0 2px #ffc93a}
+.qtr.past{opacity:.6}
+.qtr b{font-size:14px}
+.qtr small{color:var(--muted);font-weight:700;font-size:11.5px}
+.qtr ul{margin:6px 0 0;padding-right:18px;font-size:13px;line-height:1.55}
+.chk-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f2ecdc;font-size:14px;font-weight:700;width:100%;background:none;text-align:right}
+.chk-row:last-child{border-bottom:0}
+.chk-row i{width:24px;height:24px;border-radius:8px;border:2.5px solid #d9cfb2;flex:none;display:grid;place-items:center;font-style:normal;font-size:14px;color:#fff}
+.chk-row.on i{background:#58c22a;border-color:#58c22a}
+.chk-row.on{color:#7b8467;text-decoration:line-through}
+.sugg{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f2ecdc}
+.sugg:last-child{border-bottom:0}
+.sugg .se{font-size:24px}
+.sugg div{flex:1;font-size:13.5px;font-weight:800}
+.sugg div small{display:block;font-weight:600;color:var(--muted)}
+.aitag{display:inline-block;font-size:11px;font-weight:900;border-radius:99px;padding:3px 9px;background:#efe7ff;color:#6a3fd6}
+.aitag.local{background:#e8f7dc;color:#3c8a10}
+.spinner{width:56px;height:56px;border-radius:50%;border:6px solid #f3e6c7;border-top-color:var(--red);animation:spin 1s linear infinite;margin:20px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fbchips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+textarea.inp{width:100%;resize:none}
 </style>
 </head>
 <body class="th-d">
@@ -343,33 +457,32 @@ body.th-n .title,body.th-e .title{text-shadow:0 2px 0 #7a5cb4,0 4px 0 #5a3f94,0 
   <div id="scroller"><div id="board"></div></div>
 
   <header id="hdr">
-    <div class="title">מסע ההתפתחות שלי</div>
-    <div class="chips">
-      <div class="chip fire" id="cStreak"></div>
-      <div class="chip xp" id="cXp"></div>
-      <div class="chip" id="cLvl"></div>
-      <div class="chip" id="cStars"></div>
-      <div class="chip cloud" id="cCloud" title="סנכרון ענן">☁️</div>
+    <div class="topbar">
+      <button class="tb-btn" id="bSet" aria-label="הגדרות">⚙️</button>
+      <div class="chips">
+        <div class="chip fire" id="cStreak"></div>
+        <div class="chip" id="cStars"></div>
+        <div class="chip xp" id="cXp"></div>
+        <div class="chip cloud" id="cCloud" title="סנכרון ענן">☁️</div>
+      </div>
+      <button class="tb-av" id="bAv"><span id="avBub">🧑</span><i id="lvlBadge">1</i></button>
     </div>
-    <div class="segs" id="segs"></div>
-    <div class="dream" id="dream"></div>
+    <div class="sky" id="sky"><div class="skybar" id="skybar"></div><div class="skylbl" id="skylbl"></div></div>
   </header>
 
-  <div id="side">
-    <button class="sb" id="bToday"><div class="bub">🎯</div><span>היום</span><i class="dot" id="todayDot"></i></button>
-    <button class="sb" id="bYear"><div class="bub">🗺️</div><span>השנה</span></button>
-    <button class="sb" id="bHist"><div class="bub">📜</div><span>מעקב</span></button>
-    <button class="sb" id="bAv"><div class="bub" id="avBub">🧑</div><span>הדמות</span></button>
-    <button class="sb" id="bSet"><div class="bub">⚙️</div><span>הגדרות</span></button>
-  </div>
-
   <div id="mascot"><div id="mBubble"></div></div>
-  <div id="clouds"></div>
-  <div id="controls">
-    <button class="pill" id="progBtn"><small id="progTxt">0/0</small><div class="bar"><i id="progBar"></i></div></button>
-    <div id="wheel"><svg id="wheelSvg" viewBox="0 0 150 150"></svg><button id="go"><b>GO</b><small id="energyTxt">אנרגיה 0</small></button></div>
-    <button class="pill" id="markBtn"><span>סמן הרגל</span><span class="plus">+</span></button>
-  </div>
+
+  <section class="page" id="pToday"></section>
+  <section class="page" id="pPlan"></section>
+  <section class="page" id="pCol"></section>
+
+  <nav id="tabs">
+    <button class="tab on" data-tab="board"><b>🏠</b><span>מסע</span></button>
+    <button class="tab" data-tab="today"><b>🎯</b><span>היום</span><i class="dot" id="todayDot"></i></button>
+    <div class="tab-c"><button id="go"><b id="goIco">+</b><small id="energyTxt">סמן הרגל</small></button><svg id="wheelSvg" viewBox="0 0 150 150"></svg><button id="plusMini" aria-label="סמן הרגל">+</button></div>
+    <button class="tab" data-tab="plan"><b>🗺️</b><span>תוכנית</span></button>
+    <button class="tab" data-tab="col"><b>🏆</b><span>אוסף</span></button>
+  </nav>
 
   <div class="veil" id="sheetVeil"><div class="sheet" id="sheet"></div></div>
   <div class="veil center" id="cardVeil"><div class="card" id="card"></div></div>
@@ -378,7 +491,7 @@ body.th-n .title,body.th-e .title{text-shadow:0 2px 0 #7a5cb4,0 4px 0 #5a3f94,0 
     <h2>הצעד הושלם.</h2>
     <div class="xpsum" id="restXp"></div>
     <div id="breathTxt">שאיפה…</div>
-    <p>נתראה בהרגל הבא בעולם האמיתי!<br>אפשר לסגור את המסך.</p>
+    <p>נתראה בהרגל הבא בעולם האמיתי!</p>
     <button class="btn ghost" id="restBack">חזרה ללוח</button>
   </div>
   <div id="year"></div>
@@ -480,6 +593,7 @@ function normalize(s){
   const o=Object.assign(d,s);
   ['msSeen','unlocked'].forEach(k=>{if(!Array.isArray(o[k]))o[k]=clone(DEFAULTS[k])});
   if(!o.days||typeof o.days!=='object')o.days={};
+  if(!o.flags||typeof o.flags!=='object')o.flags={};if(!Array.isArray(o.lessonsRead))o.lessonsRead=[];if(!o.badges||typeof o.badges!=='object')o.badges={};
   if(!Array.isArray(o.profile.values))o.profile.values=[];o.xp=+o.xp||0;
   return o;
 }
@@ -611,12 +725,12 @@ function treeSVG(sz,hue){
 }
 function scatterDecor(pts,W,H,seed,avoid){
   let s=seed;const rnd=()=>{s=(s*9301+49297)%233280;return s/233280};
-  let html='';const count=Math.ceil(H/70);
+  let html='';const count=Math.ceil(H/190);
   const far=(x,y)=>pts.every(p=>Math.abs(p.x-x)>62||Math.abs(p.y-y)>48)&&(avoid||[]).every(a=>Math.hypot(a.x-x,a.y-y)>80);
   for(let i=0;i<count;i++){
     const x=rnd()*W,y=170+rnd()*(H-260);if(!far(x,y))continue;
     const r=rnd();
-    if(r<.6){const sz=24+rnd()*26;html+=`<div class="tree" style="left:${x-sz/2}px;top:${y-sz*1.3}px;z-index:${Math.round(y)}">${treeSVG(sz,rnd()<.5)}</div>`}
+    if(r<.92){const sz=24+rnd()*26;html+=`<div class="tree" style="left:${x-sz/2}px;top:${y-sz*1.3}px;z-index:${Math.round(y)}">${treeSVG(sz,rnd()<.5)}</div>`}
     else if(r<.8){html+=`<div class="it" style="left:${x}px;top:${y}px;z-index:${Math.round(y)};font-size:${12+rnd()*8}px">${['🌼','🌸','🌷','🍄'][Math.floor(rnd()*4)]}</div>`}
     else{html+=`<div class="it" style="left:${x}px;top:${y}px;width:16px;height:9px;border-radius:50% 50% 0 0;background:rgba(220,255,160,.7);z-index:1"></div>`}
   }
@@ -624,73 +738,74 @@ function scatterDecor(pts,W,H,seed,avoid){
 }
 function pinHTML(x,y,id){return `<div class="pin" id="${id}" style="transform:translate(${x}px,${y}px);z-index:${Math.round(y)+60}"><div class="sh"></div><div class="face">${S.avatar}</div></div>`}
 
-/* ================= daily board ================= */
-let tiles=[],pts=[],boardH=0,boardW=0;
-function buildTiles(){
-  const d=day();tiles=[{t:'start'}];
-  if(d.cb)tiles.push({t:'comeback'});
-  const ends=['gate','insight','chest'];const list=secs();
-  list.forEach((s,si)=>{
-    const hs=habitsOn(today()).filter(h=>h.sec===s.id);if(!hs.length)return;
-    hs.forEach((h,i)=>{tiles.push({t:'habit',sec:s.id});
-      if(i===0&&hs.length>1)tiles.push({t:'anchor',sec:s.id});
-      if(i===1&&hs.length>2)tiles.push({t:'surprise',sec:s.id})});
-    tiles.push({t:si===list.length-1?'chest':(ends[si]||'gate'),sec:s.id,end:true});
-  });
+/* ================= daily board (chapters) ================= */
+let tiles=[],pts=[],boardH=0,boardW=0,CH=null;
+function chOf(id){const d=day();d.ch=d.ch||{};return d.ch[id]=d.ch[id]||{pos:0,landed:{},opened:{},flag:false}}
+function activeSec(){
+  if(S.settings.testMode)return secs().find(s=>habitsOn(today()).some(h=>h.sec===s.id)&&!chOf(s.id).flag)||null;
+  const c=currentSec();return c&&habitsOn(today()).some(h=>h.sec===c.id)?c:c;
 }
-function nextTarget(){
-  const d=day();
-  for(let i=d.pos+1;i<tiles.length;i++){const t=tiles[i];if(t.t==='habit'&&!d.landed[i]&&secState(secById(t.sec))!=='past')return i}
-  return -1;
+function buildTiles(){
+  tiles=[];CH=activeSec();if(!CH)return;const d=day();
+  tiles.push({t:'start'});if(d.cb)tiles.push({t:'comeback'});
+  const hs=habitsOn(today()).filter(h=>h.sec===CH.id);
+  hs.forEach((h,i)=>{tiles.push({t:'habit'});if(i===0&&hs.length>1)tiles.push({t:'anchor'});if(i===1&&hs.length>2)tiles.push({t:'surprise'})});
+  const ix=secs().findIndex(s=>s.id===CH.id);
+  tiles.push({t:ix===secs().length-1?'chest':(ix===0?'gate':'insight'),end:true});
+}
+function nextTarget(){const ch=chOf(CH.id);for(let i=ch.pos+1;i<tiles.length;i++)if(tiles[i].t==='habit'&&!ch.landed[i])return i;return -1}
+function awardFlag(secId,silent){
+  const c=chOf(secId);if(c.flag)return false;c.flag=true;S.flags=S.flags||{};S.flags[secId]=(S.flags[secId]||0)+1;save();
+  if(!silent){const s=secById(secId);toast(`🚩 דגל ה${s.short} נוסף לאוסף`)}
+  return true;
+}
+function flushOther(silent){
+  const d=day();const keep=[];
+  d.queue.forEach(id=>{const h=habitById(id);if(!h)return;if(CH&&h.sec===CH.id){keep.push(id);return}
+    const hs=habitsOn(today()).filter(x=>x.sec===h.sec);if(hs.length&&hs.every(x=>d.done[x.id]))awardFlag(h.sec,silent)});
+  if(keep.length!==d.queue.length){d.queue=keep;save()}
 }
 function renderBoard(scroll){
-  buildTiles();const d=day();
-  const sc=$('scroller');boardW=sc.clientWidth;
-  boardH=Math.max(sc.clientHeight+80,tiles.length*STEPY+560);
-  pts=isoLayout(tiles.length,boardW,boardH,250);
-  const board=$('board');board.style.height=boardH+'px';
-  const marks=[];
-  let html='';
-  const nt=nextTarget();
+  buildTiles();const d=day();const sc=$('scroller');boardW=sc.clientWidth;const board=$('board');
+  if(!CH){
+    boardH=sc.clientHeight;board.style.height=boardH+'px';
+    const first=secs()[0];const before=nowMins()<mins(first.start);
+    const fl=secs().map(s=>`<span class="${chOf(s.id).flag?'':'off'}">${s.mark}</span>`).join('');
+    board.innerHTML=`<div class="night"><div class="moon">${before?'🌄':'🌙'}</div><h2>${before?'עוד רגע מתחילים':'היום נסגר'}</h2><p>${before?`פרק הבוקר נפתח ב-${first.start}`:`מחר ב-${first.start} ממשיכים במסע`}</p><div class="flags">${fl}</div></div>`;
+    return;
+  }
+  const ch=chOf(CH.id);
+  boardH=Math.max(sc.clientHeight,tiles.length*STEPY+470);
+  pts=isoLayout(tiles.length,boardW,boardH,190);
+  const nt=nextTarget();let html='';
   tiles.forEach((t,i)=>{
-    const p=pts[i];const sec=t.sec?secById(t.sec):null;const st=sec?secState(sec):'open';
-    let kind='base',ico='',cls='tile';
-    if(t.t==='start'){kind='done';ico='<div class="ico small">🚩</div>'}
-    else if(t.t==='comeback'){kind=d.bridge?'done':'blue';ico=`<div class="ico bob">🌱</div>${d.bridge?'<span class="chk">✓</span>':''}`;if(!d.bridge)cls+=' tap next'}
-    else if(t.t==='habit'){
-      const hid=d.landed[i];
+    const p=pts[i];let kind='base',ico='',cls='tile';
+    if(t.t==='start'){kind='done';const earned=secs().filter(s=>s.id!==CH.id&&chOf(s.id).flag).map(s=>s.mark).join('');ico=`<div class="ico small">${earned||'🚩'}</div>`}
+    else if(t.t==='comeback'){kind=d.bridge?'done':'blue';ico=`<div class="ico ${d.bridge?'small':'bob'}">🌱</div>${d.bridge?'<span class="chk">✓</span>':''}`;if(!d.bridge)cls+=' tap next'}
+    else if(t.t==='habit'){const hid=ch.landed[i];
       if(hid){const h=habitById(hid);kind='done';ico=`<div class="ico small">${h?h.emoji:'✓'}</div><span class="chk">✓</span>`}
-      else if(st==='past'&&i>d.pos){kind='miss';ico='<div class="ico missed">פוספס</div>'}
-      else if(i===nt)cls+=' next';
-    }
-    else if(t.t==='anchor'){ico=d.opened[i]?'<div class="ico small" style="opacity:.6">💌</div>':'<div class="env"></div>'}
-    else if(t.t==='surprise'){ico=d.opened[i]?'<div class="ico small" style="opacity:.6">✨</div>':'<div class="ico q bob">?</div>'}
-    else if(t.end){kind=d.opened[i]?'done':'gold';const ic={gate:'⛩️',insight:'💡',chest:'🎁'}[t.t];
-      ico=`<div class="ico bob" style="font-size:36px">${d.opened[i]?(t.t==='chest'?'🏆':'✨'):ic}</div>`;
-      if(sec)marks.push({sec,p})}
+      else if(i===nt)cls+=' next'}
+    else if(t.t==='anchor'){const near=i<=ch.pos+2;ico=ch.opened[i]?'':(near?'<div class="env"></div>':'')}
+    else if(t.t==='surprise'){const near=i<=ch.pos+2;ico=ch.opened[i]?'':(near?'<div class="ico q bob">?</div>':'')}
+    else if(t.end){kind=ch.opened[i]?'done':'gold';const ic={gate:'⛩️',insight:'💡',chest:'🎁'}[t.t];ico=`<div class="ico ${ch.opened[i]?'':'bob'}" style="font-size:34px">${ch.opened[i]?'🚩':ic}</div>`}
     html+=`<div class="${cls}" data-i="${i}" style="left:${p.x}px;top:${p.y}px;z-index:${Math.round(p.y)}">${tileSVG(kind)}${ico}</div>`;
   });
-  const avoid=[];
-  marks.forEach(({sec,p})=>{
-    const x=boardW-50;const y=p.y-20;avoid.push({x,y});
-    html+=`<div class="mark" style="left:${x}px;top:${y-78}px;z-index:${Math.round(y)-120}"><div class="em">${sec.mark}</div><div class="plat"></div><div class="sign">${esc(sec.short)}</div></div>`;
-  });
-  html=scatterDecor(pts,boardW,boardH,11,avoid)+html;
-  const pp=pts[Math.min(d.pos,pts.length-1)];
-  html+=pinHTML(pp.x,pp.y,'pin');
+  const e=pts[pts.length-1];
+  html+=`<div class="dest" style="left:${boardW/2}px;top:${e.y-170}px;z-index:1"><div class="em">${CH.mark}</div><div class="nm">פרק ה${esc(CH.short)}</div></div>`;
+  html=scatterDecor(pts,boardW,boardH,11,[{x:boardW/2,y:e.y-110}])+html;
+  const pp=pts[Math.min(ch.pos,pts.length-1)];html+=pinHTML(pp.x,pp.y,'pin');
   board.innerHTML=html;
   board.querySelectorAll('.tile.tap').forEach(el=>el.onclick=openComeback);
   if(scroll)scrollToY(pp.y,false);
 }
-function scrollToY(y,smooth=true){const sc=$('scroller');sc.scrollTo({top:Math.max(0,y-sc.clientHeight*.58),behavior:smooth?'smooth':'auto'})}
+function scrollToY(y,smooth=true){const sc=$('scroller');sc.scrollTo({top:Math.max(0,y-sc.clientHeight*.6),behavior:smooth?'smooth':'auto'})}
 function hopTo(i){
   return new Promise(res=>{
-    const pin=$('pin');const a=pts[day().pos]||pts[0],b=pts[i];
-    const mx=(a.x+b.x)/2,my=Math.min(a.y,b.y)-34;
-    pin.style.zIndex=Math.round(b.y)+60;
+    const ch=chOf(CH.id);const pin=$('pin');const a=pts[ch.pos]||pts[0],b=pts[i];
+    const mx=(a.x+b.x)/2,my=Math.min(a.y,b.y)-34;pin.style.zIndex=Math.round(b.y)+60;
     const anim=pin.animate([{transform:`translate(${a.x}px,${a.y}px)`},{transform:`translate(${mx}px,${my}px)`,offset:.5},{transform:`translate(${b.x}px,${b.y}px)`}],{duration:300,easing:'ease-in-out'});
     anim.onfinish=()=>{pin.style.transform=`translate(${b.x}px,${b.y}px)`;puff(b.x,b.y);res()};
-    day().pos=i;sfx.hop();scrollToY(b.y);
+    ch.pos=i;sfx.hop();scrollToY(b.y);
   });
 }
 function puff(x,y){
@@ -753,25 +868,29 @@ function drawWheel(energy,spin){
 }
 
 /* ================= top render ================= */
-function layoutSide(){const h=$('hdr').getBoundingClientRect().height;$('side').style.top=(h-10)+'px';$('toast').style.top=(h+8)+'px';const m=$('mascot');if(m){if(!m.querySelector('svg'))m.insertAdjacentHTML('afterbegin',mascotSVG('happy',66));m.style.top=(h-6)+'px'}}
+function layoutSide(){const h=$('hdr').getBoundingClientRect().height;$('toast').style.top=(h+6)+'px';const m=$('mascot');if(m&&!m.querySelector('svg'))m.insertAdjacentHTML('afterbegin',mascotSVG('happy',62))}
+function renderSky(){
+  const S0=5*60,E0=23*60,W=E0-S0;const pc=m=>Math.max(0,Math.min(100,(m-S0)/W*100));
+  let h='';secs().forEach(s=>{const a=pc(mins(s.start)),b=pc(mins(s.end));h+=`<div class="sg ${s.id}${chOf(s.id).flag?' done':''}" style="right:${a}%;width:${b-a}%"></div>`});
+  const n=nowMins();const c=currentSec();
+  h+=`<div class="sun" style="left:${100-pc(n)}%">${c?c.mark:(n<S0+30?'🌄':'🌙')}</div>`;
+  $('skybar').innerHTML=h;
+  $('skylbl').textContent=CH?`${CH.mark} פרק ה${CH.short} · ${CH.start}–${CH.end}`:(n<mins(secs()[0].start)?`🌄 פרק הבוקר נפתח ב-${secs()[0].start}`:'🌙 זמן מנוחה · מחר ממשיכים');
+}
 function render(scroll){
-  applyTheme();const d=day();
-  const si=streakInfo();
-  const cs=$('cStreak');cs.className='chip '+(si.frozen?'frozen':'fire');
-  cs.innerHTML=(si.frozen?'❄️':'<span class="fl">🔥</span>')+` ${si.n} ימי רצף${si.frozen?' · מוקפא':''}`;
+  applyTheme();const d=day();buildTiles();flushOther(true);
+  const si=streakInfo();const cs=$('cStreak');cs.className='chip '+(si.frozen?'frozen':'fire');
+  cs.innerHTML=(si.frozen?'❄️':'<span class="fl">🔥</span>')+` ${si.n}`;
   setCloud(cloud);
-  const cur=currentSec();
-  $('segs').innerHTML=secs().map(s=>{
-    const hs=habitsOn(today()).filter(h=>h.sec===s.id);const n=hs.filter(h=>d.done[h.id]).length;const all=hs.length&&n===hs.length;
-    return `<div class="seg${cur&&cur.id===s.id?' now':''}${all?' ok':''}"><i>${all?'✓':s.mark}</i>${esc(s.short)} ${n}/${hs.length}</div>`}).join('');
-  const sd=successDays();
-  $('dream').innerHTML=`<span class="de">${dreamEmoji()}</span><div class="dt"><b>${S.profile.dream?esc(S.profile.dream):'הגדר את החלום שלך ←'}</b><div class="bar"><i style="width:${Math.max(2,Math.min(100,sd/365*100))}%"></i></div></div><div class="dn">${Math.min(dayNum(),365)}<small>מתוך 365</small></div>`;
-  const tot=habitsOn(today()).length,dn=doneCount(today());
-  $('progTxt').textContent=`${dn}/${tot} היום`;$('progBar').style.width=(tot?dn/tot*100:0)+'%';
-  const e=d.queue.length;$('energyTxt').textContent='אנרגיה '+e;$('go').className=e?'ready':'empty';drawWheel(e);
+  const e=d.queue.length;const g=$('go');
+  if(!CH){g.className='empty';$('goIco').textContent='🌙';$('energyTxt').textContent='מנוחה'}
+  else if(e){g.className='ready';$('goIco').textContent='GO';$('energyTxt').textContent='⚡ '+e}
+  else{g.className='mk';$('goIco').textContent='+';$('energyTxt').textContent='סמן הרגל'}
+  drawWheel(CH?e:0);$('plusMini').classList.toggle('show',!!(CH&&e));
   $('avBub').textContent=S.avatar;
-  layoutSide();renderDuo();
+  layoutSide();renderSky();renderDuo();
   renderBoard(scroll);
+  refreshPage();
 }
 
 /* ================= habits ================= */
@@ -803,7 +922,7 @@ function markHabit(id){
   if(left>0){toast(`כל הרגל בנפרד… (${Math.ceil(left/1000)})`);return}
   lastMark=Date.now();d.done[id]=Date.now();d.queue.push(id);save();sfx.pop();buzz(30);
   closeSheet();render(false);flyEnergy();toast(`${h.emoji} +1 ⚡ – לחץ GO`);
-  addXP(10);checkQuests();
+  S.totalDone=(S.totalDone||0)+1;addXP(10);checkQuests();checkBadges();
   const ml=MASCOT_LINES.done;mascotSay(ml[Math.floor(Math.random()*ml.length)]+' לחץ GO!');
   if(!d.streakShown&&need(today())&&doneCount(today())>=need(today())){d.streakShown=true;save();queueCele(streakCele)}
 }
@@ -811,38 +930,39 @@ function markHabit(id){
 /* ================= GO ================= */
 let busy=false;const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function go(){
-  if(busy)return;const d=day();
-  if(!d.queue.length){toast('אין אנרגיה – בצע הרגל בעולם האמיתי ⚡');mascotSay(MASCOT_LINES.empty[Math.floor(Math.random()*2)]);buzz(15);return}
+  if(busy)return;const d=day();buildTiles();
+  if(!CH){toast('זמן מנוחה 🌙 – מחר ממשיכים');return}
+  flushOther(false);
+  if(!d.queue.length){openHabits();return}
+  showTab('board');
   busy=true;sfx.go();drawWheel(d.queue.length,true);await sleep(450);
   const hid=d.queue.shift();const h=habitById(hid);
   if(!h){save();busy=false;render(false);return}
-  buildTiles();
-  let target=-1;
-  for(let i=d.pos+1;i<tiles.length;i++)if(tiles[i].t==='habit'&&tiles[i].sec===h.sec&&!d.landed[i]){target=i;break}
-  if(target<0)for(let i=d.pos+1;i<tiles.length;i++)if(tiles[i].t==='habit'&&!d.landed[i]){target=i;break}
+  const ch=chOf(CH.id);
+  let target=nextTarget();
   if(target<0){save();busy=false;render(false);return}
-  const secFirst=tiles.findIndex(t=>t.sec===h.sec);
-  if(d.pos<secFirst-1){await hopTo(secFirst-1);await sleep(80)}
   const events=[];
-  for(let i=d.pos+1;i<=target;i++){
+  for(let i=ch.pos+1;i<=target;i++){
     await hopTo(i);await sleep(60);
-    const t=tiles[i];if((t.t==='anchor'||t.t==='surprise')&&!d.opened[i]){d.opened[i]=true;events.push(t.t)}
+    const t=tiles[i];if((t.t==='anchor'||t.t==='surprise')&&!ch.opened[i]){ch.opened[i]=true;events.push(t.t)}
   }
-  d.pos=target;d.landed[target]=hid;save();render(false);buzz(20);
+  ch.pos=target;ch.landed[target]=hid;save();render(false);buzz(20);
   for(const ev of events)await runEvent(ev);
-  await showCard({icon:h.emoji,band:'g',title:esc(h.name)+' ✓',body:['צעד אמיתי. ניצחון אמיתי.','כך בונים זהות חדשה – צעד אחר צעד.','מעולה! המוח רשם את זה.','עוד הצבעה בעד האדם שאתה בוחר להיות.'][Math.floor(Math.random()*4)],auto:1800,timer:true,buttons:''});
-  const secTiles=tiles.map((t,i)=>({t,i})).filter(o=>o.t.sec===h.sec&&o.t.t==='habit');
-  if(secTiles.length&&secTiles.every(o=>d.landed[o.i])){
-    const endIdx=tiles.findIndex(t=>t.end&&t.sec===h.sec);
-    if(endIdx>0&&!d.opened[endIdx]){
-      for(let i=d.pos+1;i<=endIdx;i++){await hopTo(i);await sleep(60)}
-      d.pos=endIdx;d.opened[endIdx]=true;save();render(false);await runEnd(tiles[endIdx].t);
+  await showCard({icon:h.emoji,band:'g',title:esc(h.name)+' ✓',body:['צעד אמיתי. ניצחון אמיתי.','כך בונים זהות חדשה – צעד אחר צעד.','מעולה! המוח רשם את זה.','עוד הצבעה בעד האדם שאתה בוחר להיות.'][Math.floor(Math.random()*4)],auto:1600,timer:true,buttons:''});
+  if(tiles.every((t,i)=>t.t!=='habit'||ch.landed[i])){
+    const endIdx=tiles.length-1;
+    if(!ch.opened[endIdx]){
+      await hopTo(endIdx);ch.pos=endIdx;ch.opened[endIdx]=true;const sec=CH;awardFlag(sec.id,true);save();render(false);
+      await runEnd(tiles[endIdx].t,sec);
     }
   }
-  await checkMilestone();
+  await checkMilestone();checkBadges();
   busy=false;render(false);checkQuests();
   await sleep(200);while(celeRun||celeQ.length)await sleep(300);
-  if(!d.queue.length)showRest();
+  if(!day().queue.length){
+    if(chOf(CH?CH.id:'x').flag||!CH)showRest();
+    else mascotSay('הצעד הושלם ✓ נתראה בהרגל הבא בעולם האמיתי!',4200);
+  }
 }
 function pickAnchor(){
   const P=S.profile;
@@ -870,8 +990,8 @@ $('card').addEventListener('click',e=>{
   if(e.target.id==='useAv'){S.avatar=S.unlocked[S.unlocked.length-1];save();render(false)}
   if(e.target.id==='seeYear')setTimeout(openYear,250);
 });
-async function runEnd(type){
-  sfx.win();confetti(70);buzz([30,40,30]);
+async function runEnd(type,sec){
+  sfx.win();confetti(70);buzz([30,40,30]);if(sec)setTimeout(()=>toast(`🚩 דגל ה${sec.short} נוסף לאוסף שלך`),400);
   if(type==='gate'){S.stars+=5;save();setTimeout(()=>addXP(20),50);await showCard({icon:'⛩️',title:'שער הבוקר נפתח!',body:'בוקר של ניצחונות הושלם.<br>בונוס: +5 💎 · +20 XP',buttons:'<button class="btn" data-close>ממשיכים ליום</button>'})}
   else if(type==='insight'){S.stars+=5;save();setTimeout(()=>addXP(20),50);await showCard({icon:'💡',band:'b',title:'מיקרו-תובנה',body:INSIGHTS[Math.floor(Math.random()*INSIGHTS.length)],buttons:'<button class="btn" data-close>+5 💎 · +20 XP</button>'})}
   else{S.stars+=10;save();const si=streakInfo();setTimeout(()=>addXP(20),50);await showCard({icon:'🎁',band:'g',title:'תיבת האוצר היומית!',body:`היום נסגר במלואו.<br>🔥 רצף: ${si.n} ימים · +10 💎 · +20 XP`,buttons:'<button class="btn green" data-close>לילה טוב 🌙</button>'})}
@@ -975,7 +1095,7 @@ function applyHabits(list){
   list=list.filter(h=>h.name&&String(h.name).trim());
   const changed=JSON.stringify(list)!==JSON.stringify(S.settings.habits);
   S.settings.habits=list;
-  if(changed){const d=day();const ids=Object.keys(d.done).filter(id=>habitById(id));d.pos=0;d.landed={};d.opened={};d.queue=ids.sort((a,b)=>d.done[a]-d.done[b])}
+  if(changed){const d=day();d.ch={};d.queue=[]}
 }
 function syncLink(){return location.origin+location.pathname+'#sync='+CODE}
 function openSettings(){draft=clone(S.settings);draftP=clone(S.profile);drawSettings()}
@@ -1216,7 +1336,7 @@ function checkQuests(){
 }
 async function claimChest(){
   const d=day();if(d.qChest)return;if(!questState().every(o=>o.ok)){toast('השלם את כל 3 המשימות');return}
-  d.qChest=true;S.stars+=15;save();closeSheet();sfx.win();confetti(80);
+  d.qChest=true;S.stars+=15;S.chests=(S.chests||0)+1;save();checkBadges();closeSheet();sfx.win();confetti(80);
   await showCard({icon:'🧰',band:'p',title:'תיבת המשימות נפתחה!',body:'+15 💎 על יום מלא בעשייה.',buttons:'<button class="btn" data-close>אסוף</button>'});
   addXP(10);render(false);
 }
@@ -1227,7 +1347,7 @@ function bindMoods(root,after){
   root.querySelectorAll('[data-mood]').forEach(b=>b.onclick=()=>{
     const d=day();d.mood=d.mood||{};const first=!d.mood[b.dataset.slot];d.mood[b.dataset.slot]=+b.dataset.mood;save();sfx.pop();
     root.querySelectorAll('[data-mood]').forEach(x=>x.classList.toggle('sel',x===b));
-    if(first)addXP(5);checkQuests();if(after)after(+b.dataset.mood);
+    if(first){addXP(5);S.moodCount=(S.moodCount||0)+1;save();checkBadges()}checkQuests();if(after)after(+b.dataset.mood);
   });
 }
 function moodReply(v){return v<=2?'זה בסדר להרגיש ככה. רגש הוא אות, לא גזר דין. בוא נשנה מצב יחד – 30 שניות.':v===3?'בסדר זה בסיס טוב. צעד קטן אחד יעלה אותך שלב.':'מצוין! תשתמש באנרגיה הזו לצעד שמקדם את החלום.'}
@@ -1235,7 +1355,8 @@ function moodReply(v){return v<=2?'זה בסדר להרגיש ככה. רגש ה�
 async function openLesson(){
   const L=lessonToday();const d=day();closeSheet();
   await showCard({icon:L.s==='רון'?'📘':'🔥',band:L.s==='רון'?'b':'',title:L.t,body:`<span class="src">${L.s==='רון'?'ברוח ג׳ים רון':'ברוח טוני רובינס'}</span><br>${L.m}<div class="act">🎯 <b>הפעולה של היום:</b> ${L.a}</div>`,buttons:`<button class="btn" data-close>${d.lesson?'סגור':'קיבלתי · +5 XP'}</button>`});
-  if(!d.lesson){d.lesson=true;save();addXP(5);checkQuests()}
+  const li=(dayNum()-1)%LESSONS.length;S.lessonsRead=S.lessonsRead||[];if(!S.lessonsRead.includes(li)){S.lessonsRead.push(li);save()}
+  if(!d.lesson){d.lesson=true;save();addXP(5);checkQuests()}checkBadges();refreshPage();
 }
 /* state change (Robbins triad) */
 async function stateChange(){
@@ -1246,29 +1367,12 @@ async function stateChange(){
     {icon:'🗣️',band:'p',title:'3 · השפה',body:`אמור בקול, בעוצמה:<br><b>"${esc(m)}"</b>`}
   ];
   for(const s of steps){await showCard(Object.assign({auto:12000,timer:true,buttons:'<button class="btn ghost" data-close>הבא ←</button>'},s))}
-  const d=day();const first=!d.state;d.state=true;save();sfx.win();confetti(50);
+  const d=day();const first=!d.state;d.state=true;S.stateCount=(S.stateCount||0)+1;save();checkBadges();sfx.win();confetti(50);
   await showCard({icon:'⚡',band:'g',title:'המצב שונה!',body:'גוף, מיקוד ושפה – שלושת המפתחות לרגש.<br>עכשיו לך לעשות את ההרגל הבא.',buttons:`<button class="btn green" data-close>${first?'+10 XP':'יאללה'}</button>`});
   if(first)addXP(10);checkQuests();
 }
 /* daily panel */
-function openToday(){
-  const d=day();const L=lessonToday();const slot=moodSlot();const lv=lvlOf(S.xp||0);const g=goal();const qs=questState();const all=qs.every(o=>o.ok);
-  let html=`<div class="mhead">${mascotSVG('happy',64)}<div class="bubble">${greeting()}</div></div>
-  <div class="goalcard"><div class="ring" style="--p:${Math.min(1,(d.xp||0)/g)}"><b>${d.xp||0}</b><small>/${g} XP</small></div>
-   <div class="gtxt"><b>${lv.cur.e} רמה ${lv.i+1} · ${lv.cur.n}</b><div class="lbar"><i style="width:${lv.pct*100}%"></i></div><small>${lv.nx?`עוד ${lv.nx.x-(S.xp||0)} XP ל${lv.nx.n}`:'הגעת לפסגה!'}</small></div></div>
-  <div class="sech"><span>💛 איך אתה מרגיש ${slot==='am'?'הבוקר':'הערב'}?</span>${d.mood&&d.mood[slot]?'<span class="badge open">✓</span>':''}</div>
-  ${moodButtons(slot)}<div class="hint" id="moodR"></div>
-  <div class="tiles2">
-   <button class="tbtn ${d.lesson?'ok':''}" id="tLesson"><span>📖</span><b>עיקרון היום</b><small>${esc(L.t)}</small></button>
-   <button class="tbtn ${d.state?'ok':''}" id="tState"><span>⚡</span><b>שינוי מצב</b><small>30 שניות · גוף, מיקוד, שפה</small></button>
-  </div>
-  <div class="sech"><span>🏅 משימות יומיות</span><span class="badge open">${qs.filter(o=>o.ok).length}/3</span></div>
-  ${qs.map(o=>`<div class="quest${o.ok?' ok':''}"><span class="qe">${o.q.e}</span><div class="qt"><b>${o.q.t}</b><div class="qbar"><i style="width:${o.p/o.n*100}%"></i></div></div><span class="qn">${o.p}/${o.n}</span></div>`).join('')}
-  <button class="chest${all&&!d.qChest?' ready':''}${d.qChest?' open':''}" id="qChest">${d.qChest?'🧰 נאסף היום ✓':(all?'🧰 פתח את תיבת המשימות!':'🔒 תיבת המשימות')}</button>`;
-  openSheet(html);
-  bindMoods($('sheet'),v=>{$('moodR').textContent=moodReply(v)});
-  $('tLesson').onclick=openLesson;$('tState').onclick=stateChange;$('qChest').onclick=claimChest;
-}
+function openToday(){showTab('today')}
 function greeting(){
   const c=currentSec();const n=nowMins();const P=S.profile;
   const key=!c?(n<mins(secs()[0].start)||n>=mins(secs()[secs().length-1].end)?'night':'day'):(c.id==='m'?'morning':c.id==='e'?'evening':'day');
@@ -1305,18 +1409,208 @@ function mascotSVG(mood='happy',sz=70){
   <defs><radialGradient id="mg" cx=".35" cy=".3"><stop offset="0" stop-color="#d9ff9c"/><stop offset=".6" stop-color="#7fd84a"/><stop offset="1" stop-color="#4cb21f"/></radialGradient></defs></svg>`;
 }
 let sayT=null;
-function mascotSay(t,ms=3200){const b=$('mBubble');if(!b)return;b.innerHTML=t;b.classList.add('show');$('mascot').classList.remove('jump');void $('mascot').offsetWidth;$('mascot').classList.add('jump');clearTimeout(sayT);sayT=setTimeout(()=>b.classList.remove('show'),ms)}
+function mascotSay(t,ms=3600){const b=$('mBubble'),m=$('mascot');if(!b)return;if(!m.querySelector('svg'))m.insertAdjacentHTML('afterbegin',mascotSVG('happy',62));b.innerHTML=t;m.classList.add('out');setTimeout(()=>{b.classList.add('show');m.classList.remove('jump');void m.offsetWidth;m.classList.add('jump')},350);clearTimeout(sayT);sayT=setTimeout(()=>{b.classList.remove('show');setTimeout(()=>m.classList.remove('out'),250)},ms)}
 function renderDuo(){
   const d=day();const g=goal();const lv=lvlOf(S.xp||0);
-  const x=$('cXp');if(x)x.innerHTML=`<span class="mini" style="--p:${Math.min(1,(d.xp||0)/g)}"></span>${d.xp||0}/${g} XP`;
-  const l=$('cLvl');if(l)l.textContent=`${lv.cur.e} ${lv.i+1}`;
+  const x=$('cXp');if(x)x.innerHTML=`<span class="mini" style="--p:${Math.min(1,(d.xp||0)/g)}"></span>${d.xp||0} XP`;
+  const l=$('lvlBadge');if(l)l.textContent=lv.i+1;
   const s=$('cStars');if(s)s.textContent='💎 '+S.stars;
   const tb=$('todayDot');if(tb){const qs=questState();tb.style.display=(qs.every(o=>o.ok)&&!d.qChest)||!d.lesson?'block':'none'}
 }
 
+/* ================= collection (assets) ================= */
+const BADGES=[
+ {id:'first',e:'👣',n:'צעד ראשון',t:()=>(S.totalDone||0)>=1},
+ {id:'flag1',e:'🚩',n:'דגל ראשון',t:()=>flagsTotal()>=1},
+ {id:'s3',e:'🔥',n:'3 ימים ברצף',t:()=>bestStreak()>=3},
+ {id:'s7',e:'🔥',n:'שבוע ברצף',t:()=>bestStreak()>=7},
+ {id:'s21',e:'🌿',n:'21 ברצף',t:()=>bestStreak()>=21},
+ {id:'d30',e:'🌳',n:'30 ימי הצלחה',t:()=>successDays()>=30},
+ {id:'d66',e:'⚙️',n:'66 ימי הצלחה',t:()=>successDays()>=66},
+ {id:'d100',e:'💯',n:'100 ימי הצלחה',t:()=>successDays()>=100},
+ {id:'fm',e:'🌅',n:'10 דגלי בוקר',t:()=>((S.flags||{}).m||0)>=10},
+ {id:'fd',e:'☀️',n:'10 דגלי צהריים',t:()=>((S.flags||{}).d||0)>=10},
+ {id:'fe',e:'🌙',n:'10 דגלי ערב',t:()=>((S.flags||{}).e||0)>=10},
+ {id:'lib',e:'📚',n:'10 עקרונות',t:()=>(S.lessonsRead||[]).length>=10},
+ {id:'st7',e:'⚡',n:'7 שינויי מצב',t:()=>(S.stateCount||0)>=7},
+ {id:'md7',e:'💛',n:'7 צ׳ק-אין',t:()=>(S.moodCount||0)>=7},
+ {id:'plan',e:'🗺️',n:'תוכנית לחלום',t:()=>!!S.plan},
+ {id:'chest5',e:'🧰',n:'5 תיבות משימות',t:()=>(S.chests||0)>=5},
+ {id:'lvl6',e:'🧗',n:'רמה 6',t:()=>lvlOf(S.xp||0).i>=5},
+ {id:'year',e:'🏆',n:'שנה שלמה',t:()=>successDays()>=365}
+];
+function flagsTotal(){const f=S.flags||{};return Object.values(f).reduce((a,b)=>a+(+b||0),0)}
+function checkBadges(){
+  S.badges=S.badges||{};const fresh=BADGES.filter(b=>!S.badges[b.id]&&b.t());
+  if(!fresh.length)return;fresh.forEach(b=>S.badges[b.id]=today());save();
+  fresh.forEach(b=>queueCele(async()=>{sfx.win();confetti(50);await showCard({icon:b.e,band:'p',title:'תג חדש באוסף!',body:`<b>${b.n}</b><br><small>נשמר לתמיד באוסף שלך 🏆</small>`,buttons:'<button class="btn" data-close>יש!</button>'})}));
+}
+function renderCol(){
+  const lv=lvlOf(S.xp||0);const f=S.flags||{};const read=S.lessonsRead||[];
+  const ms=secs().map(s=>`<div class="asset"><div class="ae">${s.mark}</div><b>${f[s.id]||0}</b><span>דגלי ${esc(s.short)}</span></div>`).join('');
+  let h=`<h1>🏆 האוסף שלי</h1><div class="sub">כל מה שעברת נצבר כאן – נכסים שנשארים איתך.</div>
+  <div class="prof"><button class="av sel" id="cAv">${S.avatar}</button><div style="flex:1"><b style="font-size:16px">${lv.cur.e} רמה ${lv.i+1} · ${lv.cur.n}</b><div class="lbar"><i style="width:${lv.pct*100}%"></i></div><small style="color:var(--muted);font-weight:700">${S.xp||0} XP${lv.nx?` · עוד ${lv.nx.x-(S.xp||0)} ל${lv.nx.n}`:''}</small></div></div>
+  <div class="assets">${ms}
+   <div class="asset"><div class="ae">🔥</div><b>${successDays()}</b><span>ימי הצלחה</span></div>
+   <div class="asset"><div class="ae">💎</div><b>${S.stars}</b><span>יהלומים</span></div>
+   <div class="asset"><div class="ae">🧰</div><b>${S.chests||0}</b><span>תיבות</span></div>
+   <div class="asset"><div class="ae">📖</div><b>${read.length}</b><span>עקרונות</span></div>
+   <div class="asset"><div class="ae">⚡</div><b>${S.stateCount||0}</b><span>שינויי מצב</span></div>
+   <div class="asset"><div class="ae">🎭</div><b>${S.unlocked.length}</b><span>דמויות</span></div>
+  </div>
+  <div class="h3"><span>🏅 תגים</span><span class="badge open">${Object.keys(S.badges||{}).length}/${BADGES.length}</span></div>
+  <div class="badges">${BADGES.map(b=>`<div class="badge2${S.badges&&S.badges[b.id]?'':' lock'}"><div class="be">${b.e}</div><span>${b.n}</span></div>`).join('')}</div>
+  <div class="h3"><span>📚 ספריית העקרונות שלי</span><span class="badge open">${read.length}/${LESSONS.length}</span></div>
+  <div class="lib">${read.length?read.slice().reverse().map(i=>{const L=LESSONS[i];return L?`<button class="libi" data-les="${i}"><span class="le">${L.s==='רון'?'📘':'🔥'}</span><div>${esc(L.t)}<small>${L.s==='רון'?'ג׳ים רון':'טוני רובינס'} · ${esc(L.a)}</small></div></button>`:''}).join(''):'<div class="hint">כל "עיקרון היום" שתקרא יישמר כאן לחזרה.</div>'}</div>
+  <div class="row"><button class="btn ghost" id="cHist">📜 היסטוריה ומעקב מלא</button><button class="btn ghost" id="cYear">🗺️ מפת השנה</button></div>`;
+  $('pCol').innerHTML=h;
+  $('cAv').onclick=openAvatars;$('cHist').onclick=openHistory;$('cYear').onclick=openYear;
+  $('pCol').querySelectorAll('[data-les]').forEach(b=>b.onclick=()=>{const L=LESSONS[+b.dataset.les];showCard({icon:L.s==='רון'?'📘':'🔥',band:L.s==='רון'?'b':'',title:esc(L.t),body:`<span class="src">${L.s==='רון'?'ברוח ג׳ים רון':'ברוח טוני רובינס'}</span><br>${L.m}<div class="act">🎯 <b>פעולה:</b> ${L.a}</div>`,buttons:'<button class="btn" data-close>סגור</button>'})});
+}
+
+/* ================= plan (AI + smart local) ================= */
+const AI_URL=SB_URL+'/functions/v1/masa-plan';let aiAvail=null,planBusy=false;
+async function probeAI(){try{const r=await fetch(AI_URL,{headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY}});const j=await r.json();aiAvail=!!j.ai}catch(e){aiAvail=false}}
+function planStats(){
+  const t=today();const rate={};habits().forEach(h=>rate[h.id]={h,n:0,d:0});
+  let moodSum=0,moodN=0,wk=0,wkP=0;
+  for(let i=0;i<14;i++){const k=addDays(t,-i);if(k<startKey())break;const d=S.days[k];
+    habitsOn(k).forEach(h=>{if(rate[h.id]){rate[h.id].n++;if(d&&d.done&&d.done[h.id])rate[h.id].d++}});
+    if(d&&d.mood){['am','pm'].forEach(s=>{if(d.mood[s]){moodSum+=d.mood[s];moodN++}})}
+    if(i<7){wk+=doneCount(k);wkP+=habitsOn(k).length}}
+  const arr=Object.values(rate).filter(r=>r.n).map(r=>({name:r.h.name,p:r.d/r.n})).sort((a,b)=>b.p-a.p);
+  return {dayNum:dayNum(),successDays:successDays(),streak:streakInfo().n,week:wkP?Math.round(wk/wkP*100):0,
+    strong:arr.slice(0,2).map(a=>a.name).join(', '),weak:arr.slice(-2).filter(a=>a.p<.6).map(a=>a.name).join(', '),mood:moodN?(moodSum/moodN).toFixed(1):''};
+}
+const DOM={
+ health:{k:/כושר|בריא|גוף|ריצ|משקל|ספורט|אימון|תזונ|אנרגי|חזק/,q:[['יסודות הגוף',['אימון קל 3 פעמים בשבוע','שינה קבועה של 7 שעות','2 ליטר מים ביום']],['תנופה',['אימון 4 פעמים בשבוע','מדידת נקודת פתיחה ומעקב','תפריט מודע קבוע']],['האצה',['אתגר אישי (מרחק/משקל/זמן)','שיפור של 20% בביצועים','שגרה שלא נשברת גם בעומס']],['הגשמה',['הגעה ליעד הגופני','חגיגה ושיתוף ההישג','יעד גופני לשנה הבאה']]],h:[['🏃','אימון 20 דק׳','m'],['💧','2 ליטר מים','d'],['😴','שינה בזמן','e']],w:['קבע 3 זמני אימון ביומן','הכן בקבוק מים קבוע ליד השולחן','רשום יומיים מה אתה אוכל כדי לזהות דפוס','צא להליכה של 20 דקות'],m:['מספר אימונים בשבוע','שעות שינה ממוצעות']},
+ money:{k:/עסק|כסף|פרנס|הכנס|לקוח|חבר[הת]|מיליון|שפע|קריירה|עבוד|מכיר|שיווק|משכורת/,q:[['בהירות ויסודות',['יעד הכנסה מספרי וכתוב','מיפוי מקורות הכנסה','שעה יומית של עבודה עמוקה על העסק']],['פעולה מסיבית',['10 פניות/שיחות בשבוע','השקת הצעה אחת חדשה','מערכת מעקב לקוחות']],['הכפלה',['שיפור המחיר או ההצעה','שיווק עקבי 5 ימים בשבוע','אוטומציה או עזרה שמפנה לך זמן']],['קציר',['הגעה ליעד ההכנסה','תהליך שעובד גם בלעדיך','תכנון השנה הבאה']]],h:[['🎯','שעת עבודה עמוקה על החלום','d'],['📞','פנייה אחת ללקוח/שותף','d'],['📊','בדיקת מספרים קצרה','e']],w:['כתוב את יעד ההכנסה במספר מדויק','רשום 20 אנשים שאפשר לפנות אליהם','חסום 5 שעות ביומן לעבודה על העסק','שלח 3 פניות היום'],m:['הכנסה חודשית','פניות בשבוע']},
+ family:{k:/משפח|ילד|זוג|אבא|אמא|בית|נוכח|הור/,q:[['נוכחות',['20 דק׳ זמן איכות ביום בלי מסך','ארוחה משותפת 3 פעמים בשבוע','טקס ערב קבוע']],['חיבור',['בילוי שבועי מתוכנן','שיחה עמוקה שבועית עם בן/בת הזוג','זיכרון משפחתי חודשי']],['עומק',['פרויקט משפחתי משותף','מסורת משפחתית חדשה','זמן אישי עם כל ילד']],['מורשת',['חוויה משפחתית גדולה','אלבום/יומן שנתי','ערכים משפחתיים כתובים']]],h:[['👨‍👩‍👧','20 דק׳ זמן איכות בלי מסך','e'],['💬','מילה טובה לכל אחד בבית','m'],['📵','ארוחה בלי טלפונים','e']],w:['תכנן בילוי משפחתי אחד השבוע','שאל כל ילד "מה היה הכי טוב היום?"','כתוב 3 ערכים משפחתיים','10 דקות משחק בלי טלפון'],m:['ערבים איכותיים בשבוע','בילויים משפחתיים בחודש']},
+ learn:{k:/ללמוד|לימוד|תואר|שפה|קורס|מקצוע|כתיב|אנגלית|מיומנות|ידע/,q:[['הרגל למידה',['20 דק׳ למידה ביום','בחירת מקור למידה מרכזי','סיכום שבועי']],['עקביות',['סיום מודול ראשון','תרגול מעשי','מנטור או קבוצת לימוד']],['יישום',['פרויקט אישי שמשתמש בידע','ללמד מישהו אחר','הוכחת יכולת']],['שליטה',['סיום הקורס או היעד','תוצר מוגמר','היעד הבא']]],h:[['📚','20 דק׳ למידה','d'],['📝','סיכום של 3 שורות','e'],['🎧','האזנה בדרכים','m']],w:['בחר את מקור הלמידה הראשי','קבע זמן למידה קבוע ביומן','למד 3 ימים ברצף','סכם במשפט אחד מה למדת'],m:['דקות למידה בשבוע','שיעורים שהושלמו']},
+ create:{k:/ליצור|יציר|אמנות|מוזיק|וידאו|תוכן|יוטיוב|אפליקצי|מוצר|עיצוב|ספר/,q:[['יסודות היצירה',['זמן יצירה יומי קבוע','בנק רעיונות','תוצר ראשון קטן']],['פרסום',['פרסום שבועי קבוע','איסוף משוב','שיפור הסגנון']],['קהל',['100 עוקבים/משתמשים ראשונים','שיתוף פעולה','תוצר גדול']],['השקה',['השקת התוצר המרכזי','מערכת שעובדת','החזון הבא']]],h:[['🎨','30 דק׳ יצירה','m'],['💡','רעיון אחד ביומן','e'],['📤','שיתוף/פרסום','d']],w:['בחר פרויקט יצירה אחד','צור טיוטה ראשונה – גרועה בכוונה','שתף משהו קטן עם אדם אחד','30 דקות יצירה בלי הפרעות'],m:['שעות יצירה בשבוע','תוצרים שפורסמו']},
+ inner:{k:/שקט|רוגע|שמח|ביטחון|אושר|מדיטצ|רוחני|רגש|לחץ|שלו/,q:[['רוגע',['5 דק׳ מדיטציה ביום','יומן הודיה','שינה איכותית']],['מודעות',['זיהוי טריגרים','שינוי מצב יומי','גבולות בריאים']],['עוצמה',['יציאה חודשית מאזור הנוחות','עזרה לאחרים','אמונות חדשות ומחזקות']],['שלמות',['שגרה פנימית יציבה','השראה לאחרים','חזון חדש']]],h:[['🧘','5 דק׳ מדיטציה','m'],['🙏','3 הודיות','e'],['⚡','שינוי מצב','d']],w:['עשה את תרגיל שינוי המצב 3 פעמים','כתוב 3 הודיות כל ערב','זהה דבר אחד שמלחיץ וכתוב תוכנית','5 דקות שקט בבוקר'],m:['ממוצע מצב רוח','ימים עם מדיטציה']}
+};
+function localPlan(mode,fb){
+  const P=S.profile;const txt=[P.dream,P.why,P.purpose,(P.values||[]).join(' ')].join(' ');
+  let keys=Object.keys(DOM).filter(k=>DOM[k].k.test(txt));if(!keys.length)keys=['inner','learn'];
+  const A=DOM[keys[0]],B=DOM[keys[1]]||null;
+  const easy=/קשה|עמוס|מדי|לאט|עייף/.test(fb||''),hard=/אתגר|יותר|מהר|קל מדי|להגביר/.test(fb||'');
+  const names=['רבעון 1 · ','רבעון 2 · ','רבעון 3 · ','רבעון 4 · '];const fo=['בנה יסודות – עקביות לפני עוצמה','פעולה מסיבית – הגבר את הקצב','העלה סטנדרטים – מה שהיה "כדאי" הופך ל"חייב"','קציר – סיים חזק וחגוג'];
+  const quarters=A.q.map((q,i)=>({name:names[i]+q[0],months:`חודשים ${i*3+1}-${i*3+3}`,goal:q[1][0],milestones:q[1].concat(B?[B.q[i][1][0]]:[]),focus:fo[i]}));
+  let week=A.w.slice(0,easy?2:3).concat(B?[B.w[0]]:[]);if(hard)week=week.concat(['הוסף עוד 15 דקות לפעולה החשובה ביותר','הצב יעד שבועי מספרי ושתף מישהו']);
+  const exist=new Set(habits().map(h=>h.name));
+  const hs=A.h.concat(B?B.h.slice(0,1):[]).filter(h=>!exist.has(h[1])).slice(0,easy?1:3).map(h=>({emoji:h[0],name:h[1],sec:h[2],why:'מקדם ישירות את החלום שלך'}));
+  return {title:P.dream?`הדרך אל: ${P.dream}`:'התוכנית שלי לשנה',
+    vision:P.dream?`בעוד שנה: ${P.dream}. אתה מרגיש את זה בגוף, רואה את זה בתוצאות, ומי שסביבך רואה את השינוי.`:'בעוד שנה אתה אדם עקבי, ממוקד ומלא אנרגיה.',
+    why:P.why||'כי אתה ראוי לחיים שבחרת בהם.',identity:`אני האדם ש${(P.values||[]).length?'חי לפי '+P.values.join(', ')+' ו':''}עושה את הצעד הקטן גם כשאין חשק.`,
+    quarters,thisWeek:week,todayStep:week[(dayNum()-1)%week.length],habits:hs,
+    obstacles:[{risk:'יום עמוס במיוחד',plan:'אם היום עמוס – אז עושים גרסה של 2 דקות מכל הרגל, העיקר לא לשבור את הרצף.'},{risk:'ירידה במוטיבציה',plan:'אם אין חשק – אז עושים תרגיל "שינוי מצב" וקוראים את ה"למה".'},{risk:'פספוס של יום',plan:'אם פספסתי – אז משבצת אתגר החזרה מחזירה אותי מחר. לעולם לא פעמיים ברצף.'}],
+    metrics:A.m.concat(['ימי הצלחה מתוך 365']),
+    message:easy?'הורדנו הילוך – עקביות קטנה מנצחת עוצמה גדולה. (ברוח ג׳ים רון)':hard?'העלינו את הסטנדרט – פעולה מסיבית מקרבת את החלום. (ברוח טוני רובינס)':'החלום ברור, ה"למה" חזק – עכשיו צעד קטן כל יום. ככה בונים שנה של ניצחונות.'};
+}
+async function generatePlan(mode,fb){
+  if(planBusy)return;planBusy=true;closeSheet();
+  $('pPlan').innerHTML=`<div style="text-align:center;padding-top:30%"><div class="spinner"></div><h2 style="font-family:'Secular One';font-weight:400">${mode==='update'?'משדרג את התוכנית…':'בונה לך תוכנית…'}</h2><div class="hint">מנתח את החלום, היעוד, הערכים וההתקדמות שלך</div></div>`;
+  let plan=null,src='local';
+  if(aiAvail===null)await probeAI();
+  if(aiAvail){try{await push();const ctl=new AbortController();const tm=setTimeout(()=>ctl.abort(),60000);
+    const r=await fetch(AI_URL,{method:'POST',signal:ctl.signal,headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({code:CODE,mode,profile:S.profile,habits:habits().map(h=>({emoji:h.emoji,name:h.name,sec:h.sec})),stats:planStats(),plan:S.plan,feedback:fb||''})});
+    clearTimeout(tm);const j=await r.json();if(j.plan&&j.plan.quarters){plan=j.plan;src='ai'}else if(j.error==='limit')toast('מגבלת AI יומית – נבנתה תוכנית חכמה מקומית')}catch(e){}}
+  if(!plan){await sleep(900);plan=localPlan(mode,fb)}
+  if(S.plan){S.planHist=(S.planHist||[]).slice(-4);S.planHist.push(S.plan)}
+  plan.src=src;plan.created=today();plan.v=(S.plan&&S.plan.v||0)+1;S.plan=plan;save();planBusy=false;
+  sfx.win();confetti(60);renderPlan();checkBadges();
+  if(mode!=='update')addXP(15);
+}
+function weekIdx(){return Math.floor((dayNum()-1)/7)}
+function renderPlan(){
+  if(planBusy)return;const P=S.profile;const sd=successDays();const dn=Math.min(dayNum(),365);const nextM=MILESTONES.find(m=>m.d>sd);
+  let h=`<h1>🗺️ התוכנית שלי</h1><div class="sub">מחלום → ליעדים → לצעד של היום.</div>
+  <div class="dreamcard"><button class="edit" id="pEdit">✏️ עריכה</button><div class="de">${dreamEmoji()}</div><h2>${P.dream?esc(P.dream):'עוד לא הגדרת חלום'}</h2>${P.why?`<p>💛 ${esc(P.why)}</p>`:''}${P.purpose?`<p>🧭 ${esc(P.purpose)}</p>`:''}${(P.values||[]).length?`<div class="vals">${P.values.map(v=>`<span>${esc(v)}</span>`).join('')}</div>`:''}</div>
+  <div class="jcard"><div class="jrow"><div><b>${dn}</b><span> / 365 ימים</span></div><div style="text-align:left"><b style="color:#3c9a14">${sd}</b><span> ימי הצלחה</span></div></div><div class="jbar"><i style="width:${Math.max(2,sd/365*100)}%"></i></div>
+   <div class="hint" style="margin:8px 0 0">${nextM?`התחנה הבאה: ${msEmoji(nextM)} ${esc(nextM.n)} – עוד ${nextM.d-sd} ימי הצלחה`:'השלמת את המסע! 🎉'}</div>
+   <div class="row" style="margin-top:8px"><button class="btn ghost sm" id="pYear">פתח מפת שנה</button></div></div>`;
+  const pl=S.plan;
+  if(!pl){
+    h+=`<div class="pcard" style="text-align:center;padding:22px">${mascotSVG('happy',80)}<h4 style="justify-content:center;font-size:18px">בוא נבנה תוכנית להגשמת החלום</h4><p class="hint">4 רבעונים, אבני דרך, פעולות לשבוע, צעד יומי והרגלים מומלצים – לפי החלום, היעוד והערכים שלך.</p>
+    <button class="btn green" id="pGen">✨ בנה לי תוכנית</button></div>`;
+  }else{
+    const d=day();const qi=Math.min(3,Math.floor((dayNum()-1)/91.25));const wk=weekIdx();S.planChecks=S.planChecks||{};const wc=S.planChecks[wk]||{};
+    h+=`<div class="pcard"><h4>${esc(pl.title||'התוכנית')}</h4><span class="aitag ${pl.src==='ai'?'':'local'}">${pl.src==='ai'?'✨ נבנה ע״י AI':'🧠 תוכנית חכמה'}</span> <small style="color:var(--muted);font-weight:700">גרסה ${pl.v||1} · ${pl.created||''}</small>
+      <p style="margin-top:10px">${esc(pl.vision||'')}</p>${pl.identity?`<p style="margin-top:8px;font-weight:800">🪞 ${esc(pl.identity)}</p>`:''}</div>
+    <div class="pcard"><h4>🎯 הצעד של היום</h4><button class="chk-row${d.planStep?' on':''}" id="pStep"><i>${d.planStep?'✓':''}</i><span>${esc(pl.todayStep||(pl.thisWeek||[])[0]||'')}</span></button></div>
+    <div class="pcard"><h4>📅 השבוע</h4>${(pl.thisWeek||[]).map((a,i)=>`<button class="chk-row${wc[i]?' on':''}" data-wk="${i}"><i>${wc[i]?'✓':''}</i><span>${esc(a)}</span></button>`).join('')}</div>
+    <div class="pcard"><h4>🧗 אבני הדרך לשנה</h4>${(pl.quarters||[]).map((q,i)=>`<div class="qtr${i===qi?' now':(i<qi?' past':'')}"><b>${esc(q.name)}</b> <small>${esc(q.months||'')}${i===qi?' · אתה כאן':''}</small><div style="font-size:13px;font-weight:700;margin-top:3px">🎯 ${esc(q.goal||'')}</div><ul>${(q.milestones||[]).map(m=>`<li>${esc(m)}</li>`).join('')}</ul>${q.focus?`<small>💡 ${esc(q.focus)}</small>`:''}</div>`).join('')}</div>`;
+    if((pl.habits||[]).length)h+=`<div class="pcard"><h4>🌱 הרגלים מומלצים</h4>${pl.habits.map((x,i)=>{const has=habits().some(y=>y.name===x.name);return `<div class="sugg"><span class="se">${esc(x.emoji)}</span><div>${esc(x.name)}<small>${esc(x.why||'')} · ${esc((secById(x.sec)||{}).short||'')}</small></div><button class="btn ${has?'ghost':'green'} sm" data-addh="${i}" ${has?'disabled':''}>${has?'✓ קיים':'+ הוסף'}</button></div>`}).join('')}</div>`;
+    if((pl.obstacles||[]).length)h+=`<div class="pcard"><h4>🛡️ אם… אז…</h4>${pl.obstacles.map(o=>`<p style="margin-bottom:8px"><b>${esc(o.risk)}:</b> ${esc(o.plan)}</p>`).join('')}</div>`;
+    if((pl.metrics||[]).length)h+=`<div class="pcard"><h4>📏 איך נמדוד הצלחה</h4><p>${pl.metrics.map(esc).join(' · ')}</p></div>`;
+    if(pl.message)h+=`<div class="pcard" style="background:linear-gradient(135deg,#f3fbe9,#e6f6d6)"><div class="mhead" style="margin:0">${mascotSVG('happy',54)}<div class="bubble">${esc(pl.message)}</div></div></div>`;
+    h+=`<div class="row" style="margin-top:6px"><button class="btn" id="pUpd">🔄 עדכן / שדרג תוכנית</button></div>
+    <div class="hint" style="text-align:center;margin-top:10px">${aiAvail?'✨ AI מחובר':'🧠 התוכנית נבנית בחכמה מקומית. לשדרוג ל-AI מלא יש להגדיר מפתח AI בשרת.'}</div>`;
+  }
+  $('pPlan').innerHTML=h;
+  $('pEdit').onclick=openOnboarding;$('pYear').onclick=openYear;
+  if($('pGen'))$('pGen').onclick=()=>generatePlan('create');
+  if($('pUpd'))$('pUpd').onclick=openPlanUpdate;
+  if($('pStep'))$('pStep').onclick=()=>{const d=day();if(d.planStep)return;d.planStep=true;save();sfx.pop();addXP(10);toast('🎯 צעד אל החלום! +10 XP');renderPlan()};
+  $('pPlan').querySelectorAll('[data-wk]').forEach(b=>b.onclick=()=>{const wk=weekIdx();S.planChecks=S.planChecks||{};const wc=S.planChecks[wk]=S.planChecks[wk]||{};const i=b.dataset.wk;
+    if(wc[i])delete wc[i];else{wc[i]=1;addXP(5);sfx.pop()}save();renderPlan()});
+  $('pPlan').querySelectorAll('[data-addh]').forEach(b=>b.onclick=()=>{const x=S.plan.habits[+b.dataset.addh];const sec=secById(x.sec)?x.sec:'d';
+    applyHabits(habits().concat([{id:'h'+Date.now().toString(36),emoji:x.emoji||'⭐',name:x.name,sec,days:ALLDAYS.slice()}]));save();toast('ההרגל נוסף ✓');render(false);renderPlan()});
+}
+function openPlanUpdate(){
+  const chips=['קשה לי מדי, צריך להקל','קל לי – אני רוצה יותר אתגר','הנסיבות שלי השתנו','התקדמתי מהר','אני רוצה להתמקד בתחום אחר'];
+  openSheet(`<h2>🔄 עדכון ושדרוג התוכנית</h2><div class="hint">ספר מה השתנה – התוכנית תתעדכן לפי ההתקדמות האמיתית שלך (${planStats().week}% ביצוע השבוע).</div>
+  <div class="fbchips">${chips.map(c=>`<button class="ch" data-fb="${c}">${c}</button>`).join('')}</div>
+  <textarea class="inp" id="fbTxt" rows="3" placeholder="מה תרצה לשנות? למשל: אני רוצה להוסיף ריצה, יש לי פחות זמן בבקרים…"></textarea>
+  <div class="row" style="margin-top:12px"><button class="btn green" id="fbGo">✨ שדרג את התוכנית</button><button class="btn ghost" id="fbNew">בנה מחדש</button></div>`);
+  $('sheet').querySelectorAll('[data-fb]').forEach(b=>b.onclick=()=>{const t=$('fbTxt');t.value=(t.value?t.value+'. ':'')+b.dataset.fb;b.classList.add('on')});
+  $('fbGo').onclick=()=>generatePlan('update',$('fbTxt').value);
+  $('fbNew').onclick=()=>generatePlan('create',$('fbTxt').value);
+}
+
+/* ================= pages / tabs ================= */
+let TAB='board';
+function showTab(t){
+  TAB=t;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
+  ['pToday','pPlan','pCol'].forEach(id=>$(id).classList.remove('show'));
+  const id={today:'pToday',plan:'pPlan',col:'pCol'}[t];
+  if(id){refreshPage();$(id).classList.add('show');$(id).scrollTop=0}
+}
+function refreshPage(){if(TAB==='today')renderToday();else if(TAB==='plan')renderPlan();else if(TAB==='col')renderCol()}
+
+function renderToday(){
+  const d=day();const L=lessonToday();const slot=moodSlot();const lv=lvlOf(S.xp||0);const g=goal();const qs=questState();const all=qs.every(o=>o.ok);
+  const hs=habitsOn(today());
+  let html=`<h1>🎯 היום שלי</h1><div class="sub">${new Date().toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'})} · יום ${Math.min(dayNum(),365)} מתוך 365</div>
+  <div class="mhead">${mascotSVG('happy',60)}<div class="bubble">${greeting()}</div></div>
+  <div class="goalcard"><div class="ring" style="--p:${Math.min(1,(d.xp||0)/g)}"><b>${d.xp||0}</b><small>/${g} XP</small></div>
+   <div class="gtxt"><b>${lv.cur.e} רמה ${lv.i+1} · ${lv.cur.n}</b><div class="lbar"><i style="width:${lv.pct*100}%"></i></div><small>${lv.nx?`עוד ${lv.nx.x-(S.xp||0)} XP ל${lv.nx.n}`:'הגעת לפסגה!'}</small></div></div>`;
+  if(S.plan)html+=`<div class="pcard"><h4>🗺️ הצעד של היום מהתוכנית</h4><button class="chk-row${d.planStep?' on':''}" id="tStep"><i>${d.planStep?'✓':''}</i><span>${esc(S.plan.todayStep||'')}</span></button></div>`;
+  html+=`<div class="sech"><span>💛 איך אתה מרגיש ${slot==='am'?'הבוקר':'הערב'}?</span>${d.mood&&d.mood[slot]?'<span class="badge open">✓</span>':''}</div>
+  ${moodButtons(slot)}<div class="hint" id="moodR"></div>
+  <div class="tiles2">
+   <button class="tbtn ${d.lesson?'ok':''}" id="tLesson"><span>📖</span><b>עיקרון היום</b><small>${esc(L.t)}</small></button>
+   <button class="tbtn ${d.state?'ok':''}" id="tState"><span>⚡</span><b>שינוי מצב</b><small>30 שניות · גוף, מיקוד, שפה</small></button>
+  </div>
+  <div class="sech"><span>✅ ההרגלים של היום</span><span class="badge open">${doneCount(today())}/${hs.length}</span></div>`;
+  secs().forEach(s=>{const sh=hs.filter(h=>h.sec===s.id);if(!sh.length)return;const st=secState(s);
+    html+=`<div class="hint" style="margin:8px 0 4px;font-weight:900">${s.mark} ${esc(s.short)} · ${st==='open'?'פתוח עכשיו':st==='past'?'נסגר':'נפתח ב-'+s.start} ${chOf(s.id).flag?'🚩':''}</div>`;
+    sh.forEach(h=>{const dn=d.done[h.id];html+=`<button class="hab${dn?' done':(st!=='open'?' locked':'')}" data-h="${h.id}"><span class="em">${esc(h.emoji)}</span><span class="nm">${esc(h.name)}</span><span class="tag">${dn?'✓':(st==='open'?'+1 ⚡':(st==='past'?'—':'🔒'))}</span></button>`})});
+  html+=`<div class="sech" style="margin-top:14px"><span>🏅 משימות יומיות</span><span class="badge open">${qs.filter(o=>o.ok).length}/3</span></div>
+  ${qs.map(o=>`<div class="quest${o.ok?' ok':''}"><span class="qe">${o.q.e}</span><div class="qt"><b>${o.q.t}</b><div class="qbar"><i style="width:${o.p/o.n*100}%"></i></div></div><span class="qn">${o.p}/${o.n}</span></div>`).join('')}
+  <button class="chest${all&&!d.qChest?' ready':''}${d.qChest?' open':''}" id="qChest">${d.qChest?'🧰 נאסף היום ✓':(all?'🧰 פתח את תיבת המשימות!':'🔒 תיבת המשימות')}</button>`;
+  const pg=$('pToday');pg.innerHTML=html;
+  bindMoods(pg,v=>{$('moodR').textContent=moodReply(v)});
+  $('tLesson').onclick=openLesson;$('tState').onclick=stateChange;$('qChest').onclick=claimChest;
+  if($('tStep'))$('tStep').onclick=()=>{const d=day();if(d.planStep)return;d.planStep=true;save();sfx.pop();addXP(10);toast('🎯 צעד אל החלום! +10 XP');renderToday()};
+  pg.querySelectorAll('.hab').forEach(b=>b.onclick=()=>markHabit(b.dataset.h));
+}
+
 /* ================= wire ================= */
-$('markBtn').onclick=openHabits;$('progBtn').onclick=openHistory;$('bHist').onclick=openHistory;
-$('bAv').onclick=openAvatars;$('bToday').onclick=openToday;$('mascot').onclick=()=>mascotSay(greeting(),4200);$('bSet').onclick=openSettings;$('bYear').onclick=openYear;$('dream').onclick=openYear;$('go').onclick=go;
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+$('bAv').onclick=()=>showTab('col');$('mascot').onclick=()=>mascotSay(greeting(),4200);$('bSet').onclick=openSettings;$('go').onclick=go;$('plusMini').onclick=openHabits;
 let lastDay=today();
 setInterval(()=>{if(busy)return;if(today()!==lastDay){lastDay=today();render(true)}else render(false)},60000);
 document.addEventListener('visibilitychange',async()=>{if(document.hidden||busy)return;try{if(await pull())render(true);else render(false);setCloud('ok')}catch(e){setCloud('off')}});
@@ -1324,6 +1618,7 @@ let rT;window.addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(()=>
 render(true);
 (async()=>{
   await Promise.race([initCloud(),sleep(6000)]);
+  probeAI();checkBadges();
   if(!S.profile.onboarded)openOnboarding();else{await dailyFlow();setTimeout(()=>mascotSay(greeting(),4500),600)}
 })();
 })();

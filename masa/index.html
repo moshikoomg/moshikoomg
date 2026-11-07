@@ -370,7 +370,7 @@ body.th-m .skylbl,body.th-d .skylbl{text-shadow:0 2px 0 #6aa514}
 #plusMini.show{display:block;animation:pop .3s}
 #go.mk{background:radial-gradient(circle at 38% 28%,#a8f07a 0%,#58c22a 50%,#3b9a16 85%);box-shadow:0 7px 0 #2a7a0c,0 12px 18px rgba(30,100,10,.35),inset 0 -6px 10px rgba(0,0,0,.15),inset 0 4px 6px rgba(255,255,255,.35)}
 #go.mk b{font-size:40px}
-#go.empty{filter:none}
+#go.empty{filter:none;background:radial-gradient(circle at 38% 28%,#b9b4ff 0%,#7a6fe0 55%,#5a4fc0 85%);box-shadow:0 7px 0 #3f3696,0 12px 18px rgba(60,50,150,.3)}
 .page{position:absolute;inset:0;z-index:50;overflow-y:auto;display:none;background:linear-gradient(#fffdf6,#fff6e6);padding:calc(16px + var(--safeT)) 16px calc(110px + var(--safeB))}
 .page.show{display:block;animation:fade .2s}
 .page h1{font-family:'Secular One',Rubik;font-weight:400;font-size:26px;margin:0 0 4px}
@@ -477,6 +477,26 @@ textarea.inp{width:100%;resize:none}
 .subt{display:block;font-weight:600;color:var(--muted);font-size:12px;text-decoration:none}
 .vals2{display:flex;flex-wrap:wrap;gap:6px}
 .vals2 span{background:#fff3d6;color:#a86400;border-radius:99px;padding:6px 12px;font-weight:900;font-size:13px}
+
+/* calm: no decorative animation */
+.ico.bob,.env,.pin .face,.pin .sh,.tile.next,#go.ready,.chip.fire .fl,.dest .em,.night .moon,#mascot .mascot-svg,#mascot.jump .mascot-svg,.bigfire,.stp.now .sdot,.chest.ready,.sb .dot,.card,.sheet,.veil.show,.page.show,#year.show,#onb.show,#rest.show,.mark .em,#plusMini.show{animation:none!important}
+#mascot,#mBubble{transition:none!important}
+.tile.next{filter:drop-shadow(0 0 6px rgba(255,255,255,.95)) drop-shadow(0 9px 7px rgba(25,60,0,.28))}
+.heat i.sh{background:#e9e1ff}
+#remind{position:absolute;z-index:45;left:12px;right:12px;display:none;background:#fffdf4;border-radius:18px;padding:12px 14px 12px 40px;box-shadow:0 6px 20px rgba(0,0,0,.15);border:2px solid #ffd76a;font-size:14px}
+#remind b{font-weight:900}
+#remind .rt{margin:6px 0 8px;font-weight:700;line-height:1.45}
+#remind .rt small{color:var(--muted)}
+#remind .rb{display:flex;gap:6px}
+#remind .rx{position:absolute;left:10px;top:10px;width:24px;height:24px;border-radius:50%;background:#f3eddc;color:#8a8266;font-weight:900;font-size:12px}
+.hab2{cursor:default}
+.hab2 .nm{display:flex;flex-direction:column}
+.hm{font-size:11px;font-weight:700;color:var(--muted);margin-top:2px}
+.hbs{display:flex;flex-direction:column;gap:5px;flex:none}
+.hbf,.hbm{border-radius:99px;padding:6px 11px;font-size:12px;font-weight:900;white-space:nowrap}
+.hbf{background:linear-gradient(#ff7a80,var(--red));color:#fff;box-shadow:0 2px 0 var(--red3)}
+.hbm{background:#eaf8dc;color:#2f7d0e;box-shadow:0 2px 0 #c4e6a2}
+#remind .hbf,#remind .hbm{flex:1;padding:9px}
 </style>
 </head>
 <body class="th-d">
@@ -498,6 +518,7 @@ textarea.inp{width:100%;resize:none}
     <div class="sky" id="sky"><div class="skybar" id="skybar"></div><div class="skylbl" id="skylbl"></div></div>
   </header>
 
+  <div id="remind"></div>
   <div id="mascot"><div id="mBubble"></div></div>
 
   <section class="page" id="pToday"></section>
@@ -573,7 +594,7 @@ const DEFAULTS={
       {id:'h8',emoji:'📝',name:'סיכום יום / רפלקציה',sec:'e',days:ALLDAYS.slice()},
       {id:'h9',emoji:'📵',name:'ניתוק ממסכים',sec:'e',days:ALLDAYS.slice()}
     ],
-    testMode:false,sound:true,dailyGoal:50
+    testMode:false,sound:true,dailyGoal:50,shabbat:true,city:'eilat'
   },
   profile:{onboarded:false,dream:'',why:'',dreamEmoji:'🏔️',start:null,purpose:'',values:[],mantra:''},
   msSeen:[],days:{},stars:0,xp:0,avatar:'🧑',unlocked:['🧑','🦁']
@@ -683,7 +704,7 @@ const secs=()=>S.settings.sections;
 const secById=id=>secs().find(s=>s.id===id);
 const habitById=id=>habits().find(h=>h.id===id);
 function wdOf(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d).getDay()}
-function habitsOn(k){const w=wdOf(k);return habits().filter(h=>!h.days||h.days.includes(w))}
+function habitsOn(k){if(isRestDay(k))return [];const w=wdOf(k);const fri=shabbatOn()&&w===5;return habits().filter(h=>(!h.days||h.days.includes(w))&&(!fri||secWin(secById(h.sec)||{start:'0:0',end:'0:0'},k)))}
 function need(k=today()){const n=habitsOn(k).length;return n?Math.max(1,Math.ceil(n/2)):0}
 function doneCount(k){const d=S.days[k];return d?Object.keys(d.done||{}).filter(id=>habitById(id)).length:0}
 function startKey(){return S.profile.start||Object.keys(S.days).sort()[0]||today()}
@@ -691,27 +712,92 @@ function diffDays(a,b){const p=x=>{const [y,m,d]=x.split('-').map(Number);return
 function dayNum(){return Math.max(1,diffDays(startKey(),today())+1)}
 function counted(k){
   if(k<startKey()||k>today())return false;
-  const nx=S.days[addDays(k,1)];if(nx&&nx.bridge)return true;
+  if(isRestDay(k))return true;
+  const nx=S.days[nextWork(k)];if(nx&&nx.bridge)return true;
   const nd=need(k);if(!nd)return true;
   return doneCount(k)>=nd;
 }
-function streakFrom(k){let n=0;while(counted(k)){n++;k=addDays(k,-1)}return n}
+function streakFrom(k){let n=0;while(k>=startKey()&&counted(k)){if(!isRestDay(k))n++;k=addDays(k,-1)}return n}
 function streakInfo(){
   const t=today(),d=day();
-  if(d.cb&&!d.bridge)return {n:streakFrom(addDays(t,-2)),frozen:true};
-  return {n:counted(t)&&doneCount(t)>0?streakFrom(t):streakFrom(addDays(t,-1)),frozen:false};
+  if(d.cb&&!d.bridge)return {n:streakFrom(prevWork(prevWork(t))),frozen:true};
+  return {n:counted(t)&&(doneCount(t)>0||isRestDay(t))?streakFrom(t):streakFrom(addDays(t,-1)),frozen:false};
 }
-function bestStreak(){let best=0,run=0,k=startKey();const end=today();while(k<=end){if(counted(k)){run++;best=Math.max(best,run)}else run=0;k=addDays(k,1)}return best}
-function successDays(){let n=0,k=startKey();const t=today();while(k<=t){if(counted(k)&&(k<t||doneCount(k)>=need(k)))n++;k=addDays(k,1)}return n}
+function bestStreak(){let best=0,run=0,k=startKey();const end=today();while(k<=end){if(isRestDay(k)){}else if(counted(k)){run++;best=Math.max(best,run)}else run=0;k=addDays(k,1)}return best}
+function successDays(){let n=0,k=startKey();const t=today();while(k<=t){if(!isRestDay(k)&&counted(k)&&(k<t||doneCount(k)>=need(k)))n++;k=addDays(k,1)}return n}
+const CITIES={eilat:{n:'אילת',lat:29.5577,lng:34.9519,cl:18},beersheva:{n:'באר שבע',lat:31.2518,lng:34.7913,cl:20},jerusalem:{n:'ירושלים',lat:31.7683,lng:35.2137,cl:40},telaviv:{n:'תל אביב',lat:32.0853,lng:34.7818,cl:20},haifa:{n:'חיפה',lat:32.794,lng:34.9896,cl:30}};
+const _ss={};
+function sunsetMin(k,c){
+  const key=k+c.lat;if(_ss[key])return _ss[key];
+  const [y,m,d]=k.split('-').map(Number);const R=Math.PI/180;
+  const N=Math.floor((Date.UTC(y,m-1,d)-Date.UTC(y,0,0))/864e5);
+  const lh=c.lng/15,t=N+((18-lh)/24),M=0.9856*t-3.289;
+  let L=(M+1.916*Math.sin(M*R)+0.020*Math.sin(2*M*R)+282.634+360)%360;
+  let RA=(Math.atan(0.91764*Math.tan(L*R))/R+360)%360;RA=(RA+Math.floor(L/90)*90-Math.floor(RA/90)*90)/15;
+  const sd=0.39782*Math.sin(L*R),cd=Math.cos(Math.asin(sd));
+  const cosH=(Math.cos(90.833*R)-sd*Math.sin(c.lat*R))/(cd*Math.cos(c.lat*R));
+  const H=Math.acos(cosH)/R/15;let UT=(H+RA-0.06571*t-6.622-lh)%24;if(UT<0)UT+=24;
+  const off=-new Date(y,m-1,d,12).getTimezoneOffset();
+  return _ss[key]=((UT*60+off)%1440+1440)%1440;
+}
+function city(){return CITIES[S.settings.city]||CITIES.eilat}
+function candleMin(k){return Math.round(sunsetMin(k,city()))-city().cl}
+const hhmm=m=>pad(Math.floor(m/60))+':'+pad(Math.round(m%60));
+function shabbatOn(){return S.settings.shabbat!==false}
+function isRestDay(k){return shabbatOn()&&wdOf(k)===6}
+function isShabbatNow(){if(!shabbatOn())return false;const t=today(),w=wdOf(t);return w===6||(w===5&&nowMins()>=candleMin(t))}
+function secWin(sec,k=today()){let a=mins(sec.start),b=mins(sec.end);if(shabbatOn()&&wdOf(k)===5){const c=candleMin(k);if(a>=c)return null;b=Math.min(b,c)}return {a,b}}
+function nextWork(k){let x=addDays(k,1);for(let i=0;i<3&&isRestDay(x);i++)x=addDays(x,1);return x}
+function prevWork(k){let x=addDays(k,-1);for(let i=0;i<3&&isRestDay(x);i++)x=addDays(x,-1);return x}
+/* minimum versions + standards */
+const MINMAP=[[/מים/,'כוס מים אחת'],[/אימון|תנועה|ריצ|כושר|ספורט|הליכה|סקוואט|מתיח/,'שכיבת סמיכה אחת'],[/קריא|ספר/,'שורה אחת'],[/נשימ|מדיטצ/,'נשימה עמוקה אחת'],[/הודי/,'הודיה אחת'],[/עבודה|מיקוד|בלוק|משימה/,'5 דקות'],[/תזונ|אוכל|ארוח/,'ארוחה אחת מודעת'],[/NLP|מסגור/,'שאלת מסגור אחת'],[/סיכום|רפלקצ|יומן|כתיב|רעיון/,'משפט אחד'],[/מסכ|טלפון/,'10 דקות בלי מסך'],[/שינה/,'למיטה 15 דק׳ מוקדם'],[/למיד|לימוד|שיעור/,'דקה אחת של למידה'],[/משפח|ילד|זמן איכות/,'מילה טובה אחת'],[/יציר|ציור|כתיבה/,'שורה אחת']];
+function minOf(h){if(h.min)return h.min;const f=MINMAP.find(m=>m[0].test(h.name));return f?f[1]:'גרסת 2 דקות'}
+const LVL_REPS=[7,21,45,90,150,240,365];
+function habitRate(h,days=14){let n=0,dn=0;for(let i=0;i<days;i++){const k=addDays(today(),-i);if(k<startKey())break;if(!habitsOn(k).some(x=>x.id===h.id))continue;n++;const d=S.days[k];if(d&&d.done&&d.done[h.id]&&!(d.minDone&&d.minDone[h.id]))dn++}return n?dn/n:0}
+function bumpStandard(h){const s=h.name;const m=s.match(/(\d+(?:\.\d+)?)/);if(m){const n=parseFloat(m[1]);let x=n>=10?Math.ceil(n*1.25/5)*5:Math.max(n+1,Math.ceil(n*1.3));if(x<=n)x=n+1;return s.replace(m[1],String(x))}return s+' (+5 דק׳)'}
+function nextLvlReps(h){return LVL_REPS[(h.lvl||1)-1]||null}
+function checkLevelUp(h){
+  const nr=nextLvlReps(h);if(!nr)return;const reps=h.reps||0;
+  if(reps>=nr&&reps>=(h.askAt||0)&&habitRate(h)>=.7){h.askAt=reps+7;save();queueCele(()=>levelUpHabit(h))}
+}
+async function levelUpHabit(h){
+  const sug=bumpStandard(h);let ans=null;const c=$('card');
+  const fn=e=>{if(e.target.id==='lvYes')ans=$('lvIn').value.trim();if(e.target.id==='lvNo')ans=false};c.addEventListener('click',fn,true);
+  await showCard({icon:'🆙',band:'g',title:'הגיע הזמן להעלות סטנדרט',body:`ביצעת <b>${esc(h.name)}</b> ${h.reps} פעמים, ברמה גבוהה.<br><small>ברוח רובינס: מה שהיה "כדאי" הופך ל"חייב" – ברמה הבאה.</small><br><br><b>הסטנדרט החדש:</b><input class="inp" id="lvIn" value="${esc(sug)}" style="width:100%;margin-top:6px;text-align:center"><small>המינימום נשאר: ${esc(minOf(h))}</small>`,buttons:'<button class="btn green" data-close id="lvYes">🆙 העלה סטנדרט</button><button class="btn ghost" data-close id="lvNo">עוד שבוע</button>'});
+  c.removeEventListener('click',fn,true);
+  if(ans){const list=habits();const x=list.find(y=>y.id===h.id);if(x){x.hist=(x.hist||[]).concat([x.name]);x.name=ans;x.lvl=(x.lvl||1)+1;save();addXP(20);toast(`🆙 ${x.emoji} רמה ${x.lvl}: ${ans}`);render(false)}}
+}
+/* habit row (full / minimum) */
+function habRow(h,st,d){
+  const done=d.done[h.id],isMin=d.minDone&&d.minDone[h.id];const nr=nextLvlReps(h);
+  const meta=`🌱 מינימום: ${esc(minOf(h))}${h.lvl>1?` · רמה ${h.lvl}`:''}${nr?` · ${h.reps||0}/${nr} חזרות`:''}`;
+  let right;
+  if(done)right=`<span class="tag">${isMin?'🌱 מינימום':'✓ בוצע'}</span>`;
+  else if(st==='open')right=`<span class="hbs"><button class="hbf" data-full="${h.id}">✓ ביצעתי</button><button class="hbm" data-min="${h.id}">🌱 מינימום</button></span>`;
+  else right=`<span class="tag">${st==='past'?'—':'🔒'}</span>`;
+  return `<div class="hab hab2${done?' done':(st!=='open'?' locked':'')}"><span class="em">${esc(h.emoji)}</span><span class="nm">${esc(h.name)}<small class="hm">${meta}</small></span>${right}</div>`;
+}
+function bindHabRows(root){root.querySelectorAll('[data-full]').forEach(b=>b.onclick=()=>markHabit(b.dataset.full,'full'));root.querySelectorAll('[data-min]').forEach(b=>b.onclick=()=>markHabit(b.dataset.min,'min'))}
+/* in-app reminder banner */
+function renderRemind(){
+  const el=$('remind');if(!el)return;el.style.display='none';
+  if(isShabbatNow()||!CH||TAB!=='board'||busy)return;const d=day();d.remHide=d.remHide||{};if(d.remHide[CH.id])return;
+  const w=secWin(CH);if(!w)return;const left=w.b-nowMins();
+  const und=habitsOn(today()).filter(h=>h.sec===CH.id&&!d.done[h.id]);
+  if(!und.length||left>90||left<=0)return;const h=und[0];
+  el.innerHTML=`<button class="rx" id="remX">✕</button><b>⏰ עוד ${left} דק׳ נסגר פרק ה${esc(CH.short)}</b><div class="rt">${esc(h.emoji)} ${esc(h.name)}${und.length>1?` · ועוד ${und.length-1}`:''}<br><small>ביום חלש מספיק מינימום: <b>${esc(minOf(h))}</b></small></div><div class="rb"><button class="hbm" data-min="${h.id}">🌱 עשיתי מינימום</button><button class="hbf" data-full="${h.id}">✓ ביצעתי</button></div>`;
+  el.style.display='block';bindHabRows(el);$('remX').onclick=()=>{d.remHide[CH.id]=true;save();el.style.display='none'};
+}
+
 const dreamEmoji=()=>S.profile.dreamEmoji||'🏔️';
 const msEmoji=m=>m.e==='DREAM'?dreamEmoji():m.e;
 function day(k=today()){
   if(!S.days[k]){
-    Object.keys(S.days).forEach(o=>{if(o<k){const od=S.days[o];const dn={};Object.keys(od.done||{}).forEach(id=>dn[id]=1);S.days[o]={done:dn};if(od.bridge)S.days[o].bridge=true;if(od.xp)S.days[o].xp=od.xp;if(od.mood)S.days[o].mood=od.mood}});
+    Object.keys(S.days).forEach(o=>{if(o<k){const od=S.days[o];const dn={};Object.keys(od.done||{}).forEach(id=>dn[id]=1);S.days[o]={done:dn};if(od.bridge)S.days[o].bridge=true;if(od.xp)S.days[o].xp=od.xp;if(od.mood)S.days[o].mood=od.mood;if(od.minDone)S.days[o].minDone=od.minDone}});
     const hasHistory=Object.keys(S.days).length>0;
-    const y=addDays(k,-1),yy=addDays(k,-2);
+    const y=prevWork(k),yy=prevWork(y);
     S.days[k]={done:{},queue:[],pos:0,landed:{},opened:{},bridge:false,
-      cb:hasHistory&&!counted(y)&&counted(yy),cbTask:COMEBACK[Math.floor(Math.random()*COMEBACK.length)]};
+      cb:!isRestDay(k)&&hasHistory&&!counted(y)&&counted(yy),cbTask:COMEBACK[Math.floor(Math.random()*COMEBACK.length)]};
     save();
   }
   const d=S.days[k];['queue'].forEach(x=>{if(!Array.isArray(d[x]))d[x]=[]});['landed','opened','done'].forEach(x=>{if(!d[x])d[x]={}});if(d.pos==null)d.pos=0;
@@ -719,13 +805,13 @@ function day(k=today()){
 }
 function secState(sec){
   if(S.settings.testMode)return 'open';
-  const n=nowMins(),a=mins(sec.start),b=mins(sec.end);
-  return n<a?'future':(n>=b?'past':'open');
+  if(isShabbatNow())return 'past';const w=secWin(sec);if(!w)return 'past';const n=nowMins();
+  return n<w.a?'future':(n>=w.b?'past':'open');
 }
-function currentSec(){const n=nowMins();return secs().find(s=>n>=mins(s.start)&&n<mins(s.end))||null}
+function currentSec(){if(isShabbatNow())return null;const n=nowMins();return secs().find(s=>{const w=secWin(s);return w&&n>=w.a&&n<w.b})||null}
 function applyTheme(){
   const c=currentSec();const n=nowMins();
-  let th='d';if(c)th=c.id==='m'?'m':(c.id==='e'?'e':'d');else th=(n<mins(secs()[0].start)||n>=mins(secs()[secs().length-1].end))?'n':'d';
+  let th='d';if(isShabbatNow())th='n';else if(c)th=c.id==='m'?'m':(c.id==='e'?'e':'d');else th=(n<mins(secs()[0].start)||n>=mins(secs()[secs().length-1].end))?'n':'d';
   document.body.className='th-'+th;
   const meta=document.querySelector('meta[name=theme-color]');if(meta)meta.content={m:'#ffd98a',d:'#b2e449',e:'#e3a0b8',n:'#3b4a8a'}[th];
 }
@@ -770,6 +856,7 @@ function pinHTML(x,y,id){return `<div class="pin" id="${id}" style="transform:tr
 let tiles=[],pts=[],boardH=0,boardW=0,CH=null;
 function chOf(id){const d=day();d.ch=d.ch||{};return d.ch[id]=d.ch[id]||{pos:0,landed:{},opened:{},flag:false}}
 function activeSec(){
+  if(isShabbatNow())return null;
   if(S.settings.testMode)return secs().find(s=>habitsOn(today()).some(h=>h.sec===s.id)&&!chOf(s.id).flag)||null;
   const c=currentSec();return c&&habitsOn(today()).some(h=>h.sec===c.id)?c:c;
 }
@@ -797,6 +884,7 @@ function renderBoard(scroll){
   buildTiles();const d=day();const sc=$('scroller');boardW=sc.clientWidth;const board=$('board');
   if(!CH){
     boardH=sc.clientHeight;board.style.height=boardH+'px';
+    if(isShabbatNow()){const t=today();board.innerHTML=`<div class="night"><div class="moon">🕯️🕯️</div><h2>שבת שלום</h2><p>מנוחה מלאה – בלי הרגלים ובלי תזכורות.<br>הרצף שלך שמור ✓</p><div class="hint" style="color:#fff;opacity:.85">${wdOf(t)===5?'השבת נכנסה ב-'+hhmm(candleMin(t)):'נתראה במוצאי שבת'}</div></div>`;return}
     const first=secs()[0];const before=nowMins()<mins(first.start);
     const fl=secs().map(s=>`<span class="${chOf(s.id).flag?'':'off'}">${s.mark}</span>`).join('');
     board.innerHTML=`<div class="night"><div class="moon">${before?'🌄':'🌙'}</div><h2>${before?'עוד רגע מתחילים':'היום נסגר'}</h2><p>${before?`פרק הבוקר נפתח ב-${first.start}`:`מחר ב-${first.start} ממשיכים במסע`}</p><div class="flags">${fl}</div></div>`;
@@ -830,13 +918,11 @@ function scrollToY(y,smooth=true){const sc=$('scroller');sc.scrollTo({top:Math.m
 function hopTo(i){
   return new Promise(res=>{
     const ch=chOf(CH.id);const pin=$('pin');const a=pts[ch.pos]||pts[0],b=pts[i];
-    const mx=(a.x+b.x)/2,my=Math.min(a.y,b.y)-34;pin.style.zIndex=Math.round(b.y)+60;
-    const anim=pin.animate([{transform:`translate(${a.x}px,${a.y}px)`},{transform:`translate(${mx}px,${my}px)`,offset:.5},{transform:`translate(${b.x}px,${b.y}px)`}],{duration:300,easing:'ease-in-out'});
-    anim.onfinish=()=>{pin.style.transform=`translate(${b.x}px,${b.y}px)`;puff(b.x,b.y);res()};
+    pin.style.zIndex=Math.round(b.y)+60;pin.style.transition='transform .18s linear';pin.style.transform=`translate(${b.x}px,${b.y}px)`;setTimeout(res,190);
     ch.pos=i;sfx.hop();scrollToY(b.y);
   });
 }
-function puff(x,y){
+function puff(x,y){return;
   const board=$('board');
   for(let k=0;k<6;k++){const e=document.createElement('div');e.className='puff';e.style.left=(x-6)+'px';e.style.top=(y-6)+'px';e.style.zIndex=99999;
     const a=Math.PI*2*k/6;e.style.setProperty('--dx',Math.cos(a)*26+'px');e.style.setProperty('--dy',Math.sin(a)*12+'px');board.appendChild(e);setTimeout(()=>e.remove(),650)}
@@ -871,13 +957,13 @@ function showCard({icon,band='',title,body,auto=0,buttons='<button class="btn" d
     if(auto){const bar=c.querySelector('.timer i');if(bar){bar.style.transition=`transform ${auto}ms linear`;requestAnimationFrame(()=>requestAnimationFrame(()=>bar.style.transform='scaleX(0)'))}t=setTimeout(done,auto)}
   });
 }
-function confetti(n=50){
+function confetti(n=50){return;
   const app=$('app');const cols=['#ff3b4e','#ffc21a','#3a8bff','#7fd84a','#ff8ad8','#fff'];
   for(let i=0;i<n;i++){const c=document.createElement('div');c.className='conf';c.style.left='50%';c.style.top='42%';c.style.background=cols[i%6];
     c.style.setProperty('--dx',(Math.random()*380-190)+'px');c.style.setProperty('--dy',(Math.random()*420-160)+'px');c.style.animationDelay=(Math.random()*.15)+'s';
     app.appendChild(c);setTimeout(()=>c.remove(),1800)}
 }
-function flyEnergy(){
+function flyEnergy(){return;
   const app=$('app');const f=document.createElement('div');f.className='fly';f.textContent='+1 ⚡';
   const r=app.getBoundingClientRect();f.style.left=(r.width/2-30)+'px';f.style.top=(r.height*.45)+'px';app.appendChild(f);
   f.animate([{transform:'translateY(0) scale(.6)',opacity:0},{transform:'translateY(-20px) scale(1.15)',opacity:1,offset:.25},{transform:`translateY(${r.height*.45-60}px) scale(.5)`,opacity:.2}],{duration:1000,easing:'ease-in'}).onfinish=()=>f.remove();
@@ -892,18 +978,20 @@ function drawWheel(energy,spin){
     const am=(a0+a1)/2;out+=`<text x="${75+Math.cos(am)*63}" y="${75+Math.sin(am)*63+4}" text-anchor="middle" font-family="Secular One,Rubik" font-size="12" fill="${lit?'#fff':'#d9b588'}">${lit?'⚡':i+1}</text>`;
   }
   svg.innerHTML=`<defs><linearGradient id="wl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff7a84"/><stop offset="1" stop-color="#e3233a"/></linearGradient></defs>${out}`;
-  if(spin){const cur=+(svg.dataset.rot||0)+360;svg.dataset.rot=cur;svg.style.transform=`rotate(${cur}deg)`}
+  if(false){const cur=+(svg.dataset.rot||0)+360;svg.dataset.rot=cur;svg.style.transform=`rotate(${cur}deg)`}
 }
 
 /* ================= top render ================= */
-function layoutSide(){const h=$('hdr').getBoundingClientRect().height;$('toast').style.top=(h+6)+'px';const m=$('mascot');if(m&&!m.querySelector('svg'))m.insertAdjacentHTML('afterbegin',mascotSVG('happy',62))}
+function layoutSide(){const h=$('hdr').getBoundingClientRect().height;$('remind').style.top=(h+2)+'px';$('toast').style.top=(h+6)+'px';const m=$('mascot');if(m&&!m.querySelector('svg'))m.insertAdjacentHTML('afterbegin',mascotSVG('happy',62))}
 function renderSky(){
   const S0=5*60,E0=23*60,W=E0-S0;const pc=m=>Math.max(0,Math.min(100,(m-S0)/W*100));
   let h='';secs().forEach(s=>{const a=pc(mins(s.start)),b=pc(mins(s.end));h+=`<div class="sg ${s.id}${chOf(s.id).flag?' done':''}" style="right:${a}%;width:${b-a}%"></div>`});
   const n=nowMins();const c=currentSec();
   h+=`<div class="sun" style="left:${100-pc(n)}%">${c?c.mark:(n<S0+30?'🌄':'🌙')}</div>`;
   $('skybar').innerHTML=h;
-  $('skylbl').textContent=CH?`${CH.mark} פרק ה${CH.short} · ${CH.start}–${CH.end}`:(n<mins(secs()[0].start)?`🌄 פרק הבוקר נפתח ב-${secs()[0].start}`:'🌙 זמן מנוחה · מחר ממשיכים');
+  const fri=shabbatOn()&&wdOf(today())===5&&!isShabbatNow()?` · כניסת שבת ${hhmm(candleMin(today()))}`:'';
+  if(isShabbatNow()){$('skylbl').textContent='🕯️ שבת שלום · מנוחה';return}
+  $('skylbl').textContent=(CH?`${CH.mark} פרק ה${CH.short} · ${CH.start}–${CH.end}`:(n<mins(secs()[0].start)?`🌄 פרק הבוקר נפתח ב-${secs()[0].start}`:'🌙 זמן מנוחה · מחר ממשיכים'))+fri;
 }
 function render(scroll){
   applyTheme();const d=day();buildTiles();flushOther(true);
@@ -911,13 +999,13 @@ function render(scroll){
   cs.innerHTML=(si.frozen?'❄️':'<span class="fl">🔥</span>')+` ${si.n}`;
   setCloud(cloud);
   const e=d.queue.length;const g=$('go');
-  if(!CH){g.className='empty';$('goIco').textContent='🌙';$('energyTxt').textContent='מנוחה'}
+  if(!CH){g.className='empty';$('goIco').textContent=isShabbatNow()?'🕯️':'🌙';$('energyTxt').textContent=isShabbatNow()?'שבת':'מנוחה'}
   else if(e){g.className='ready';$('goIco').textContent='GO';$('energyTxt').textContent='⚡ '+e}
   else{g.className='mk';$('goIco').textContent='+';$('energyTxt').textContent='סמן הרגל'}
   drawWheel(CH?e:0);$('plusMini').classList.toggle('show',!!(CH&&e));
   $('avBub').textContent=S.avatar;
   layoutSide();renderSky();renderDuo();
-  renderBoard(scroll);
+  renderBoard(scroll);renderRemind();
   refreshPage();
 }
 
@@ -931,26 +1019,28 @@ function openHabits(){
     const hs=habitsOn(today()).filter(h=>h.sec===s.id);if(!hs.length)return;any=true;
     const st=secState(s);const stTxt={open:'פתוח עכשיו',past:'החלון נסגר',future:`נפתח ב-${s.start}`}[st];
     html+=`<div class="sec"><div class="sech"><span>${s.mark} ${esc(s.name)} · ${s.start}–${s.end}</span><span class="badge ${st}">${stTxt}</span></div>`;
-    hs.forEach(h=>{const done=d.done[h.id];
-      html+=`<button class="hab${done?' done':(st!=='open'?' locked':'')}" data-h="${h.id}"><span class="em">${esc(h.emoji)}</span><span class="nm">${esc(h.name)}</span><span class="tag">${done?'✓ בוצע':(st==='open'?'+1 ⚡':(st==='past'?'פוספס':'🔒'))}</span></button>`});
+    hs.forEach(h=>{html+=habRow(h,st,d)});
     html+='</div>';
   });
-  if(!any)html+='<div class="hint">אין הרגלים מתוכננים להיום. יום מנוחה 🌿</div>';
+  if(isShabbatNow())html='<h2>שבת שלום 🕯️</h2><div class="hint">בשבת אין הרגלים ואין תזכורות. הרצף שמור.</div>';
+  else if(!any)html+='<div class="hint">אין הרגלים מתוכננים להיום. יום מנוחה 🌿</div>';
   if(S.settings.testMode)html+='<div class="hint">🧪 מצב בדיקה פעיל – חלונות הזמן מבוטלים.</div>';
   openSheet(html);
-  $('sheet').querySelectorAll('.hab').forEach(b=>b.onclick=()=>markHabit(b.dataset.h));
+  bindHabRows($('sheet'));
 }
-function markHabit(id){
-  const d=day(),h=habitById(id);if(!h)return;
+function markHabit(id,kind='full'){
+  const d=day(),h=habitById(id);if(!h)return;if(isShabbatNow()){toast('שבת שלום 🕯️');return}
   if(d.done[id]){toast('כבר סימנת את זה היום ✓');return}
   const sec=secById(h.sec);const st=secState(sec);
   if(st==='future'){toast(`ייפתח ב-${sec.start} ⏰`);return}
   if(st==='past'){toast('החלון נסגר – מחר הזדמנות חדשה 🌱');return}
   const left=COOLDOWN-(Date.now()-lastMark);
   if(left>0){toast(`כל הרגל בנפרד… (${Math.ceil(left/1000)})`);return}
-  lastMark=Date.now();d.done[id]=Date.now();d.queue.push(id);save();sfx.pop();buzz(30);
-  closeSheet();render(false);flyEnergy();toast(`${h.emoji} +1 ⚡ – לחץ GO`);
-  S.totalDone=(S.totalDone||0)+1;addXP(10);checkQuests();checkBadges();
+  lastMark=Date.now();d.done[id]=Date.now();d.queue.push(id);
+  if(kind==='min'){d.minDone=d.minDone||{};d.minDone[id]=1;h.minReps=(h.minReps||0)+1}else h.reps=(h.reps||0)+1;
+  save();sfx.pop();buzz(30);
+  closeSheet();render(false);toast(kind==='min'?`🌱 מינימום נשמר – ${h.emoji} ההרגל ניצל!`:`${h.emoji} +1 ⚡ – לחץ GO`);
+  S.totalDone=(S.totalDone||0)+1;addXP(kind==='min'?5:10);checkQuests();checkBadges();if(kind!=='min')checkLevelUp(h);
   const ml=MASCOT_LINES.done;mascotSay(ml[Math.floor(Math.random()*ml.length)]+' לחץ GO!');
   if(!d.streakShown&&need(today())&&doneCount(today())>=need(today())){d.streakShown=true;save();queueCele(streakCele)}
 }
@@ -959,7 +1049,7 @@ function markHabit(id){
 let busy=false;const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function go(){
   if(busy)return;const d=day();buildTiles();
-  if(!CH){toast('זמן מנוחה 🌙 – מחר ממשיכים');return}
+  if(!CH){toast(isShabbatNow()?'שבת שלום 🕯️ – מנוחה':'זמן מנוחה 🌙 – מחר ממשיכים');return}
   flushOther(false);
   if(!d.queue.length){openHabits();return}
   showTab('board');
@@ -1050,7 +1140,7 @@ function heatmap(){
   const st=startKey(),t=today();const first=addDays(st,-wdOf(st));let out='';
   for(let w=0;w<53;w++){out+='<div class="wk">';
     for(let dd=0;dd<7;dd++){const k=addDays(first,w*7+dd);let c='';
-      if(k<st||diffDays(st,k)>=365)c='pre';else if(k>t)c='fut';
+      if(k<st||diffDays(st,k)>=365)c='pre';else if(isRestDay(k))c='sh';else if(k>t)c='fut';
       else{const n=habitsOn(k).length,dn=doneCount(k),r=n?dn/n:1;
         if(n===0)c='l1';else if(r>=1)c='l3';else if(dn>=need(k))c='l2';else if(dn>0||(S.days[addDays(k,1)]||{}).bridge)c='l1';if(k===t)c+=' t'}
       out+=`<i class="${c}" title="${k}"></i>`}
@@ -1136,16 +1226,20 @@ function drawSettings(){
   <div class="code" id="codeBox">${CODE.slice(0,6)}••••••••${CODE.slice(-4)}</div>
   <div class="row"><button class="btn sm" id="copyLink">📋 העתק קישור סנכרון</button><button class="btn ghost sm" id="showCode">הצג קוד</button></div>
   <div class="hrow" style="margin-top:10px"><input class="inp n" id="codeIn" placeholder="הדבק קוד ממכשיר אחר" dir="ltr"><button class="btn ghost sm" id="useCode">חבר</button></div></div>
+  <h4>🔔 תזכורות לטלפון</h4><div id="pushWrap">${pushBox()}</div>
   <h4>🎯 החלום והמסע</h4>
   <div class="hrow"><input class="inp e" id="pEmoji" value="${esc(draftP.dreamEmoji)}" maxlength="4"><input class="inp n" id="pDream" placeholder="החלום שלי בעוד שנה…" value="${esc(draftP.dream)}"></div>
   <div class="hrow"><input class="inp n" id="pWhy" placeholder="למה זה חשוב לי?" value="${esc(draftP.why)}"></div>
   <div class="hrow"><input class="inp n" id="pPurpose" placeholder="🧭 היעוד שלי" value="${esc(draftP.purpose||'')}"></div>
   <div class="hrow"><input class="inp n" id="pMantra" placeholder="🗣️ המנטרה שלי" value="${esc(draftP.mantra||'')}"></div>
   <div class="trow"><span class="lab">🎯 יעד XP יומי</span><select class="inp" id="sGoal">${[[30,'קליל · 30'],[50,'רגיל · 50'],[80,'רציני · 80'],[120,'אינטנסיבי · 120']].map(([v,t])=>`<option value="${v}"${+draft.dailyGoal===v?' selected':''}>${t}</option>`).join('')}</select></div>
+  <label class="switch">🕯️ שומר שבת (שישי עד כניסת שבת)<input type="checkbox" id="sShab"${draft.shabbat!==false?' checked':''}></label>
+  <div class="trow"><span class="lab">📍 עיר לזמני שבת</span><select class="inp" id="sCity">${Object.entries(CITIES).map(([k,c])=>`<option value="${k}"${(draft.city||'eilat')===k?' selected':''}>${c.n}</option>`).join('')}</select></div>
   <div class="trow"><span class="lab">תחילת המסע (365 יום)</span><input class="inp" type="date" id="pStart" value="${draftP.start||startKey()}" style="width:150px"></div>
   <h4>✅ ההרגלים שלי</h4><div class="hint">שם, מקטע וימים בשבוע לכל הרגל.</div>`;
   draft.habits.forEach((h,i)=>{const days=h.days||ALLDAYS;
     html+=`<div class="hrow"><input class="inp e" data-i="${i}" data-f="emoji" value="${esc(h.emoji)}" maxlength="4"><input class="inp n" data-i="${i}" data-f="name" value="${esc(h.name)}"><select class="inp" data-i="${i}" data-f="sec">${opt(h.sec)}</select><button class="x" data-del="${i}">✕</button></div>
+    <div class="hrow" style="padding-right:54px;margin-top:-2px"><input class="inp n" data-i="${i}" data-f="min" value="${esc(h.min||minOf(h))}" placeholder="🌱 גרסת מינימום" style="font-size:12.5px;padding:6px 9px"></div>
     <div class="wdrow">${WD.map((w,wi)=>`<button class="${days.includes(wi)?'on':''}" data-wd="${i}:${wi}">${w}</button>`).join('')}</div>`});
   html+=`<button class="btn ghost sm" id="addH">+ הוספת הרגל</button>
   <h4>⏰ חלונות זמן</h4>`;
@@ -1163,11 +1257,12 @@ function drawSettings(){
   [['pEmoji','dreamEmoji'],['pDream','dream'],['pWhy','why'],['pStart','start'],['pPurpose','purpose'],['pMantra','mantra']].forEach(([id,k])=>$(id).oninput=$(id).onchange=e=>draftP[k]=e.target.value);
   sh.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{draft.habits.splice(+b.dataset.del,1);drawSettings()});
   $('addH').onclick=()=>{draft.habits.push({id:'h'+Date.now().toString(36),emoji:'⭐',name:'הרגל חדש',sec:(currentSec()||secs()[0]).id,days:ALLDAYS.slice()});drawSettings()};
-  $('sGoal').onchange=e=>draft.dailyGoal=+e.target.value;
+  $('sGoal').onchange=e=>draft.dailyGoal=+e.target.value;$('sShab').onchange=e=>draft.shabbat=e.target.checked;$('sCity').onchange=e=>draft.city=e.target.value;
   $('sSound').onchange=e=>draft.sound=e.target.checked;$('sTest').onchange=e=>draft.testMode=e.target.checked;
   $('cancelS').onclick=closeSheet;
   $('saveS').onclick=()=>{const hl=draft.habits;const st=clone(draft);st.habits=S.settings.habits;S.settings=st;applyHabits(hl);if(!draftP.start)draftP.start=startKey();S.profile=draftP;save();closeSheet();render(true);toast('נשמר ✓')};
   $('wizS').onclick=()=>{closeSheet();openOnboarding()};
+  bindPushBox($('pushWrap'),()=>{$('pushWrap').innerHTML=pushBox();bindPushBox($('pushWrap'))});
   $('copyLink').onclick=async()=>{try{await navigator.clipboard.writeText(syncLink());toast('הקישור הועתק 📋')}catch(e){$('codeBox').textContent=syncLink();toast('העתק ידנית מהתיבה')}};
   $('showCode').onclick=()=>{$('codeBox').textContent=CODE};
   $('useCode').onclick=()=>connectCode($('codeIn').value);
@@ -1327,15 +1422,15 @@ async function levelUp(i){const L=LEVELS[i];sfx.win();confetti(90);S.stars+=10;s
   await showCard({icon:L.e,band:'p',title:`עלית לרמה ${i+1}!`,body:`אתה עכשיו <b>${L.n}</b>.<br><small>+10 💎 מתנה</small>`,buttons:'<button class="btn" data-close>יש!</button>'})}
 async function goalHit(){sfx.win();confetti(60);mascotSay('יעד יומי הושג! 🎯 אלוף!',3500);
   await showCard({icon:'🎯',band:'g',title:'היעד היומי הושג!',body:`${goal()} XP היום. ככה נראית משמעת.`,buttons:'<button class="btn green" data-close>ממשיכים</button>'})}
-function flyXP(n){
+function flyXP(n){return;
   const app=$('app');const f=document.createElement('div');f.className='fly xp';f.textContent=`+${n} XP`;
   f.style.right='18px';f.style.top='70px';app.appendChild(f);
   f.animate([{transform:'translateY(20px) scale(.6)',opacity:0},{transform:'translateY(0) scale(1.1)',opacity:1,offset:.3},{transform:'translateY(-30px) scale(.9)',opacity:0}],{duration:1300,easing:'ease-out'}).onfinish=()=>f.remove();
 }
 function weekRow(){
   const t=today();const w=wdOf(t);let out='<div class="weekrow">';
-  for(let i=0;i<7;i++){const k=addDays(t,i-w);const ok=counted(k)&&(k<t||doneCount(k)>=need(k));const fut=k>t;
-    out+=`<div class="wd${ok?' ok':''}${k===t?' t':''}${fut?' fut':''}"><i>${ok?'🔥':(fut?'':'·')}</i><span>${WD[i]}</span></div>`}
+  for(let i=0;i<7;i++){const k=addDays(t,i-w);const rest=isRestDay(k);const ok=!rest&&counted(k)&&(k<t||doneCount(k)>=need(k));const fut=k>t;
+    out+=`<div class="wd${ok?' ok':''}${k===t?' t':''}${fut&&!rest?' fut':''}"><i>${rest?'🕯️':ok?'🔥':(fut?'':'·')}</i><span>${WD[i]}</span></div>`}
   return out+'</div>';
 }
 async function streakCele(){
@@ -1410,7 +1505,7 @@ function greeting(){
 }
 /* morning / evening flows */
 async function dailyFlow(){
-  if(!S.profile.onboarded)return;const d=day();
+  if(!S.profile.onboarded||isShabbatNow())return;const d=day();
   const slot=moodSlot();
   if(slot==='am'&&!d.greetAm){
     d.greetAm=true;save();let goL=false;
@@ -1670,7 +1765,7 @@ function openPlanUpdate(){
 let TAB='board';
 function showTab(t){
   TAB=t;document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));
-  ['pToday','pPlan','pCol'].forEach(id=>$(id).classList.remove('show'));
+  ['pToday','pPlan','pCol'].forEach(id=>$(id).classList.remove('show'));setTimeout(renderRemind,0);
   const id={today:'pToday',plan:'pPlan',col:'pCol'}[t];
   if(id){refreshPage();$(id).classList.add('show');$(id).scrollTop=0}
 }
@@ -1683,6 +1778,7 @@ function renderToday(){
   <div class="mhead">${mascotSVG('happy',60)}<div class="bubble">${greeting()}</div></div>
   <div class="goalcard"><div class="ring" style="--p:${Math.min(1,(d.xp||0)/g)}"><b>${d.xp||0}</b><small>/${g} XP</small></div>
    <div class="gtxt"><b>${lv.cur.e} רמה ${lv.i+1} · ${lv.cur.n}</b><div class="lbar"><i style="width:${lv.pct*100}%"></i></div><small>${lv.nx?`עוד ${lv.nx.x-(S.xp||0)} XP ל${lv.nx.n}`:'הגעת לפסגה!'}</small></div></div>`;
+  if(!S.settings.push)html+=`<div id="tPush" style="margin-bottom:12px">${pushBox()}</div>`;
   if(S.plan)html+=`<div class="pcard"><h4>🗺️ הצעד של היום מהתוכנית</h4><button class="chk-row${d.planStep?' on':''}" id="tStep"><i>${d.planStep?'✓':''}</i><span>${esc(S.plan.todayStep||'')}</span></button></div>`;
   html+=`<div class="sech"><span>💛 איך אתה מרגיש ${slot==='am'?'הבוקר':'הערב'}?</span>${d.mood&&d.mood[slot]?'<span class="badge open">✓</span>':''}</div>
   ${moodButtons(slot)}<div class="hint" id="moodR"></div>
@@ -1693,15 +1789,52 @@ function renderToday(){
   <div class="sech"><span>✅ ההרגלים של היום</span><span class="badge open">${doneCount(today())}/${hs.length}</span></div>`;
   secs().forEach(s=>{const sh=hs.filter(h=>h.sec===s.id);if(!sh.length)return;const st=secState(s);
     html+=`<div class="hint" style="margin:8px 0 4px;font-weight:900">${s.mark} ${esc(s.short)} · ${st==='open'?'פתוח עכשיו':st==='past'?'נסגר':'נפתח ב-'+s.start} ${chOf(s.id).flag?'🚩':''}</div>`;
-    sh.forEach(h=>{const dn=d.done[h.id];html+=`<button class="hab${dn?' done':(st!=='open'?' locked':'')}" data-h="${h.id}"><span class="em">${esc(h.emoji)}</span><span class="nm">${esc(h.name)}</span><span class="tag">${dn?'✓':(st==='open'?'+1 ⚡':(st==='past'?'—':'🔒'))}</span></button>`})});
+    sh.forEach(h=>{html+=habRow(h,st,d)})});
   html+=`<div class="sech" style="margin-top:14px"><span>🏅 משימות יומיות</span><span class="badge open">${qs.filter(o=>o.ok).length}/3</span></div>
   ${qs.map(o=>`<div class="quest${o.ok?' ok':''}"><span class="qe">${o.q.e}</span><div class="qt"><b>${o.q.t}</b><div class="qbar"><i style="width:${o.p/o.n*100}%"></i></div></div><span class="qn">${o.p}/${o.n}</span></div>`).join('')}
   <button class="chest${all&&!d.qChest?' ready':''}${d.qChest?' open':''}" id="qChest">${d.qChest?'🧰 נאסף היום ✓':(all?'🧰 פתח את תיבת המשימות!':'🔒 תיבת המשימות')}</button>`;
   const pg=$('pToday');pg.innerHTML=html;
-  bindMoods(pg,v=>{$('moodR').textContent=moodReply(v)});
+  bindMoods(pg,v=>{$('moodR').textContent=moodReply(v)});if($('tPush'))bindPushBox($('tPush'),renderToday);
   $('tLesson').onclick=openLesson;$('tState').onclick=stateChange;$('qChest').onclick=claimChest;
   if($('tStep'))$('tStep').onclick=()=>{const d=day();if(d.planStep)return;d.planStep=true;save();sfx.pop();addXP(10);toast('🎯 צעד אל החלום! +10 XP');renderToday()};
-  pg.querySelectorAll('.hab').forEach(b=>b.onclick=()=>markHabit(b.dataset.h));
+  bindHabRows(pg);
+}
+
+/* ================= phone reminders (web push) ================= */
+const VAPID='BKnxm5LkHwCwOlQlAMQ2OefiUsnHgOeCc9CTTymuh9sd7A0NE7mI6tfaA4B8MwlSIa8d97aJIF589ysKv-UAR9c';
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone=()=>window.matchMedia&&matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+function b64u(s){const p='='.repeat((4-s.length%4)%4);const b=atob((s+p).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(b,c=>c.charCodeAt(0))}
+function pushSupported(){return 'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window}
+async function enablePush(){
+  if(!pushSupported()){toast(isIOS&&!isStandalone()?'באייפון: שיתוף ← "הוסף למסך הבית", ופתח משם':'הדפדפן הזה לא תומך בהתראות');return false}
+  try{
+    const perm=await Notification.requestPermission();if(perm!=='granted'){toast('לא ניתן אישור להתראות');return false}
+    const reg=await navigator.serviceWorker.register('sw.js');await navigator.serviceWorker.ready;
+    let sub=await reg.pushManager.getSubscription();if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(VAPID)});
+    await push();const ok=await rpc('journey_push_save',{p_code:CODE,p_sub:sub.toJSON()});
+    if(ok===false)throw new Error('save');
+    S.settings.push=true;save();toast('🔔 התזכורות הופעלו');return true;
+  }catch(e){toast('לא הצלחתי להפעיל התראות – נסה שוב');return false}
+}
+async function disablePush(){
+  try{const reg=await navigator.serviceWorker.getRegistration();const sub=reg&&await reg.pushManager.getSubscription();if(sub)await sub.unsubscribe();await rpc('journey_push_save',{p_code:CODE,p_sub:null})}catch(e){}
+  S.settings.push=false;save();toast('התזכורות כובו');
+}
+async function testPush(){
+  try{const r=await fetch(SB_URL+'/functions/v1/masa-remind',{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({mode:'test',code:CODE})});const j=await r.json();toast(j.ok?'נשלחה התראת בדיקה 📲':'עוד לא הופעלו התראות במכשיר הזה')}catch(e){toast('אין חיבור כרגע')}
+}
+function pushBox(){
+  const on=!!S.settings.push;
+  return `<div class="syncbox" style="background:linear-gradient(135deg,#fff7e0,#fff0f0)"><div style="font-weight:900;font-size:14px">${on?'🔔 תזכורות פעילות':'🔕 תזכורות כבויות'}</div>
+  <div class="hint" style="margin:6px 0 8px">תזכורת מגיעה <b>רק אם לא ביצעת</b> – שעה ו-15 דקות לפני שהפרק נסגר, עם גרסת המינימום. בשבת – שקט.${isIOS&&!isStandalone()?'<br>📱 באייפון: קודם "הוסף למסך הבית" ופתח משם.':''}</div>
+  <div class="row">${on?'<button class="btn ghost sm" id="pTest">שלח בדיקה</button><button class="btn ghost sm" id="pOff">כבה</button>':'<button class="btn green sm" id="pOn">🔔 הפעל תזכורות</button>'}</div></div>`;
+}
+function bindPushBox(root,after){
+  const q=id=>root.querySelector('#'+id);
+  if(q('pOn'))q('pOn').onclick=async()=>{await enablePush();after&&after()};
+  if(q('pOff'))q('pOff').onclick=async()=>{await disablePush();after&&after()};
+  if(q('pTest'))q('pTest').onclick=testPush;
 }
 
 /* ================= wire ================= */

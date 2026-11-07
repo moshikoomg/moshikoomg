@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#9fd832">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="המסע שלי">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>מסע ההתפתחות שלי</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&family=Secular+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#ff3b4e;--red2:#d81f33;--red3:#a3101f;--gold:#ffc21a;--ink:#24330d;--muted:#66704f;
+  --sky1:#d8f58e;--sky2:#b2e449;--g1:#a7dd3c;--g2:#86c829;--g3:#69ad1c;
+  --glass:rgba(255,255,255,.62);--safeT:env(safe-area-inset-top,0px);--safeB:env(safe-area-inset-bottom,0px);
+}
+body.th-m{--sky1:#ffe9b0;--sky2:#c9ec6a;--g1:#b3e148;--g2:#8fcd2e;--g3:#6fb11e}
+body.th-d{--sky1:#d8f58e;--sky2:#b2e449;--g1:#a5dc3a;--g2:#84c728;--g3:#67ab1b}
+body.th-e{--sky1:#ffc1a1;--sky2:#c79bd8;--g1:#87c63a;--g2:#69ac2a;--g3:#4f8f22}
+body.th-n{--sky1:#5d5aa8;--sky2:#2f3f7a;--g1:#4e8f3a;--g2:#3c7a30;--g3:#2d6326}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;font-family:Rubik,system-ui,sans-serif;color:var(--ink);overflow:hidden;background:#3d6e1e}
+button{font-family:inherit;cursor:pointer;border:0;color:inherit}
+#app{position:relative;max-width:520px;height:100%;margin:0 auto;overflow:hidden;
+  background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 12%,var(--g1) 30%,var(--g2) 70%,var(--g3) 100%);
+  box-shadow:0 0 60px rgba(0,0,0,.35);transition:background 1s}
+.stars{position:absolute;inset:0 0 auto 0;height:260px;pointer-events:none;opacity:0;transition:opacity 1s;z-index:2;
+  background-image:radial-gradient(1.5px 1.5px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 70% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 85% 60%,#fff,transparent),radial-gradient(1px 1px at 40% 70%,#fff,transparent),radial-gradient(1.2px 1.2px at 55% 40%,#fff,transparent),radial-gradient(1px 1px at 10% 80%,#fff,transparent)}
+body.th-n .stars,body.th-e .stars{opacity:.9}
+
+/* ---------- board ---------- */
+#scroller{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;z-index:1;scrollbar-width:none}
+#scroller::-webkit-scrollbar{display:none}
+#board{position:relative;width:100%;
+  background-image:
+   repeating-linear-gradient(26.565deg,rgba(255,255,255,.07) 0 2px,transparent 2px 54px),
+   repeating-linear-gradient(-26.565deg,rgba(255,255,255,.07) 0 2px,transparent 2px 54px),
+   radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.18),transparent 50%),
+   radial-gradient(ellipse at 80% 70%,rgba(0,60,0,.12),transparent 55%)}
+.it{position:absolute;pointer-events:none}
+.tile{position:absolute;width:92px;height:64px;margin:-23px 0 0 -46px;filter:drop-shadow(0 9px 7px rgba(25,60,0,.28));transition:transform .25s}
+.tile svg{display:block;overflow:visible}
+.tile.next{animation:nextGlow 1.6s ease-in-out infinite}
+@keyframes nextGlow{50%{filter:drop-shadow(0 0 10px rgba(255,255,255,.95)) drop-shadow(0 9px 7px rgba(25,60,0,.28));transform:translateY(-3px)}}
+.tile.tap{pointer-events:auto;cursor:pointer}
+.ico{position:absolute;left:50%;top:22px;transform:translate(-50%,-78%);font-size:30px;line-height:1;pointer-events:none;filter:drop-shadow(0 4px 2px rgba(0,0,0,.18));white-space:nowrap}
+.ico.bob{animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translate(-50%,-92%)}}
+.ico.q{font-family:'Secular One',Rubik;font-size:40px;color:var(--gold);text-shadow:0 3px 0 #d58f00,0 6px 6px rgba(0,0,0,.18);filter:none}
+.ico.small{font-size:24px;transform:translate(-50%,-60%)}
+.ico.missed{font-size:11px;font-weight:800;color:#8f9580;transform:translate(-50%,-30%);filter:none}
+.chk{position:absolute;left:8px;top:-6px;width:22px;height:22px;border-radius:50%;background:#fff;color:#3c9a14;font-size:13px;font-weight:900;display:grid;place-items:center;box-shadow:0 2px 0 #5f9f2c,0 4px 6px rgba(0,0,0,.15)}
+.env{position:absolute;left:50%;top:0;width:32px;height:40px;margin-left:-16px;transform:translateY(-26px);border-radius:8px;background:linear-gradient(160deg,#ff6a5c,#e5302a 60%,#c41f1a);box-shadow:0 5px 0 #9e1712,0 8px 10px rgba(0,0,0,.2);animation:bob 2.4s ease-in-out infinite;pointer-events:none}
+.env::before{content:"";position:absolute;inset:0 0 auto 0;height:15px;border-radius:8px 8px 50% 50%;background:linear-gradient(#ff8a7c,#ff6656)}
+.env::after{content:"";position:absolute;top:10px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff3b0,#ffc21a);box-shadow:0 0 0 2px #e5302a}
+.tree{position:absolute;pointer-events:none}
+.mark{position:absolute;pointer-events:none;text-align:center;width:96px;margin-left:-48px}
+.mark .em{font-size:52px;line-height:1;filter:drop-shadow(0 10px 8px rgba(20,60,0,.35));animation:bob 4s ease-in-out infinite}
+.mark .plat{width:90px;height:24px;margin:-14px auto 0;border-radius:50%;background:radial-gradient(ellipse,#f5ffe0 0%,#d8f0a8 55%,rgba(150,200,60,0) 72%)}
+.mark .sign{display:inline-block;margin-top:-4px;background:linear-gradient(#fff,#f3f0e2);border-radius:12px;padding:4px 12px;font-weight:900;font-size:13px;box-shadow:0 3px 0 rgba(0,0,0,.14);font-family:'Secular One',Rubik}
+.pin{position:absolute;left:0;top:0;width:62px;height:76px;margin:-90px 0 0 -31px;pointer-events:none;will-change:transform}
+.pin .face{position:relative;width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#ffeef0);border:4px solid var(--red);display:grid;place-items:center;font-size:33px;box-shadow:0 0 0 3px #fff,0 8px 14px rgba(0,0,0,.25);animation:idle 2.2s ease-in-out infinite}
+.pin .face::after{content:"";position:absolute;left:50%;bottom:-17px;margin-left:-9px;border:9px solid transparent;border-top:14px solid var(--red)}
+.pin .sh{position:absolute;left:50%;bottom:-14px;width:34px;height:11px;margin-left:-17px;border-radius:50%;background:rgba(0,0,0,.22);animation:idleSh 2.2s ease-in-out infinite}
+@keyframes idle{50%{transform:translateY(-7px)}}
+@keyframes idleSh{50%{transform:scale(.8);opacity:.7}}
+.puff{position:absolute;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.9);pointer-events:none;animation:puff .6s ease-out forwards}
+@keyframes puff{to{transform:translate(var(--dx),var(--dy)) scale(2.2);opacity:0}}
+
+/* ---------- header ---------- */
+header{position:absolute;inset:0 0 auto 0;z-index:30;padding:calc(10px + var(--safeT)) 12px 30px;pointer-events:none;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--sky1) 92%,transparent) 0%,color-mix(in srgb,var(--sky2) 70%,transparent) 65%,transparent)}
+header>*{pointer-events:auto}
+.title{font-family:'Secular One',Rubik;font-size:30px;text-align:center;color:#fff;letter-spacing:.3px;line-height:1.1;
+  text-shadow:0 2px 0 #7fb81c,0 4px 0 #6aa514,0 9px 16px rgba(50,100,0,.35)}
+body.th-n .title,body.th-e .title{text-shadow:0 2px 0 #7a5cb4,0 4px 0 #5a3f94,0 9px 16px rgba(30,0,60,.4)}
+.chips{display:flex;justify-content:center;gap:6px;margin-top:7px;flex-wrap:wrap}
+.chip{background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:99px;padding:5px 11px;font-size:12.5px;font-weight:800;display:flex;gap:5px;align-items:center;box-shadow:0 2px 0 rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.7)}
+.chip.fire{color:#b54a00}
+.chip.fire .fl{display:inline-block;animation:flick 1.2s ease-in-out infinite}
+@keyframes flick{50%{transform:scale(1.15) rotate(-6deg)}}
+.chip.frozen{color:#1f5fa8}
+.chip.cloud{padding:5px 8px}
+.segs{display:flex;justify-content:center;gap:5px;margin-top:7px}
+.seg{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.4);border-radius:99px;padding:3px 9px 3px 4px;font-size:11.5px;font-weight:800;color:#3a4d14}
+.seg i{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:11px;background:#fff}
+.seg.now{background:#fff;color:var(--red2);box-shadow:0 0 0 2px var(--red),0 3px 8px rgba(0,0,0,.12)}
+.seg.ok{background:#e4fbcf;color:#2f7d0e}
+.dream{display:flex;align-items:center;gap:8px;margin:7px auto 0;max-width:360px;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:16px;padding:6px 8px 6px 10px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.7)}
+.dream .de{font-size:24px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.15))}
+.dream .dt{flex:1;min-width:0}
+.dream .dt b{display:block;font-size:12.5px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dream .bar{height:7px;border-radius:9px;background:rgba(0,0,0,.08);overflow:hidden;margin-top:4px}
+.dream .bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#ffb020,var(--red));box-shadow:0 0 8px rgba(255,80,60,.6)}
+.dream .dn{font-family:'Secular One';font-size:15px;color:var(--red2);text-align:center;line-height:1}
+.dream .dn small{display:block;font-family:Rubik;font-size:9.5px;color:var(--muted);font-weight:700}
+
+/* ---------- side buttons ---------- */
+#side{position:absolute;left:8px;z-index:31;display:flex;flex-direction:column;gap:10px}
+.sb{width:54px;display:flex;flex-direction:column;align-items:center;background:none;padding:0}
+.sb .bub{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:23px;
+  background:radial-gradient(circle at 32% 28%,#fff 0%,#ffe0dc 55%,#ffb7b0 100%);box-shadow:0 4px 0 #e5847b,0 8px 14px rgba(0,0,0,.18),inset 0 -3px 6px rgba(200,40,30,.15)}
+.sb:active .bub{transform:translateY(3px);box-shadow:0 1px 0 #e5847b}
+.sb span{margin-top:4px;font-size:10px;font-weight:900;color:#c81f2b;background:#fff;border-radius:7px;padding:1px 6px;box-shadow:0 2px 0 rgba(0,0,0,.08)}
+
+/* ---------- bottom ---------- */
+#clouds{position:absolute;inset:auto 0 0 0;height:190px;z-index:35;pointer-events:none;
+  background:
+   radial-gradient(60px 40px at 8% 70%,#fffaf0 98%,transparent),radial-gradient(80px 50px at 26% 85%,#fffaf0 98%,transparent),
+   radial-gradient(70px 45px at 74% 80%,#fffaf0 98%,transparent),radial-gradient(60px 42px at 94% 70%,#fffaf0 98%,transparent),
+   linear-gradient(transparent 55%,#fffaf0 80%)}
+#controls{position:absolute;inset:auto 0 0 0;z-index:40;height:180px;padding-bottom:var(--safeB);pointer-events:none}
+#controls>*{pointer-events:auto}
+#wheel{position:absolute;left:50%;bottom:calc(14px + var(--safeB));width:150px;height:150px;margin-left:-75px;border-radius:50%;
+  background:radial-gradient(circle,#fff6e8 58%,#ffe2b8 59%,#ffd49a 100%);box-shadow:0 10px 24px rgba(150,60,0,.3),inset 0 -6px 12px rgba(200,120,40,.25)}
+#wheel svg{position:absolute;inset:0;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+#go{position:absolute;left:50%;top:50%;width:94px;height:94px;margin:-47px 0 0 -47px;border-radius:50%;
+  background:radial-gradient(circle at 38% 28%,#ff9aa2 0%,var(--red) 45%,var(--red2) 80%);color:#fff;
+  box-shadow:0 7px 0 var(--red3),0 12px 18px rgba(160,10,30,.35),inset 0 -6px 10px rgba(0,0,0,.18),inset 0 4px 6px rgba(255,255,255,.35);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .1s}
+#go:active{transform:translateY(5px);box-shadow:0 2px 0 var(--red3)}
+#go b{font-family:'Secular One',Rubik;font-size:34px;line-height:1;letter-spacing:1px;text-shadow:0 2px 0 rgba(0,0,0,.2)}
+#go small{font-size:11.5px;font-weight:800;opacity:.95;margin-top:2px}
+#go.ready{animation:pulse 1.3s ease-in-out infinite}
+#go.empty{filter:saturate(.3) brightness(1.08)}
+@keyframes pulse{50%{transform:scale(1.07)}}
+.pill{position:absolute;bottom:calc(34px + var(--safeB));height:50px;border-radius:99px;padding:0 15px;font-weight:900;font-size:14px;display:flex;align-items:center;gap:7px;color:#fff;
+  background:linear-gradient(180deg,#ff7a80,var(--red) 55%,var(--red2));box-shadow:0 5px 0 var(--red3),0 9px 14px rgba(160,10,30,.25),inset 0 2px 0 rgba(255,255,255,.35)}
+.pill:active{transform:translateY(4px);box-shadow:0 1px 0 var(--red3)}
+#markBtn{left:10px}
+#markBtn .plus{width:24px;height:24px;border-radius:50%;background:#fff;color:var(--red);display:grid;place-items:center;font-size:18px;font-weight:900}
+#progBtn{right:10px;flex-direction:column;justify-content:center;gap:4px;align-items:stretch}
+#progBtn small{font-size:11px;font-weight:800;text-align:center}
+#progBtn .bar{width:84px;height:7px;border-radius:9px;background:rgba(255,255,255,.35);overflow:hidden}
+#progBtn .bar i{display:block;height:100%;background:#fff;border-radius:9px;transition:width .5s}
+
+/* ---------- overlays ---------- */
+.veil{position:absolute;inset:0;z-index:100;background:rgba(20,35,5,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:none;align-items:flex-end;justify-content:center}
+.veil.show{display:flex;animation:fade .2s}
+.veil.center{align-items:center}
+@keyframes fade{from{opacity:0}}
+.sheet{width:100%;max-height:88%;overflow-y:auto;background:linear-gradient(#fffdf6,#fff8ea);border-radius:28px 28px 0 0;padding:16px 16px calc(28px + var(--safeB));animation:up .28s cubic-bezier(.2,.9,.3,1.1);box-shadow:0 -10px 40px rgba(0,0,0,.2)}
+@keyframes up{from{transform:translateY(60px);opacity:.3}}
+.grab{width:46px;height:5px;border-radius:9px;background:#e6dcc0;margin:-4px auto 14px}
+.sheet h2{margin:0 0 4px;font-family:'Secular One',Rubik;font-size:22px;font-weight:400}
+.hint{font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.45}
+.sec{margin-bottom:14px}
+.sech{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:14px;margin-bottom:7px}
+.badge{font-size:11px;font-weight:800;border-radius:99px;padding:3px 10px}
+.badge.open{background:#e1f8cb;color:#357f0c}.badge.past{background:#eee;color:#888}.badge.future{background:#e6efff;color:#2d64b5}
+.hab{width:100%;display:flex;align-items:center;gap:12px;background:#fff;border-radius:18px;padding:11px 12px;margin-bottom:8px;box-shadow:0 3px 0 #efe5c9,0 6px 14px rgba(120,90,20,.06);text-align:right;font-size:15px;font-weight:800;transition:transform .15s}
+.hab:active{transform:scale(.98)}
+.hab .em{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:25px;background:linear-gradient(160deg,#fff8e4,#f3e8c8);flex:none}
+.hab .nm{flex:1}
+.hab .tag{font-size:12px;font-weight:900;border-radius:99px;padding:5px 11px;background:linear-gradient(#ff7a80,var(--red));color:#fff;box-shadow:0 2px 0 var(--red3)}
+.hab.done{background:#f1fce6;box-shadow:0 3px 0 #d3edb6}
+.hab.done .em{background:linear-gradient(160deg,#d9ff9c,#9ee05a)}
+.hab.done .tag{background:#3c9a14;box-shadow:0 2px 0 #2a700c}
+.hab.locked{opacity:.5}
+.hab.locked .tag{background:#e5e5e5;color:#888;box-shadow:none}
+.card{position:relative;width:88%;max-width:370px;background:#fff;border-radius:30px;padding:0 20px 20px;text-align:center;overflow:hidden;animation:pop .42s cubic-bezier(.2,1.6,.4,1);box-shadow:0 20px 50px rgba(0,0,0,.3)}
+@keyframes pop{from{transform:scale(.55);opacity:0}}
+.card .band{margin:0 -20px 0;height:96px;background:linear-gradient(135deg,#ffcf4a,#ff6a5a);position:relative}
+.card .band.g{background:linear-gradient(135deg,#a8ec5a,#3fb24a)}
+.card .band.b{background:linear-gradient(135deg,#7fc4ff,#7a6cff)}
+.card .band.p{background:linear-gradient(135deg,#ff9ad5,#a96bff)}
+.card .band::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.45),transparent 40%),radial-gradient(circle at 80% 70%,rgba(255,255,255,.25),transparent 35%)}
+.card .big{width:104px;height:104px;margin:-60px auto 10px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:58px;position:relative;z-index:1;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.card h3{margin:0 0 8px;font-family:'Secular One',Rubik;font-size:22px;font-weight:400}
+.card p{margin:0 0 16px;font-size:16px;line-height:1.55;color:#3e4a24}
+.card p small{color:var(--muted)}
+.timer{height:6px;border-radius:9px;background:#f0eadb;overflow:hidden;margin:0 0 14px}
+.timer i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--red),#ffb020);transform-origin:right}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(#ff7a80,var(--red) 55%,var(--red2));color:#fff;font-weight:900;font-size:15px;padding:12px 22px;border-radius:99px;box-shadow:0 4px 0 var(--red3),inset 0 2px 0 rgba(255,255,255,.3)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--red3)}
+.btn.ghost{background:#f3eddc;color:#5a6340;box-shadow:0 4px 0 #ded3b5}
+.btn.green{background:linear-gradient(#8fe35a,#4cb21f);box-shadow:0 4px 0 #2f7e10,inset 0 2px 0 rgba(255,255,255,.3)}
+.btn.sm{padding:8px 14px;font-size:13px}
+.row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+#toast{position:absolute;left:50%;top:calc(190px + var(--safeT));z-index:300;transform:translate(-50%,-16px);opacity:0;background:#fff;border-radius:99px;padding:10px 18px;font-weight:900;font-size:14px;box-shadow:0 8px 22px rgba(0,0,0,.2);transition:.25s;white-space:nowrap;pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+.fly{position:absolute;z-index:250;font-weight:900;font-size:20px;color:#fff;background:linear-gradient(#ffcf4a,#ff9a1a);border-radius:99px;padding:4px 10px;box-shadow:0 4px 10px rgba(0,0,0,.2);pointer-events:none}
+.conf{position:absolute;z-index:400;width:9px;height:14px;border-radius:2px;pointer-events:none;animation:fall 1.5s ease-out forwards}
+@keyframes fall{to{transform:translate(var(--dx),var(--dy)) rotate(800deg);opacity:0}}
+
+/* rest */
+#rest{position:absolute;inset:0;z-index:150;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;
+  background:radial-gradient(circle at 50% 40%,#f7ffe6,#cfef95 55%,#97d24f)}
+#rest.show{display:flex;animation:fade .5s}
+.breath{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;font-size:56px;background:radial-gradient(circle,#fff 0%,rgba(255,255,255,.4) 60%,transparent 70%);animation:breath 8s ease-in-out infinite}
+@keyframes breath{0%,100%{transform:scale(.8)}50%{transform:scale(1.15)}}
+#rest h2{font-family:'Secular One',Rubik;font-weight:400;font-size:28px;margin:16px 0 6px}
+#rest p{color:#4c5a2a;margin:0 0 22px;font-size:16px;line-height:1.6}
+#breathTxt{font-weight:800;color:#3c7a10;margin-bottom:18px;min-height:20px}
+
+/* history */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.stat{background:#fff;border-radius:18px;padding:10px 6px;text-align:center;box-shadow:0 3px 0 #efe5c9}
+.stat b{display:block;font-family:'Secular One',Rubik;font-size:26px;color:var(--red2);line-height:1.1}
+.stat span{font-size:11px;font-weight:800;color:var(--muted)}
+.heat{display:flex;gap:3px;overflow-x:auto;padding:4px 2px 8px}
+.heat .wk{display:flex;flex-direction:column;gap:3px}
+.heat i{width:12px;height:12px;border-radius:3px;background:#efe8d6;display:block}
+.heat i.l1{background:#d6f0b4}.heat i.l2{background:#a6e070}.heat i.l3{background:#4fb51f}.heat i.fut{background:transparent;box-shadow:inset 0 0 0 1px #e3dac2}.heat i.t{box-shadow:0 0 0 2px var(--red)}.heat i.pre{opacity:0}
+.legend{display:flex;gap:4px;align-items:center;font-size:11px;color:var(--muted);font-weight:800}
+.legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.wbars{display:flex;align-items:flex-end;gap:6px;height:100px;margin:6px 0 16px}
+.wbars .wb{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:800;color:var(--muted)}
+.wbars .wb i{width:100%;border-radius:9px 9px 4px 4px;background:linear-gradient(#ff8a8f,var(--red));min-height:4px}
+.grid{width:100%;border-collapse:separate;border-spacing:3px;font-size:12px}
+.grid th{font-size:16px;padding:2px 0}
+.grid td{text-align:center}
+.grid td.d{font-weight:800;color:var(--muted);white-space:nowrap;text-align:right;padding-left:4px;font-size:11px}
+.cell{width:100%;aspect-ratio:1;border-radius:6px;background:#efe8d6;max-width:28px;margin:auto}
+.cell.y{background:linear-gradient(#8fe35a,#5fbf2a)}
+.cell.today{box-shadow:0 0 0 2px var(--red)}
+
+/* settings */
+.set h4{margin:18px 0 8px;font-size:15px;font-weight:900}
+.hrow{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+.inp{font-family:inherit;font-size:14px;border:2px solid #eadfc2;border-radius:12px;padding:9px;background:#fff;color:var(--ink);min-width:0}
+.inp:focus{outline:none;border-color:var(--red)}
+.hrow .e{width:48px;text-align:center;font-size:18px;padding:6px 2px}
+.hrow .n{flex:1}
+.hrow select{width:86px}
+.hrow .x{width:36px;height:36px;border-radius:11px;background:#ffe5e5;color:var(--red2);font-weight:900;flex:none}
+.wdrow{display:flex;gap:3px;margin:0 0 12px 0;padding-right:54px}
+.wdrow button{flex:1;max-width:34px;height:26px;border-radius:8px;background:#f0eadb;color:#9a9278;font-size:11px;font-weight:900}
+.wdrow button.on{background:linear-gradient(#8fe35a,#5fbf2a);color:#fff}
+.trow{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:14px;font-weight:800}
+.trow .lab{flex:1}
+.switch{display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:16px;padding:13px;margin-bottom:8px;font-weight:800;font-size:14px;box-shadow:0 3px 0 #efe5c9}
+.switch input{width:22px;height:22px;accent-color:var(--red)}
+.syncbox{background:linear-gradient(135deg,#eef9ff,#f5efff);border-radius:18px;padding:14px;box-shadow:0 3px 0 #dfe3f3}
+.code{font-family:ui-monospace,monospace;font-size:12px;background:#fff;border-radius:10px;padding:8px;direction:ltr;text-align:left;word-break:break-all;margin:8px 0}
+.avatars{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0 18px}
+.av{aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#fff1ea);font-size:34px;display:grid;place-items:center;box-shadow:0 4px 0 #efe5c9;border:3px solid transparent}
+.av.sel{border-color:var(--red);box-shadow:0 4px 0 var(--red3)}
+.av.lock{filter:grayscale(1);opacity:.35}
+
+/* year + onboarding */
+#year,#onb{position:absolute;inset:0;z-index:120;display:none;overflow-y:auto}
+#year{background:linear-gradient(180deg,#fff0c4 0%,#d6f28a 18%,#9fd63c 50%,#6fb11e 100%)}
+#onb{background:radial-gradient(120% 70% at 50% 0%,#fff3c4,#c8ee70 40%,#86c92b)}
+#year.show,#onb.show{display:block;animation:fade .3s}
+.ytop{position:sticky;top:0;z-index:5;padding:calc(12px + var(--safeT)) 14px 18px;background:linear-gradient(#fff0c4 70%,rgba(255,240,196,0))}
+.ytop h2{margin:0;text-align:center;font-family:'Secular One',Rubik;font-weight:400;font-size:26px;color:#fff;text-shadow:0 2px 0 #e0a41a,0 4px 0 #c8870f,0 8px 14px rgba(150,90,0,.3)}
+.ystats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.ystats div{background:#fff;border-radius:16px;padding:7px;text-align:center;box-shadow:0 3px 0 rgba(160,110,0,.2)}
+.ystats b{display:block;font-family:'Secular One';font-size:22px;color:var(--red2);line-height:1.1}
+.ystats span{font-size:10.5px;font-weight:800;color:var(--muted)}
+.ynext{text-align:center;margin-top:9px;font-weight:800;font-size:13px;color:#6b5210}
+.xbtn{position:absolute;left:12px;top:calc(10px + var(--safeT));width:40px;height:40px;border-radius:50%;background:#fff;font-size:18px;font-weight:900;color:#5a6340;box-shadow:0 3px 0 rgba(0,0,0,.12);z-index:6}
+#ymap{position:relative;width:100%;z-index:0}
+.slabel{position:absolute;pointer-events:none;transform:translate(-50%,0);background:#fff;border-radius:11px;padding:3px 10px;font-size:11.5px;font-weight:900;white-space:nowrap;box-shadow:0 3px 0 rgba(0,0,0,.12);text-align:center;line-height:1.35}
+.slabel small{color:var(--red2);font-size:10.5px}
+.slabel.dream{font-size:14px;white-space:normal;max-width:220px;padding:7px 12px;background:linear-gradient(#fff,#fff6d8)}
+.onbw{max-width:460px;margin:0 auto;padding:calc(22px + var(--safeT)) 16px 40px}
+.onbw h2{font-family:'Secular One',Rubik;font-weight:400;font-size:28px;text-align:center;color:#fff;text-shadow:0 2px 0 #7fb81c,0 4px 0 #6aa514,0 8px 14px rgba(50,100,0,.3);margin:6px 0 4px}
+.onbw .sub{text-align:center;font-size:14px;font-weight:700;color:#3d5a0c;margin-bottom:16px}
+.ocard{background:rgba(255,253,246,.95);border-radius:24px;padding:16px;box-shadow:0 6px 0 rgba(80,130,0,.28),0 12px 24px rgba(40,80,0,.12);margin-bottom:14px}
+.ocard label{display:block;font-weight:900;font-size:14px;margin:6px 0}
+.ocard textarea,.ocard input[type=text],.ocard input[type=date]{width:100%;font-family:inherit;font-size:15px;border:2px solid #eadfc2;border-radius:14px;padding:11px;background:#fff;color:var(--ink);resize:none}
+.emos{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:6px}
+.emos button{aspect-ratio:1;border-radius:14px;background:#fff;font-size:23px;box-shadow:0 3px 0 #efe5c9;border:2px solid transparent}
+.emos button.sel{border-color:var(--red);box-shadow:0 3px 0 var(--red3)}
+.chs{display:flex;flex-wrap:wrap;gap:6px}
+.ch{background:#fff;border-radius:99px;padding:8px 12px;font-size:13px;font-weight:800;box-shadow:0 2px 0 #efe5c9;border:2px solid transparent}
+.ch.on{background:#effbe3;border-color:#5fbf2a;box-shadow:0 2px 0 #b6dd8f}
+.addrow{display:flex;gap:6px;margin-top:10px}
+.addrow input{flex:1}
+.dots{display:flex;justify-content:center;gap:6px;margin-bottom:12px}
+.dots i{width:9px;height:9px;border-radius:9px;background:rgba(255,255,255,.6);transition:.3s}
+.dots i.on{background:#fff;width:24px}
+.linkbtn{background:none;color:#3d5a0c;font-weight:800;font-size:13px;text-decoration:underline;margin-top:6px}
+</style>
+</head>
+<body class="th-d">
+<div id="app">
+  <div class="stars"></div>
+  <div id="scroller"><div id="board"></div></div>
+
+  <header id="hdr">
+    <div class="title">מסע ההתפתחות שלי</div>
+    <div class="chips">
+      <div class="chip" id="cDate"></div>
+      <div class="chip fire" id="cStreak"></div>
+      <div class="chip" id="cStars"></div>
+      <div class="chip cloud" id="cCloud" title="סנכרון ענן">☁️</div>
+    </div>
+    <div class="segs" id="segs"></div>
+    <div class="dream" id="dream"></div>
+  </header>
+
+  <div id="side">
+    <button class="sb" id="bYear"><div class="bub">🗺️</div><span>השנה</span></button>
+    <button class="sb" id="bHist"><div class="bub">📜</div><span>מעקב</span></button>
+    <button class="sb" id="bAv"><div class="bub" id="avBub">🧑</div><span>הדמות</span></button>
+    <button class="sb" id="bSet"><div class="bub">⚙️</div><span>הגדרות</span></button>
+  </div>
+
+  <div id="clouds"></div>
+  <div id="controls">
+    <button class="pill" id="progBtn"><small id="progTxt">0/0</small><div class="bar"><i id="progBar"></i></div></button>
+    <div id="wheel"><svg id="wheelSvg" viewBox="0 0 150 150"></svg><button id="go"><b>GO</b><small id="energyTxt">אנרגיה 0</small></button></div>
+    <button class="pill" id="markBtn"><span>סמן הרגל</span><span class="plus">+</span></button>
+  </div>
+
+  <div class="veil" id="sheetVeil"><div class="sheet" id="sheet"></div></div>
+  <div class="veil center" id="cardVeil"><div class="card" id="card"></div></div>
+  <div id="rest">
+    <div class="breath">🌿</div>
+    <h2>הצעד הושלם.</h2>
+    <div id="breathTxt">שאיפה…</div>
+    <p>נתראה בהרגל הבא בעולם האמיתי!<br>אפשר לסגור את המסך.</p>
+    <button class="btn ghost" id="restBack">חזרה ללוח</button>
+  </div>
+  <div id="year"></div>
+  <div id="onb"></div>
+  <div id="toast"></div>
+</div>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gTop" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#fffdf2"/><stop offset=".55" stop-color="#fbf2d6"/><stop offset="1" stop-color="#efe1b8"/></linearGradient>
+    <linearGradient id="gTopDone" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#e2ffb0"/><stop offset=".5" stop-color="#b4ee6c"/><stop offset="1" stop-color="#8fd84a"/></linearGradient>
+    <linearGradient id="gTopGold" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#fff6c8"/><stop offset=".5" stop-color="#ffe27a"/><stop offset="1" stop-color="#ffc93a"/></linearGradient>
+    <linearGradient id="gTopMiss" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#f3f4ec"/><stop offset="1" stop-color="#dcdfcf"/></linearGradient>
+    <linearGradient id="gTopBlue" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#e6f4ff"/><stop offset=".55" stop-color="#bfe0ff"/><stop offset="1" stop-color="#9ccbff"/></linearGradient>
+  </defs>
+</svg>
+
+<script>
+(()=>{
+"use strict";
+/* ================= config ================= */
+const SB_URL='https://grtgrlcammiadbwuafha.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdydGdybGNhbW1pYWRid3VhZmhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMDMwMzUsImV4cCI6MjA5MDc3OTAzNX0.9Ie7r-ln3FVNnmirkzVFmKEIfrg1qxF2ivmryV_TO-8';
+const LS='masa_state_v2',LS_CODE='masa_sync_code';
+const AVATARS=['🧑','🦁','🦊','🐼','🐯','🦉','🐸','🚀','🦄','🐲','👑','🌟','🦅','🐬','🔥','💎'];
+const ALLDAYS=[0,1,2,3,4,5,6];
+const WD=['א','ב','ג','ד','ה','ו','ש'];
+const TILE_COL={
+  base:['url(#gTop)','#e6d6a8','#d4c08c'],
+  done:['url(#gTopDone)','#7cc23f','#62a52d'],
+  gold:['url(#gTopGold)','#f0b52a','#d99a12'],
+  miss:['url(#gTopMiss)','#cfd2c2','#bcbfae'],
+  blue:['url(#gTopBlue)','#86b9ee','#6ea2da']
+};
+const DEFAULTS={
+  v:2,updated:0,
+  settings:{
+    sections:[
+      {id:'m',name:'בוקר של ניצחונות',short:'בוקר',start:'05:30',end:'09:00',mark:'🌅'},
+      {id:'d',name:'מיקוד ועשייה',short:'צהריים',start:'09:00',end:'18:00',mark:'🏙️'},
+      {id:'e',name:'שקט וסגירת יום',short:'ערב',start:'18:00',end:'22:30',mark:'🌙'}
+    ],
+    habits:[
+      {id:'h1',emoji:'💧',name:'שתיית מים',sec:'m',days:ALLDAYS.slice()},
+      {id:'h2',emoji:'🏃',name:'תנועה / אימון בוקר',sec:'m',days:ALLDAYS.slice()},
+      {id:'h3',emoji:'🙏',name:'נשימות ועוגן הודיה',sec:'m',days:ALLDAYS.slice()},
+      {id:'h4',emoji:'🎯',name:'בלוק עבודה עמוקה',sec:'d',days:ALLDAYS.slice()},
+      {id:'h5',emoji:'🥗',name:'תזונה מודעת',sec:'d',days:ALLDAYS.slice()},
+      {id:'h6',emoji:'🧠',name:'תרגול NLP קצר',sec:'d',days:ALLDAYS.slice()},
+      {id:'h7',emoji:'📖',name:'קריאה',sec:'e',days:ALLDAYS.slice()},
+      {id:'h8',emoji:'📝',name:'סיכום יום / רפלקציה',sec:'e',days:ALLDAYS.slice()},
+      {id:'h9',emoji:'📵',name:'ניתוק ממסכים',sec:'e',days:ALLDAYS.slice()}
+    ],
+    testMode:false,sound:true
+  },
+  profile:{onboarded:false,dream:'',why:'',dreamEmoji:'🏔️',start:null},
+  msSeen:[],days:{},stars:0,avatar:'🧑',unlocked:['🧑','🦁']
+};
+const MILESTONES=[
+  {d:7,n:'שבוע ראשון',e:'🌱',m:'הצעד הראשון הוא הכי קשה – ועשית אותו.'},
+  {d:21,n:'21 ימים',e:'🌿',m:'ההרגלים מתחילים להיקלט במוח.'},
+  {d:30,n:'חודש שלם',e:'🌳',m:'חודש של התמדה. זו כבר זהות, לא ניסיון.'},
+  {d:66,n:'66 ימים',e:'⚙️',m:'זה הממוצע להפיכת הרגל לאוטומטי. אתה שם.'},
+  {d:100,n:'100 ימים',e:'💯',m:'מאה ימים של בחירה. מעטים מגיעים לכאן.'},
+  {d:180,n:'חצי שנה',e:'🌗',m:'חצי הדרך לחלום. תסתכל כמה רחוק הגעת.'},
+  {d:250,n:'250 ימים',e:'🚀',m:'התנופה שלך כבר עוצמתית.'},
+  {d:300,n:'300 ימים',e:'🏅',m:'הקו הסופי באופק.'},
+  {d:365,n:'החלום',e:'DREAM',m:'שנה שלמה. הגעת.'}
+];
+const ANCHORS=[
+  {t:'עוגן בוקר',m:'איך שאתה קם – אתה מנצח!'},
+  {t:'שינוי מסגור',m:'מה עוד יכול להיות נכון לגבי המצב הזה?'},
+  {t:'פיזיולוגיה',m:'זקוף גב, כתפיים אחורה, נשימה עמוקה. הגוף מוביל את הראש.'},
+  {t:'שינוי מסגור',m:'מה ההזדמנות שמסתתרת כאן?'},
+  {t:'עוגן',m:'גע באגודל ובאצבע המורה ונזכר ברגע שבו הרגשת בשיא.'},
+  {t:'מיקוד',m:'מה הצעד הקטן ביותר שיקדם אותי עכשיו?'},
+  {t:'שינוי מסגור',m:'אין כישלון – יש משוב.'},
+  {t:'פיזיולוגיה',m:'חיוך של 5 שניות. גם מזויף – המוח מקבל את המסר.'},
+  {t:'הודיה',m:'שלושה דברים שאני מודה עליהם ברגע זה.'},
+  {t:'שינוי מסגור',m:'איך אדם שכבר הצליח בזה היה ניגש לרגע הזה?'}
+];
+const INSIGHTS=['הרגל נבנה מחזרה, לא משלמות. גם 70% זה ניצחון.','משמעת היא בחירה קטנה שחוזרת על עצמה.','האנרגיה הולכת לאן שתשומת הלב הולכת.','המפה אינה השטח – אתה בוחר איך לפרש את היום.','מצב רוח הוא תוצאה של תנועה, לא תנאי לה.','כל ביצוע הוא הצבעה בעד האדם שאתה רוצה להיות.'];
+const COMEBACK=['שתה כוס מים אחת','3 נשימות עמוקות','10 סקוואטים','קרא עמוד אחד','כתוב משפט הודיה אחד'];
+const SUGGEST={
+  m:[['💧','שתיית מים'],['🏃','אימון בוקר'],['🙏','נשימות ועוגן הודיה'],['🛏️','סידור מיטה'],['🧘','מדיטציה 5 דק׳'],['🚿','מקלחת קרה'],['📵','שעה ראשונה בלי טלפון'],['🎯','כתיבת 3 יעדים ליום']],
+  d:[['🎯','בלוק עבודה עמוקה'],['🥗','תזונה מודעת'],['🧠','תרגול NLP קצר'],['🚶','הליכה 20 דק׳'],['📚','למידה 20 דק׳'],['💎','משימה אחת שמקדמת את החלום'],['💧','2 ליטר מים'],['🤸','הפסקת תנועה']],
+  e:[['📖','קריאה'],['📝','סיכום יום / רפלקציה'],['📵','ניתוק ממסכים'],['👨‍👩‍👧','זמן איכות משפחתי'],['🗓️','תכנון מחר'],['🙏','הודיה לפני שינה'],['😴','שינה בזמן'],['🧘','מתיחות ערב']]
+};
+
+/* ================= state ================= */
+const clone=o=>JSON.parse(JSON.stringify(o));
+const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function normalize(s){
+  const d=clone(DEFAULTS);
+  if(!s||typeof s!=='object')return d;
+  s.settings=Object.assign(d.settings,s.settings||{});
+  s.profile=Object.assign(d.profile,s.profile||{});
+  (s.settings.habits||[]).forEach(h=>{if(!Array.isArray(h.days))h.days=ALLDAYS.slice()});
+  const o=Object.assign(d,s);
+  ['msSeen','unlocked'].forEach(k=>{if(!Array.isArray(o[k]))o[k]=clone(DEFAULTS[k])});
+  if(!o.days||typeof o.days!=='object')o.days={};
+  return o;
+}
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+let S=normalize((()=>{try{return JSON.parse(lsGet(LS))}catch(e){return null}})());
+
+/* ================= cloud sync (Supabase) ================= */
+function newCode(){
+  const a=new Uint8Array(18);(window.crypto||{}).getRandomValues?crypto.getRandomValues(a):a.forEach((_,i)=>a[i]=Math.random()*256|0);
+  return 'm'+Array.from(a,b=>b.toString(16).padStart(2,'0')).join('');
+}
+let CODE=lsGet(LS_CODE);
+(()=>{const m=location.hash.match(/sync=([a-z0-9]{24,80})/i);if(m){CODE=m[1];lsSet(LS_CODE,CODE);S.updated=0;history.replaceState(null,'',location.pathname+location.search)}})();
+if(!CODE){CODE=newCode();lsSet(LS_CODE,CODE)}
+let cloud='wait',pushT=null,pushing=false,pending=false;
+function setCloud(st){cloud=st;const el=document.getElementById('cCloud');if(!el)return;
+  el.textContent={ok:'☁️✓',wait:'☁️…',off:'☁️✕',busy:'☁️↑'}[st]||'☁️';el.style.color=st==='off'?'#c0392b':(st==='ok'?'#2f7d0e':'#666')}
+async function rpc(fn,body){
+  const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),9000);
+  try{const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',signal:ctl.signal,
+      headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok)throw new Error('HTTP '+r.status);const txt=await r.text();return txt?JSON.parse(txt):null}
+  finally{clearTimeout(t)}
+}
+async function pull(){
+  const r=await rpc('journey_get',{p_code:CODE});
+  if(r&&r.state&&(r.updated||0)>(S.updated||0)){S=normalize(r.state);S.updated=r.updated;lsSet(LS,JSON.stringify(S));return true}
+  return false;
+}
+async function push(){
+  if(pushing){pending=true;return}
+  pushing=true;setCloud('busy');
+  try{
+    const r=await rpc('journey_save',{p_code:CODE,p_state:S,p_updated:S.updated||Date.now()});
+    if(r&&r.ok===false){await pull();render(true)}
+    setCloud('ok');
+  }catch(e){setCloud('off')}
+  pushing=false;if(pending){pending=false;push()}
+}
+function save(){
+  S.updated=Date.now();lsSet(LS,JSON.stringify(S));
+  clearTimeout(pushT);pushT=setTimeout(push,1000);
+}
+async function initCloud(){
+  try{const changed=await pull();if(changed)render(true);else if(S.updated)await push();setCloud('ok')}
+  catch(e){setCloud('off')}
+}
+
+/* ================= dates & logic ================= */
+const pad=n=>String(n).padStart(2,'0');
+const keyOf=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+function addDays(k,n){const [y,m,d]=k.split('-').map(Number);return keyOf(new Date(y,m-1,d+n))}
+const today=()=>keyOf(new Date());
+const mins=s=>{const [h,m]=String(s||'0:0').split(':').map(Number);return h*60+(m||0)};
+const nowMins=()=>{const d=new Date();return d.getHours()*60+d.getMinutes()};
+const habits=()=>S.settings.habits;
+const secs=()=>S.settings.sections;
+const secById=id=>secs().find(s=>s.id===id);
+const habitById=id=>habits().find(h=>h.id===id);
+function wdOf(k){const [y,m,d]=k.split('-').map(Number);return new Date(y,m-1,d).getDay()}
+function habitsOn(k){const w=wdOf(k);return habits().filter(h=>!h.days||h.days.includes(w))}
+function need(k=today()){const n=habitsOn(k).length;return n?Math.max(1,Math.ceil(n/2)):0}
+function doneCount(k){const d=S.days[k];return d?Object.keys(d.done||{}).filter(id=>habitById(id)).length:0}
+function startKey(){return S.profile.start||Object.keys(S.days).sort()[0]||today()}
+function diffDays(a,b){const p=x=>{const [y,m,d]=x.split('-').map(Number);return Date.UTC(y,m-1,d)};return Math.round((p(b)-p(a))/864e5)}
+function dayNum(){return Math.max(1,diffDays(startKey(),today())+1)}
+function counted(k){
+  if(k<startKey()||k>today())return false;
+  const nx=S.days[addDays(k,1)];if(nx&&nx.bridge)return true;
+  const nd=need(k);if(!nd)return true;
+  return doneCount(k)>=nd;
+}
+function streakFrom(k){let n=0;while(counted(k)){n++;k=addDays(k,-1)}return n}
+function streakInfo(){
+  const t=today(),d=day();
+  if(d.cb&&!d.bridge)return {n:streakFrom(addDays(t,-2)),frozen:true};
+  return {n:counted(t)&&doneCount(t)>0?streakFrom(t):streakFrom(addDays(t,-1)),frozen:false};
+}
+function bestStreak(){let best=0,run=0,k=startKey();const end=today();while(k<=end){if(counted(k)){run++;best=Math.max(best,run)}else run=0;k=addDays(k,1)}return best}
+function successDays(){let n=0,k=startKey();const t=today();while(k<=t){if(counted(k)&&(k<t||doneCount(k)>=need(k)))n++;k=addDays(k,1)}return n}
+const dreamEmoji=()=>S.profile.dreamEmoji||'🏔️';
+const msEmoji=m=>m.e==='DREAM'?dreamEmoji():m.e;
+function day(k=today()){
+  if(!S.days[k]){
+    Object.keys(S.days).forEach(o=>{if(o<k){const od=S.days[o];const dn={};Object.keys(od.done||{}).forEach(id=>dn[id]=1);S.days[o]={done:dn};if(od.bridge)S.days[o].bridge=true}});
+    const hasHistory=Object.keys(S.days).length>0;
+    const y=addDays(k,-1),yy=addDays(k,-2);
+    S.days[k]={done:{},queue:[],pos:0,landed:{},opened:{},bridge:false,
+      cb:hasHistory&&!counted(y)&&counted(yy),cbTask:COMEBACK[Math.floor(Math.random()*COMEBACK.length)]};
+    save();
+  }
+  const d=S.days[k];['queue'].forEach(x=>{if(!Array.isArray(d[x]))d[x]=[]});['landed','opened','done'].forEach(x=>{if(!d[x])d[x]={}});if(d.pos==null)d.pos=0;
+  return d;
+}
+function secState(sec){
+  if(S.settings.testMode)return 'open';
+  const n=nowMins(),a=mins(sec.start),b=mins(sec.end);
+  return n<a?'future':(n>=b?'past':'open');
+}
+function currentSec(){const n=nowMins();return secs().find(s=>n>=mins(s.start)&&n<mins(s.end))||null}
+function applyTheme(){
+  const c=currentSec();const n=nowMins();
+  let th='d';if(c)th=c.id==='m'?'m':(c.id==='e'?'e':'d');else th=(n<mins(secs()[0].start)||n>=mins(secs()[secs().length-1].end))?'n':'d';
+  document.body.className='th-'+th;
+  const meta=document.querySelector('meta[name=theme-color]');if(meta)meta.content={m:'#ffd98a',d:'#b2e449',e:'#e3a0b8',n:'#3b4a8a'}[th];
+}
+
+/* ================= iso renderer ================= */
+const STEPX=52,STEPY=27;
+function tileSVG(kind){
+  const [top,l,r]=TILE_COL[kind]||TILE_COL.base;
+  return `<svg width="92" height="64" viewBox="0 0 92 64"><g stroke-linejoin="round" stroke-width="7">
+  <path d="M4 24 L46 45 L46 59 L4 38 Z" fill="${l}" stroke="${l}"/>
+  <path d="M46 45 L88 24 L88 38 L46 59 Z" fill="${r}" stroke="${r}"/>
+  <path d="M46 4 L88 24 L46 45 L4 24 Z" fill="${top}" stroke="${kind==='done'?'#a8e66a':kind==='gold'?'#ffd760':kind==='miss'?'#e3e5d9':kind==='blue'?'#b2d8ff':'#f6ecd0'}"/>
+  <path d="M46 9 L80 24" stroke="rgba(255,255,255,.75)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  </g></svg>`;
+}
+function isoLayout(n,W,H,bottom){
+  const x0=W/2-STEPX*1.5;const pts=[{x:x0,y:H-bottom}];
+  for(let i=1;i<n;i++){const seg=Math.floor((i-1)/3);const dir=seg%2===0?1:-1;const p=pts[i-1];pts.push({x:p.x+dir*STEPX,y:p.y-STEPY})}
+  return pts;
+}
+function treeSVG(sz,hue){
+  const c=hue?['#c6f56c','#6fcb2c','#3f9a1c']:['#b5ee5a','#5cbf2a','#358a17'];
+  return `<svg width="${sz}" height="${sz*1.35}" viewBox="0 0 40 54"><ellipse cx="20" cy="50" rx="11" ry="3.5" fill="rgba(0,40,0,.22)"/><rect x="17.5" y="32" width="5" height="17" rx="2.5" fill="#8a5a2b"/>
+  <ellipse cx="20" cy="22" rx="17" ry="19" fill="${c[2]}"/><ellipse cx="18" cy="19" rx="15" ry="16" fill="${c[1]}"/><ellipse cx="14" cy="13" rx="6" ry="5" fill="${c[0]}" opacity=".85"/></svg>`;
+}
+function scatterDecor(pts,W,H,seed,avoid){
+  let s=seed;const rnd=()=>{s=(s*9301+49297)%233280;return s/233280};
+  let html='';const count=Math.ceil(H/70);
+  const far=(x,y)=>pts.every(p=>Math.abs(p.x-x)>62||Math.abs(p.y-y)>48)&&(avoid||[]).every(a=>Math.hypot(a.x-x,a.y-y)>80);
+  for(let i=0;i<count;i++){
+    const x=rnd()*W,y=170+rnd()*(H-260);if(!far(x,y))continue;
+    const r=rnd();
+    if(r<.6){const sz=24+rnd()*26;html+=`<div class="tree" style="left:${x-sz/2}px;top:${y-sz*1.3}px;z-index:${Math.round(y)}">${treeSVG(sz,rnd()<.5)}</div>`}
+    else if(r<.8){html+=`<div class="it" style="left:${x}px;top:${y}px;z-index:${Math.round(y)};font-size:${12+rnd()*8}px">${['🌼','🌸','🌷','🍄'][Math.floor(rnd()*4)]}</div>`}
+    else{html+=`<div class="it" style="left:${x}px;top:${y}px;width:16px;height:9px;border-radius:50% 50% 0 0;background:rgba(220,255,160,.7);z-index:1"></div>`}
+  }
+  return html;
+}
+function pinHTML(x,y,id){return `<div class="pin" id="${id}" style="transform:translate(${x}px,${y}px);z-index:${Math.round(y)+60}"><div class="sh"></div><div class="face">${S.avatar}</div></div>`}
+
+/* ================= daily board ================= */
+let tiles=[],pts=[],boardH=0,boardW=0;
+function buildTiles(){
+  const d=day();tiles=[{t:'start'}];
+  if(d.cb)tiles.push({t:'comeback'});
+  const ends=['gate','insight','chest'];const list=secs();
+  list.forEach((s,si)=>{
+    const hs=habitsOn(today()).filter(h=>h.sec===s.id);if(!hs.length)return;
+    hs.forEach((h,i)=>{tiles.push({t:'habit',sec:s.id});
+      if(i===0&&hs.length>1)tiles.push({t:'anchor',sec:s.id});
+      if(i===1&&hs.length>2)tiles.push({t:'surprise',sec:s.id})});
+    tiles.push({t:si===list.length-1?'chest':(ends[si]||'gate'),sec:s.id,end:true});
+  });
+}
+function nextTarget(){
+  const d=day();
+  for(let i=d.pos+1;i<tiles.length;i++){const t=tiles[i];if(t.t==='habit'&&!d.landed[i]&&secState(secById(t.sec))!=='past')return i}
+  return -1;
+}
+function renderBoard(scroll){
+  buildTiles();const d=day();
+  const sc=$('scroller');boardW=sc.clientWidth;
+  boardH=Math.max(sc.clientHeight+80,tiles.length*STEPY+560);
+  pts=isoLayout(tiles.length,boardW,boardH,250);
+  const board=$('board');board.style.height=boardH+'px';
+  const marks=[];
+  let html='';
+  const nt=nextTarget();
+  tiles.forEach((t,i)=>{
+    const p=pts[i];const sec=t.sec?secById(t.sec):null;const st=sec?secState(sec):'open';
+    let kind='base',ico='',cls='tile';
+    if(t.t==='start'){kind='done';ico='<div class="ico small">🚩</div>'}
+    else if(t.t==='comeback'){kind=d.bridge?'done':'blue';ico=`<div class="ico bob">🌱</div>${d.bridge?'<span class="chk">✓</span>':''}`;if(!d.bridge)cls+=' tap next'}
+    else if(t.t==='habit'){
+      const hid=d.landed[i];
+      if(hid){const h=habitById(hid);kind='done';ico=`<div class="ico small">${h?h.emoji:'✓'}</div><span class="chk">✓</span>`}
+      else if(st==='past'&&i>d.pos){kind='miss';ico='<div class="ico missed">פוספס</div>'}
+      else if(i===nt)cls+=' next';
+    }
+    else if(t.t==='anchor'){ico=d.opened[i]?'<div class="ico small" style="opacity:.6">💌</div>':'<div class="env"></div>'}
+    else if(t.t==='surprise'){ico=d.opened[i]?'<div class="ico small" style="opacity:.6">✨</div>':'<div class="ico q bob">?</div>'}
+    else if(t.end){kind=d.opened[i]?'done':'gold';const ic={gate:'⛩️',insight:'💡',chest:'🎁'}[t.t];
+      ico=`<div class="ico bob" style="font-size:36px">${d.opened[i]?(t.t==='chest'?'🏆':'✨'):ic}</div>`;
+      if(sec)marks.push({sec,p})}
+    html+=`<div class="${cls}" data-i="${i}" style="left:${p.x}px;top:${p.y}px;z-index:${Math.round(p.y)}">${tileSVG(kind)}${ico}</div>`;
+  });
+  const avoid=[];
+  marks.forEach(({sec,p})=>{
+    const x=boardW-50;const y=p.y-20;avoid.push({x,y});
+    html+=`<div class="mark" style="left:${x}px;top:${y-78}px;z-index:${Math.round(y)-120}"><div class="em">${sec.mark}</div><div class="plat"></div><div class="sign">${esc(sec.short)}</div></div>`;
+  });
+  html=scatterDecor(pts,boardW,boardH,11,avoid)+html;
+  const pp=pts[Math.min(d.pos,pts.length-1)];
+  html+=pinHTML(pp.x,pp.y,'pin');
+  board.innerHTML=html;
+  board.querySelectorAll('.tile.tap').forEach(el=>el.onclick=openComeback);
+  if(scroll)scrollToY(pp.y,false);
+}
+function scrollToY(y,smooth=true){const sc=$('scroller');sc.scrollTo({top:Math.max(0,y-sc.clientHeight*.58),behavior:smooth?'smooth':'auto'})}
+function hopTo(i){
+  return new Promise(res=>{
+    const pin=$('pin');const a=pts[day().pos]||pts[0],b=pts[i];
+    const mx=(a.x+b.x)/2,my=Math.min(a.y,b.y)-34;
+    pin.style.zIndex=Math.round(b.y)+60;
+    const anim=pin.animate([{transform:`translate(${a.x}px,${a.y}px)`},{transform:`translate(${mx}px,${my}px)`,offset:.5},{transform:`translate(${b.x}px,${b.y}px)`}],{duration:300,easing:'ease-in-out'});
+    anim.onfinish=()=>{pin.style.transform=`translate(${b.x}px,${b.y}px)`;puff(b.x,b.y);res()};
+    day().pos=i;sfx.hop();scrollToY(b.y);
+  });
+}
+function puff(x,y){
+  const board=$('board');
+  for(let k=0;k<6;k++){const e=document.createElement('div');e.className='puff';e.style.left=(x-6)+'px';e.style.top=(y-6)+'px';e.style.zIndex=99999;
+    const a=Math.PI*2*k/6;e.style.setProperty('--dx',Math.cos(a)*26+'px');e.style.setProperty('--dy',Math.sin(a)*12+'px');board.appendChild(e);setTimeout(()=>e.remove(),650)}
+}
+
+/* ================= sound ================= */
+let actx=null;
+function tone(fs,dur=.09,type='triangle',gap=.07,vol=.2){
+  if(!S.settings.sound)return;
+  try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    fs.forEach((f,i)=>{const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;
+      const t=actx.currentTime+i*gap;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+      o.connect(g).connect(actx.destination);o.start(t);o.stop(t+dur+.03)})}catch(e){}
+}
+const sfx={pop:()=>tone([660,990]),hop:()=>tone([520,780],.06,'sine',.04,.12),win:()=>tone([523,659,784,1047],.18,'triangle',.1),card:()=>tone([880,1320],.12,'sine',.09),go:()=>tone([330,440,550],.08,'square',.05,.06)};
+function buzz(ms){try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
+
+/* ================= UI helpers ================= */
+const $=id=>document.getElementById(id);
+let toastT;
+function toast(t){const el=$('toast');el.textContent=t;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2300)}
+function openSheet(html){const sh=$('sheet');sh.innerHTML='<div class="grab"></div>'+html;sh.scrollTop=0;$('sheetVeil').classList.add('show')}
+function closeSheet(){$('sheetVeil').classList.remove('show')}
+$('sheetVeil').onclick=e=>{if(e.target.id==='sheetVeil')closeSheet()};
+function showCard({icon,band='',title,body,auto=0,buttons='<button class="btn" data-close>המשך</button>',timer=false}){
+  return new Promise(res=>{
+    const v=$('cardVeil'),c=$('card');
+    c.innerHTML=`<div class="band ${band}"></div><div class="big">${icon}</div><h3>${title}</h3><p>${body}</p>${timer?'<div class="timer"><i></i></div>':''}<div class="row">${buttons}</div>`;
+    v.classList.add('show');sfx.card();
+    let t=null;const done=()=>{clearTimeout(t);v.classList.remove('show');res()};
+    c.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',done));
+    if(auto){const bar=c.querySelector('.timer i');if(bar){bar.style.transition=`transform ${auto}ms linear`;requestAnimationFrame(()=>requestAnimationFrame(()=>bar.style.transform='scaleX(0)'))}t=setTimeout(done,auto)}
+  });
+}
+function confetti(n=50){
+  const app=$('app');const cols=['#ff3b4e','#ffc21a','#3a8bff','#7fd84a','#ff8ad8','#fff'];
+  for(let i=0;i<n;i++){const c=document.createElement('div');c.className='conf';c.style.left='50%';c.style.top='42%';c.style.background=cols[i%6];
+    c.style.setProperty('--dx',(Math.random()*380-190)+'px');c.style.setProperty('--dy',(Math.random()*420-160)+'px');c.style.animationDelay=(Math.random()*.15)+'s';
+    app.appendChild(c);setTimeout(()=>c.remove(),1800)}
+}
+function flyEnergy(){
+  const app=$('app');const f=document.createElement('div');f.className='fly';f.textContent='+1 ⚡';
+  const r=app.getBoundingClientRect();f.style.left=(r.width/2-30)+'px';f.style.top=(r.height*.45)+'px';app.appendChild(f);
+  f.animate([{transform:'translateY(0) scale(.6)',opacity:0},{transform:'translateY(-20px) scale(1.15)',opacity:1,offset:.25},{transform:`translateY(${r.height*.45-60}px) scale(.5)`,opacity:.2}],{duration:1000,easing:'ease-in'}).onfinish=()=>f.remove();
+}
+function drawWheel(energy,spin){
+  const svg=$('wheelSvg');let out='';const n=6;
+  for(let i=0;i<n;i++){
+    const a0=(i/n)*Math.PI*2-Math.PI/2+.04,a1=((i+1)/n)*Math.PI*2-Math.PI/2-.04;const R=72,r=54;
+    const p=(a,rr)=>`${75+Math.cos(a)*rr},${75+Math.sin(a)*rr}`;
+    const lit=i<energy;
+    out+=`<path d="M${p(a0,r)} L${p(a0,R)} A${R} ${R} 0 0 1 ${p(a1,R)} L${p(a1,r)} A${r} ${r} 0 0 0 ${p(a0,r)}Z" fill="${lit?'url(#wl)':'#fff3e3'}" stroke="${lit?'#c8102a':'#f1d9b6'}" stroke-width="1.5"/>`;
+    const am=(a0+a1)/2;out+=`<text x="${75+Math.cos(am)*63}" y="${75+Math.sin(am)*63+4}" text-anchor="middle" font-family="Secular One,Rubik" font-size="12" fill="${lit?'#fff':'#d9b588'}">${lit?'⚡':i+1}</text>`;
+  }
+  svg.innerHTML=`<defs><linearGradient id="wl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff7a84"/><stop offset="1" stop-color="#e3233a"/></linearGradient></defs>${out}`;
+  if(spin){const cur=+(svg.dataset.rot||0)+360;svg.dataset.rot=cur;svg.style.transform=`rotate(${cur}deg)`}
+}
+
+/* ================= top render ================= */
+function layoutSide(){const h=$('hdr').getBoundingClientRect().height;$('side').style.top=(h-10)+'px';$('toast').style.top=(h+8)+'px'}
+function render(scroll){
+  applyTheme();const d=day();
+  $('cDate').textContent='📅 '+new Date().toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'numeric'});
+  const si=streakInfo();
+  const cs=$('cStreak');cs.className='chip '+(si.frozen?'frozen':'fire');
+  cs.innerHTML=(si.frozen?'❄️':'<span class="fl">🔥</span>')+` ${si.n} ימי רצף${si.frozen?' · מוקפא':''}`;
+  $('cStars').textContent='⭐ '+S.stars;
+  setCloud(cloud);
+  const cur=currentSec();
+  $('segs').innerHTML=secs().map(s=>{
+    const hs=habitsOn(today()).filter(h=>h.sec===s.id);const n=hs.filter(h=>d.done[h.id]).length;const all=hs.length&&n===hs.length;
+    return `<div class="seg${cur&&cur.id===s.id?' now':''}${all?' ok':''}"><i>${all?'✓':s.mark}</i>${esc(s.short)} ${n}/${hs.length}</div>`}).join('');
+  const sd=successDays();
+  $('dream').innerHTML=`<span class="de">${dreamEmoji()}</span><div class="dt"><b>${S.profile.dream?esc(S.profile.dream):'הגדר את החלום שלך ←'}</b><div class="bar"><i style="width:${Math.max(2,Math.min(100,sd/365*100))}%"></i></div></div><div class="dn">${Math.min(dayNum(),365)}<small>מתוך 365</small></div>`;
+  const tot=habitsOn(today()).length,dn=doneCount(today());
+  $('progTxt').textContent=`${dn}/${tot} היום`;$('progBar').style.width=(tot?dn/tot*100:0)+'%';
+  const e=d.queue.length;$('energyTxt').textContent='אנרגיה '+e;$('go').className=e?'ready':'empty';drawWheel(e);
+  $('avBub').textContent=S.avatar;
+  layoutSide();
+  renderBoard(scroll);
+}
+
+/* ================= habits ================= */
+let lastMark=0;const COOLDOWN=3000;
+function openHabits(){
+  const d=day();
+  let html=`<h2>מה ביצעת עכשיו בעולם האמיתי?</h2><div class="hint">כל הרגל = ⚡ אנרגיה לצעד אחד על הלוח. ניתן לסמן רק בחלון הזמן שלו.</div>`;
+  let any=false;
+  secs().forEach(s=>{
+    const hs=habitsOn(today()).filter(h=>h.sec===s.id);if(!hs.length)return;any=true;
+    const st=secState(s);const stTxt={open:'פתוח עכשיו',past:'החלון נסגר',future:`נפתח ב-${s.start}`}[st];
+    html+=`<div class="sec"><div class="sech"><span>${s.mark} ${esc(s.name)} · ${s.start}–${s.end}</span><span class="badge ${st}">${stTxt}</span></div>`;
+    hs.forEach(h=>{const done=d.done[h.id];
+      html+=`<button class="hab${done?' done':(st!=='open'?' locked':'')}" data-h="${h.id}"><span class="em">${esc(h.emoji)}</span><span class="nm">${esc(h.name)}</span><span class="tag">${done?'✓ בוצע':(st==='open'?'+1 ⚡':(st==='past'?'פוספס':'🔒'))}</span></button>`});
+    html+='</div>';
+  });
+  if(!any)html+='<div class="hint">אין הרגלים מתוכננים להיום. יום מנוחה 🌿</div>';
+  if(S.settings.testMode)html+='<div class="hint">🧪 מצב בדיקה פעיל – חלונות הזמן מבוטלים.</div>';
+  openSheet(html);
+  $('sheet').querySelectorAll('.hab').forEach(b=>b.onclick=()=>markHabit(b.dataset.h));
+}
+function markHabit(id){
+  const d=day(),h=habitById(id);if(!h)return;
+  if(d.done[id]){toast('כבר סימנת את זה היום ✓');return}
+  const sec=secById(h.sec);const st=secState(sec);
+  if(st==='future'){toast(`ייפתח ב-${sec.start} ⏰`);return}
+  if(st==='past'){toast('החלון נסגר – מחר הזדמנות חדשה 🌱');return}
+  const left=COOLDOWN-(Date.now()-lastMark);
+  if(left>0){toast(`כל הרגל בנפרד… (${Math.ceil(left/1000)})`);return}
+  lastMark=Date.now();d.done[id]=Date.now();d.queue.push(id);save();sfx.pop();buzz(30);
+  closeSheet();render(false);flyEnergy();toast(`${h.emoji} +1 ⚡ – לחץ GO`);
+}
+
+/* ================= GO ================= */
+let busy=false;const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function go(){
+  if(busy)return;const d=day();
+  if(!d.queue.length){toast('אין אנרגיה – בצע הרגל בעולם האמיתי ⚡');buzz(15);return}
+  busy=true;sfx.go();drawWheel(d.queue.length,true);await sleep(450);
+  const hid=d.queue.shift();const h=habitById(hid);
+  if(!h){save();busy=false;render(false);return}
+  buildTiles();
+  let target=-1;
+  for(let i=d.pos+1;i<tiles.length;i++)if(tiles[i].t==='habit'&&tiles[i].sec===h.sec&&!d.landed[i]){target=i;break}
+  if(target<0)for(let i=d.pos+1;i<tiles.length;i++)if(tiles[i].t==='habit'&&!d.landed[i]){target=i;break}
+  if(target<0){save();busy=false;render(false);return}
+  const secFirst=tiles.findIndex(t=>t.sec===h.sec);
+  if(d.pos<secFirst-1){await hopTo(secFirst-1);await sleep(80)}
+  const events=[];
+  for(let i=d.pos+1;i<=target;i++){
+    await hopTo(i);await sleep(60);
+    const t=tiles[i];if((t.t==='anchor'||t.t==='surprise')&&!d.opened[i]){d.opened[i]=true;events.push(t.t)}
+  }
+  d.pos=target;d.landed[target]=hid;save();render(false);buzz(20);
+  for(const ev of events)await runEvent(ev);
+  await showCard({icon:h.emoji,band:'g',title:esc(h.name)+' ✓',body:['צעד אמיתי. ניצחון אמיתי.','כך בונים זהות חדשה – צעד אחר צעד.','מעולה! המוח רשם את זה.','עוד הצבעה בעד האדם שאתה בוחר להיות.'][Math.floor(Math.random()*4)],auto:1800,timer:true,buttons:''});
+  const secTiles=tiles.map((t,i)=>({t,i})).filter(o=>o.t.sec===h.sec&&o.t.t==='habit');
+  if(secTiles.length&&secTiles.every(o=>d.landed[o.i])){
+    const endIdx=tiles.findIndex(t=>t.end&&t.sec===h.sec);
+    if(endIdx>0&&!d.opened[endIdx]){
+      for(let i=d.pos+1;i<=endIdx;i++){await hopTo(i);await sleep(60)}
+      d.pos=endIdx;d.opened[endIdx]=true;save();render(false);await runEnd(tiles[endIdx].t);
+    }
+  }
+  await checkMilestone();
+  busy=false;render(false);
+  if(!d.queue.length)showRest();
+}
+function pickAnchor(){
+  const P=S.profile;
+  if(P.dream&&Math.random()<.4)return Math.random()<.5||!P.why?{t:'החלום שלי',m:`${dreamEmoji()} ${esc(P.dream)}<br><small>יום ${dayNum()} מתוך 365 · כל הרגל מקרב אותך.</small>`}:{t:'זכור למה',m:esc(P.why)};
+  return ANCHORS[Math.floor(Math.random()*ANCHORS.length)];
+}
+async function runEvent(ev){
+  if(ev==='anchor'){const a=pickAnchor();
+    await showCard({icon:'💌',band:'b',title:'עוגן NLP · '+a.t,body:a.m,auto:5000,timer:true,buttons:'<button class="btn ghost" data-close>קיבלתי</button>'});
+  }else{
+    const locked=AVATARS.filter(a=>!S.unlocked.includes(a));
+    if(locked.length&&Math.random()<.55){const a=locked[0];S.unlocked.push(a);save();sfx.win();confetti();
+      await showCard({icon:a,band:'p',title:'הפתעה! דמות חדשה',body:'פרס על התמדה. אפשר להחליף בכפתור "הדמות".',buttons:`<button class="btn" data-close id="useAv">השתמש עכשיו</button><button class="btn ghost" data-close>אחר כך</button>`});
+    }else{S.stars+=3;save();sfx.win();
+      await showCard({icon:'⭐',title:'הפתעה! +3 כוכבים',body:`ההתמדה שלך משתלמת. סה"כ ${S.stars} ⭐`,buttons:'<button class="btn" data-close>יש!</button>'})}
+  }
+}
+$('card').addEventListener('click',e=>{
+  if(e.target.id==='useAv'){S.avatar=S.unlocked[S.unlocked.length-1];save();render(false)}
+  if(e.target.id==='seeYear')setTimeout(openYear,250);
+});
+async function runEnd(type){
+  sfx.win();confetti(70);buzz([30,40,30]);
+  if(type==='gate'){S.stars+=5;save();await showCard({icon:'⛩️',title:'שער הבוקר נפתח!',body:'בוקר של ניצחונות הושלם.<br>בונוס אנרגיה: +5 ⭐',buttons:'<button class="btn" data-close>ממשיכים ליום</button>'})}
+  else if(type==='insight'){S.stars+=5;save();await showCard({icon:'💡',band:'b',title:'מיקרו-תובנה',body:INSIGHTS[Math.floor(Math.random()*INSIGHTS.length)],buttons:'<button class="btn" data-close>+5 ⭐ תודה</button>'})}
+  else{S.stars+=10;save();const si=streakInfo();await showCard({icon:'🎁',band:'g',title:'תיבת האוצר היומית!',body:`היום נסגר במלואו.<br>🔥 רצף: ${si.n} ימים · +10 ⭐`,buttons:'<button class="btn green" data-close>לילה טוב 🌙</button>'})}
+}
+async function checkMilestone(){
+  const sd=successDays();const hit=MILESTONES.filter(m=>m.d<=sd&&!S.msSeen.includes(m.d));if(!hit.length)return;
+  hit.forEach(m=>S.msSeen.push(m.d));const m=hit[hit.length-1];
+  const locked=AVATARS.filter(a=>!S.unlocked.includes(a));let extra='';
+  if(locked.length){S.unlocked.push(locked[0]);extra=`<br>דמות חדשה נפתחה: ${locked[0]}`}
+  S.stars+=m.d>=365?100:20;save();sfx.win();confetti(90);
+  const isDream=m.d>=365;
+  await showCard({icon:msEmoji(m),band:'p',title:isDream?'הגעת לחלום! 🎉':'תחנה חדשה: '+m.n,body:`${isDream&&S.profile.dream?esc(S.profile.dream)+'<br>':''}${m.m}<br><small>${m.d} ימי הצלחה${extra}</small>`,buttons:'<button class="btn" data-close id="seeYear">למפת השנה</button><button class="btn ghost" data-close>המשך</button>'});
+}
+function openComeback(){
+  const d=day();if(d.bridge)return;
+  showCard({icon:'🌱',band:'g',title:'משבצת אתגר חזרה',body:`אתמול לא הסתדר – וזה בסדר גמור.<br>צעד קטן אחד שומר על הרצף:<br><b>${d.cbTask}</b>`,buttons:'<button class="btn green" data-close id="cbDone">עשיתי ✓</button><button class="btn ghost" data-close>אחר כך</button>'});
+  $('cbDone').addEventListener('click',()=>{d.bridge=true;save();sfx.win();confetti();render(false);toast('הרצף נשמר! 🔥 ברוך השב');setTimeout(checkMilestone,800)});
+}
+let breathT=null;
+function showRest(){
+  $('rest').classList.add('show');let i=0;const ph=['שאיפה…','החזקה…','נשיפה…','החזקה…'];
+  clearInterval(breathT);$('breathTxt').textContent=ph[0];breathT=setInterval(()=>{i=(i+1)%4;$('breathTxt').textContent=ph[i]},2000);
+}
+$('restBack').onclick=()=>{$('rest').classList.remove('show');clearInterval(breathT)};
+
+/* ================= history ================= */
+function heatmap(){
+  const st=startKey(),t=today();const first=addDays(st,-wdOf(st));let out='';
+  for(let w=0;w<53;w++){out+='<div class="wk">';
+    for(let dd=0;dd<7;dd++){const k=addDays(first,w*7+dd);let c='';
+      if(k<st||diffDays(st,k)>=365)c='pre';else if(k>t)c='fut';
+      else{const n=habitsOn(k).length,dn=doneCount(k),r=n?dn/n:1;
+        if(n===0)c='l1';else if(r>=1)c='l3';else if(dn>=need(k))c='l2';else if(dn>0||(S.days[addDays(k,1)]||{}).bridge)c='l1';if(k===t)c+=' t'}
+      out+=`<i class="${c}" title="${k}"></i>`}
+    out+='</div>'}
+  return out;
+}
+function openHistory(){
+  const t=today();const si=streakInfo();let wk=0,wkP=0;
+  for(let i=0;i<7;i++){const k=addDays(t,-i);wk+=doneCount(k);if(k>=startKey())wkP+=habitsOn(k).length}
+  const pct=wkP?Math.round(wk/wkP*100):0;
+  let html=`<h2>📜 המעקב שלי</h2><div class="hint">ההיסטוריה, הרצף וההתקדמות לאורך 365 הימים.</div>
+  <div class="stats"><div class="stat"><b>${si.n}</b><span>${si.frozen?'רצף (מוקפא)':'ימי רצף'}</span></div><div class="stat"><b>${bestStreak()}</b><span>שיא רצף</span></div><div class="stat"><b>${successDays()}</b><span>ימי הצלחה</span></div></div>
+  <div class="sech"><span>מפת 365 הימים</span><span class="badge open">יום ${Math.min(dayNum(),365)}/365</span></div>
+  <div class="heat">${heatmap()}</div>
+  <div class="legend" style="margin-bottom:16px"><span>פחות</span><i style="background:#efe8d6"></i><i style="background:#d6f0b4"></i><i style="background:#a6e070"></i><i style="background:#4fb51f"></i><span>יותר</span></div>
+  <div class="sech"><span>7 הימים האחרונים</span><span class="badge open">${pct}% ביצוע</span></div><div class="wbars">`;
+  const dn=['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
+  for(let i=6;i>=0;i--){const k=addDays(t,-i);const c=doneCount(k);const hn=habitsOn(k).length;const hg=hn?Math.round(Math.min(1,c/hn)*72):0;
+    html+=`<div class="wb"><span>${c}</span><i style="height:${hg}px;${counted(k)?'':'opacity:.45'}"></i><span>${dn[wdOf(k)]}</span></div>`}
+  html+=`</div><div class="sech"><span>פירוט לפי הרגל · 14 ימים</span></div><table class="grid"><tr><th></th>${habits().map(h=>`<th title="${esc(h.name)}">${esc(h.emoji)}</th>`).join('')}<th></th></tr>`;
+  for(let i=0;i<14;i++){const k=addDays(t,-i);const d=S.days[k];const [y,m,dd]=k.split('-').map(Number);
+    html+=`<tr><td class="d">${i===0?'היום':dd+'/'+m}</td>${habits().map(h=>{const sch=!h.days||h.days.includes(wdOf(k));return `<td><div class="cell${d&&d.done&&d.done[h.id]?' y':''}${i===0?' today':''}"${sch?'':' style="opacity:.3"'}></div></td>`}).join('')}<td>${counted(k)&&(k<t||doneCount(k)>=need(k))?'🔥':(d&&d.bridge?'🌱':'')}</td></tr>`}
+  html+=`</table><div class="hint" style="margin-top:10px">🔥 יום הצלחה = לפחות חצי מהרגלי היום. 🌱 = אתגר חזרה הושלם.</div><div class="row" style="margin-top:8px"><button class="btn ghost" id="closeH">סגירה</button></div>`;
+  openSheet(html);$('closeH').onclick=closeSheet;
+}
+
+/* ================= avatar ================= */
+function openAvatars(){
+  let html=`<h2>הדמות שלי</h2><div class="hint">דמויות חדשות נפתחות במשבצות ההפתעה (?) ובתחנות המסע.</div><div class="avatars">`;
+  AVATARS.forEach(a=>{const un=S.unlocked.includes(a);html+=`<button class="av${a===S.avatar?' sel':''}${un?'':' lock'}" data-a="${a}">${un?a:'🔒'}</button>`});
+  html+=`</div><div class="row"><button class="btn ghost" id="closeA">סגירה</button></div>`;
+  openSheet(html);
+  $('sheet').querySelectorAll('.av').forEach(b=>b.onclick=()=>{const a=b.dataset.a;if(!S.unlocked.includes(a)){toast('עוד לא נפתח – המשך להתמיד 💪');return}S.avatar=a;save();render(false);openAvatars()});
+  $('closeA').onclick=closeSheet;
+}
+
+/* ================= year map ================= */
+function openYear(){
+  const sd=successDays(),dn=dayNum();
+  const stations=[{d:0,n:'יציאה לדרך',e:'🚩'}].concat(MILESTONES);
+  const BETWEEN=4;const list=[];
+  stations.forEach((m,i)=>{list.push({st:m,d:m.d});if(i<stations.length-1)for(let k=1;k<=BETWEEN;k++)list.push({d:m.d+(stations[i+1].d-m.d)*k/(BETWEEN+1)})});
+  const W=Math.min($('app').clientWidth,520);const H=list.length*STEPY+420;
+  const P=isoLayout(list.length,W,H,120);
+  let html='';const nextM=MILESTONES.find(m=>m.d>sd);
+  let avIdx=0;list.forEach((o,i)=>{if(sd>=o.d)avIdx=i});
+  list.forEach((o,i)=>{
+    const p=P[i];const ok=sd>=o.d;const last=i===list.length-1;
+    let kind=o.st?(ok?'done':'gold'):(ok?'done':'base');
+    let ico='';
+    if(o.st){const em=i===0?'🚩':msEmoji(o.st);ico=`<div class="ico ${ok?'':'bob'}" style="font-size:${last?50:34}px">${em}</div>`}
+    html+=`<div class="tile${nextM&&o.st&&o.st.d===nextM.d?' next':''}" style="left:${p.x}px;top:${p.y}px;z-index:${Math.round(p.y)}">${tileSVG(kind)}${ico}</div>`;
+    if(o.st){const lx=p.x>W/2?p.x-110:p.x+110;
+      html+=`<div class="slabel${last?' dream':''}" style="left:${Math.max(70,Math.min(W-70,lx))}px;top:${p.y-(last?40:24)}px;z-index:${Math.round(p.y)+5}">${last?(S.profile.dream?esc(S.profile.dream):'החלום שלי'):esc(o.st.n)}${ok&&i?' ✓':''}<br><small>${o.st.d?'יום הצלחה '+o.st.d:'יום 1'}</small></div>`}
+  });
+  html=scatterDecor(P,W,H,5,[])+html;
+  const ap=P[avIdx];html+=pinHTML(ap.x,ap.y,'ypin');
+  $('year').innerHTML=`<div class="ytop"><button class="xbtn" id="yClose">✕</button><h2>המסע השנתי</h2>
+    <div class="ystats"><div><b>${Math.min(dn,365)}</b><span>יום מתוך 365</span></div><div><b>${sd}</b><span>ימי הצלחה</span></div><div><b>${Math.min(100,Math.round(sd/365*100))}%</b><span>מהדרך לחלום</span></div></div>
+    <div class="ynext">${nextM?`עוד ${nextM.d-sd} ימי הצלחה לתחנה "${esc(nextM.n)}" ${msEmoji(nextM)}`:'השלמת את המסע! 🎉'}</div></div>
+    <div id="ymap" style="height:${H}px">${html}</div>`;
+  const y=$('year');y.classList.add('show');$('yClose').onclick=()=>y.classList.remove('show');
+  requestAnimationFrame(()=>{y.scrollTop=Math.max(0,ap.y+200-y.clientHeight*.6)});
+}
+
+/* ================= settings ================= */
+let draft=null,draftP=null;
+function applyHabits(list){
+  list=list.filter(h=>h.name&&String(h.name).trim());
+  const changed=JSON.stringify(list)!==JSON.stringify(S.settings.habits);
+  S.settings.habits=list;
+  if(changed){const d=day();const ids=Object.keys(d.done).filter(id=>habitById(id));d.pos=0;d.landed={};d.opened={};d.queue=ids.sort((a,b)=>d.done[a]-d.done[b])}
+}
+function syncLink(){return location.origin+location.pathname+'#sync='+CODE}
+function openSettings(){draft=clone(S.settings);draftP=clone(S.profile);drawSettings()}
+function drawSettings(){
+  const opt=sel=>secs().map(s=>`<option value="${s.id}"${s.id===sel?' selected':''}>${esc(s.short)}</option>`).join('');
+  let html=`<div class="set"><h2>⚙️ הגדרות</h2>
+  <h4>☁️ סנכרון ענן</h4>
+  <div class="syncbox"><div style="font-weight:800;font-size:14px">${cloud==='off'?'⚠️ אין חיבור כרגע – נשמר במכשיר ויסונכרן כשיחזור':'✓ הנתונים נשמרים בענן (Supabase)'}</div>
+  <div class="hint" style="margin:6px 0 0">לפתיחת המסע בטלפון/מחשב נוסף – העתק את קישור הסנכרון ופתח אותו שם. שמור עליו, הוא המפתח לנתונים שלך.</div>
+  <div class="code" id="codeBox">${CODE.slice(0,6)}••••••••${CODE.slice(-4)}</div>
+  <div class="row"><button class="btn sm" id="copyLink">📋 העתק קישור סנכרון</button><button class="btn ghost sm" id="showCode">הצג קוד</button></div>
+  <div class="hrow" style="margin-top:10px"><input class="inp n" id="codeIn" placeholder="הדבק קוד ממכשיר אחר" dir="ltr"><button class="btn ghost sm" id="useCode">חבר</button></div></div>
+  <h4>🎯 החלום והמסע</h4>
+  <div class="hrow"><input class="inp e" id="pEmoji" value="${esc(draftP.dreamEmoji)}" maxlength="4"><input class="inp n" id="pDream" placeholder="החלום שלי בעוד שנה…" value="${esc(draftP.dream)}"></div>
+  <div class="hrow"><input class="inp n" id="pWhy" placeholder="למה זה חשוב לי?" value="${esc(draftP.why)}"></div>
+  <div class="trow"><span class="lab">תחילת המסע (365 יום)</span><input class="inp" type="date" id="pStart" value="${draftP.start||startKey()}" style="width:150px"></div>
+  <h4>✅ ההרגלים שלי</h4><div class="hint">שם, מקטע וימים בשבוע לכל הרגל.</div>`;
+  draft.habits.forEach((h,i)=>{const days=h.days||ALLDAYS;
+    html+=`<div class="hrow"><input class="inp e" data-i="${i}" data-f="emoji" value="${esc(h.emoji)}" maxlength="4"><input class="inp n" data-i="${i}" data-f="name" value="${esc(h.name)}"><select class="inp" data-i="${i}" data-f="sec">${opt(h.sec)}</select><button class="x" data-del="${i}">✕</button></div>
+    <div class="wdrow">${WD.map((w,wi)=>`<button class="${days.includes(wi)?'on':''}" data-wd="${i}:${wi}">${w}</button>`).join('')}</div>`});
+  html+=`<button class="btn ghost sm" id="addH">+ הוספת הרגל</button>
+  <h4>⏰ חלונות זמן</h4>`;
+  draft.sections.forEach((s,i)=>{html+=`<div class="trow"><span class="lab">${s.mark} ${esc(s.name)}</span><input class="inp" type="time" data-s="${i}" data-f="start" value="${s.start}"><span>–</span><input class="inp" type="time" data-s="${i}" data-f="end" value="${s.end}"></div>`});
+  html+=`<h4>כללי</h4>
+  <label class="switch">🔊 צלילים<input type="checkbox" id="sSound"${draft.sound?' checked':''}></label>
+  <label class="switch">🧪 מצב בדיקה (ביטול חלונות זמן)<input type="checkbox" id="sTest"${draft.testMode?' checked':''}></label>
+  <div class="row" style="margin-top:14px"><button class="btn" id="saveS">שמירה</button><button class="btn ghost" id="cancelS">ביטול</button></div>
+  <h4 style="margin-top:22px">כלים</h4>
+  <div class="row"><button class="btn ghost sm" id="wizS">🧭 אשף ההגדרה</button><button class="btn ghost sm" id="resetDay">איפוס היום</button></div></div>`;
+  openSheet(html);const sh=$('sheet');
+  sh.querySelectorAll('[data-f]').forEach(inp=>inp.oninput=inp.onchange=()=>{if(inp.dataset.i!==undefined)draft.habits[+inp.dataset.i][inp.dataset.f]=inp.value;else draft.sections[+inp.dataset.s][inp.dataset.f]=inp.value});
+  sh.querySelectorAll('[data-wd]').forEach(b=>b.onclick=()=>{const [i,w]=b.dataset.wd.split(':').map(Number);const h=draft.habits[i];h.days=h.days||ALLDAYS.slice();
+    if(h.days.includes(w)){if(h.days.length>1)h.days=h.days.filter(x=>x!==w)}else h.days.push(w);h.days.sort();b.classList.toggle('on',h.days.includes(w))});
+  [['pEmoji','dreamEmoji'],['pDream','dream'],['pWhy','why'],['pStart','start']].forEach(([id,k])=>$(id).oninput=$(id).onchange=e=>draftP[k]=e.target.value);
+  sh.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{draft.habits.splice(+b.dataset.del,1);drawSettings()});
+  $('addH').onclick=()=>{draft.habits.push({id:'h'+Date.now().toString(36),emoji:'⭐',name:'הרגל חדש',sec:(currentSec()||secs()[0]).id,days:ALLDAYS.slice()});drawSettings()};
+  $('sSound').onchange=e=>draft.sound=e.target.checked;$('sTest').onchange=e=>draft.testMode=e.target.checked;
+  $('cancelS').onclick=closeSheet;
+  $('saveS').onclick=()=>{const hl=draft.habits;const st=clone(draft);st.habits=S.settings.habits;S.settings=st;applyHabits(hl);if(!draftP.start)draftP.start=startKey();S.profile=draftP;save();closeSheet();render(true);toast('נשמר ✓')};
+  $('wizS').onclick=()=>{closeSheet();openOnboarding()};
+  $('copyLink').onclick=async()=>{try{await navigator.clipboard.writeText(syncLink());toast('הקישור הועתק 📋')}catch(e){$('codeBox').textContent=syncLink();toast('העתק ידנית מהתיבה')}};
+  $('showCode').onclick=()=>{$('codeBox').textContent=CODE};
+  $('useCode').onclick=()=>connectCode($('codeIn').value);
+  $('resetDay').onclick=()=>{const b=$('resetDay');if(b.dataset.c){delete S.days[today()];save();closeSheet();render(true);toast('היום אופס')}else{b.dataset.c=1;b.textContent='לחץ שוב לאישור'}};
+}
+async function connectCode(v){
+  v=String(v||'').trim();const m=v.match(/([a-z0-9]{24,80})\s*$/i);if(!m){toast('קוד לא תקין');return}
+  const old=CODE;CODE=m[1];
+  try{const r=await rpc('journey_get',{p_code:CODE});
+    if(!r||!r.state){CODE=old;toast('לא נמצא מסע עם הקוד הזה');return}
+    lsSet(LS_CODE,CODE);S=normalize(r.state);S.updated=r.updated;lsSet(LS,JSON.stringify(S));
+    closeSheet();$('onb').classList.remove('show');render(true);toast('המסע חובר ✓');setCloud('ok')
+  }catch(e){CODE=old;toast('אין חיבור לענן כרגע')}
+}
+
+/* ================= onboarding ================= */
+let ob=null;
+function openOnboarding(){
+  ob={step:0,dream:S.profile.dream,why:S.profile.why,emoji:S.profile.dreamEmoji||'🏔️',start:S.profile.start||today(),habits:clone(S.settings.habits)};
+  drawOnb();$('onb').classList.add('show');
+}
+function drawOnb(){
+  const dots=`<div class="dots">${[0,1,2].map(i=>`<i class="${i===ob.step?'on':''}"></i>`).join('')}</div>`;
+  let h='<div class="onbw">'+dots;
+  if(ob.step===0){
+    const EM=['🏔️','🚀','💎','🏆','🏡','❤️','💪','🌍','📚','💰','🎯','🌟'];
+    h+=`<h2>מה החלום שלך?</h2><div class="sub">לאן תרצה להגיע בעוד 365 ימים? זה היעד בסוף המסע.</div>
+    <div class="ocard"><label>סמל לחלום</label><div class="emos">${EM.map(e=>`<button data-em="${e}" class="${e===ob.emoji?'sel':''}">${e}</button>`).join('')}</div>
+    <label>החלום שלי</label><textarea id="oDream" rows="2" placeholder="למשל: גוף חזק ובריא, עסק שמפרנס בכבוד, שקט פנימי…">${esc(ob.dream)}</textarea>
+    <label>למה זה חשוב לי?</label><textarea id="oWhy" rows="2" placeholder="המשפט שיזכיר לך בימים הקשים">${esc(ob.why)}</textarea></div>
+    <div class="row"><button class="btn" id="oNext">הבא ←</button>${S.profile.onboarded?'<button class="btn ghost" id="oSkip">סגירה</button>':''}</div>
+    <div class="row"><button class="linkbtn" id="oHave">יש לי כבר מסע במכשיר אחר</button></div>
+    <div class="ocard" id="oHaveBox" style="display:none;margin-top:10px"><label>הדבק את קישור/קוד הסנכרון</label><div class="addrow"><input class="inp" id="oCode" dir="ltr" placeholder="https://…#sync=…"><button class="btn sm" id="oConnect">חבר</button></div></div>`;
+  }else if(ob.step===1){
+    h+=`<h2>ההרגלים שיביאו אותך לשם</h2><div class="sub">סמן הרגלים מוכנים או הוסף משלך. מומלץ 2–4 בכל מקטע.</div>`;
+    secs().forEach(sec=>{
+      const mine=ob.habits.filter(x=>x.sec===sec.id);const all=mine.map(x=>[x.emoji,x.name]);
+      (SUGGEST[sec.id]||[]).forEach(sg=>{if(!all.some(a=>a[1]===sg[1]))all.push(sg)});
+      h+=`<div class="ocard"><label>${sec.mark} ${esc(sec.name)} · ${sec.start}–${sec.end}</label><div class="chs">
+      ${all.map(([e,n])=>`<button class="ch${mine.some(x=>x.name===n)?' on':''}" data-sec="${sec.id}" data-e="${esc(e)}" data-n="${esc(n)}">${esc(e)} ${esc(n)}</button>`).join('')}</div>
+      <div class="addrow"><input class="inp" data-addin="${sec.id}" placeholder="הרגל משלי…"><button class="btn ghost sm" data-add="${sec.id}">הוסף</button></div></div>`;
+    });
+    h+=`<div class="sub">אפשר לקבוע ימים בשבוע לכל הרגל בהגדרות.</div><div class="row"><button class="btn" id="oNext">הבא ←</button><button class="btn ghost" id="oBack">חזרה</button></div>`;
+  }else{
+    h+=`<h2>המסע מתחיל</h2><div class="sub">365 ימים · 9 תחנות · חלום אחד</div>
+    <div class="ocard" style="text-align:center"><div style="font-size:70px;filter:drop-shadow(0 8px 8px rgba(0,0,0,.15))">${ob.emoji}</div>
+    <div style="font-family:'Secular One';font-size:20px;margin:6px 0">${ob.dream?esc(ob.dream):'החלום שלי'}</div>
+    ${ob.why?`<div style="color:var(--muted);font-size:14px;margin-bottom:10px">${esc(ob.why)}</div>`:''}
+    <div style="font-weight:800;font-size:14px;margin-bottom:12px">${ob.habits.length} הרגלים · יום הצלחה = לפחות חצי מהרגלי היום</div>
+    <label>תאריך תחילת המסע</label><input type="date" id="oStart" value="${ob.start}"></div>
+    <div class="row"><button class="btn green" id="oGo">🚀 יוצאים לדרך</button><button class="btn ghost" id="oBack">חזרה</button></div>`;
+  }
+  h+='</div>';const o=$('onb');o.innerHTML=h;o.scrollTop=0;
+  o.querySelectorAll('[data-em]').forEach(b=>b.onclick=()=>{ob.emoji=b.dataset.em;o.querySelectorAll('[data-em]').forEach(x=>x.classList.toggle('sel',x===b))});
+  if($('oDream')){$('oDream').oninput=e=>ob.dream=e.target.value;$('oWhy').oninput=e=>ob.why=e.target.value}
+  if($('oHave'))$('oHave').onclick=()=>{$('oHaveBox').style.display='block'};
+  if($('oConnect'))$('oConnect').onclick=()=>connectCode($('oCode').value);
+  o.querySelectorAll('.ch').forEach(b=>b.onclick=()=>{const {sec,e,n}=b.dataset;const i=ob.habits.findIndex(x=>x.sec===sec&&x.name===n);
+    if(i>=0)ob.habits.splice(i,1);else ob.habits.push({id:'h'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),emoji:e,name:n,sec,days:ALLDAYS.slice()});b.classList.toggle('on',i<0)});
+  o.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{const sec=b.dataset.add;const v=o.querySelector(`[data-addin="${sec}"]`).value.trim();if(!v)return;
+    let em='⭐',name=v;const m=v.match(/^(\p{Extended_Pictographic}️?)\s*(.+)$/u);if(m){em=m[1];name=m[2]}
+    ob.habits.push({id:'h'+Date.now().toString(36),emoji:em,name,sec,days:ALLDAYS.slice()});drawOnb()});
+  if($('oStart'))$('oStart').onchange=e=>ob.start=e.target.value||today();
+  if($('oBack'))$('oBack').onclick=()=>{ob.step--;drawOnb()};
+  if($('oSkip'))$('oSkip').onclick=()=>o.classList.remove('show');
+  if($('oNext'))$('oNext').onclick=()=>{if(ob.step===1&&!ob.habits.length){toast('בחר לפחות הרגל אחד');return}ob.step++;drawOnb()};
+  if($('oGo'))$('oGo').onclick=()=>{
+    S.profile={onboarded:true,dream:ob.dream.trim(),why:ob.why.trim(),dreamEmoji:ob.emoji,start:ob.start};
+    applyHabits(ob.habits);save();push();o.classList.remove('show');render(true);sfx.win();confetti(80);toast('יום '+dayNum()+' מתוך 365 – יאללה! 🚀');
+  };
+}
+
+/* ================= wire ================= */
+$('markBtn').onclick=openHabits;$('progBtn').onclick=openHistory;$('bHist').onclick=openHistory;
+$('bAv').onclick=openAvatars;$('bSet').onclick=openSettings;$('bYear').onclick=openYear;$('dream').onclick=openYear;$('go').onclick=go;
+let lastDay=today();
+setInterval(()=>{if(busy)return;if(today()!==lastDay){lastDay=today();render(true)}else render(false)},60000);
+document.addEventListener('visibilitychange',async()=>{if(document.hidden||busy)return;try{if(await pull())render(true);else render(false);setCloud('ok')}catch(e){setCloud('off')}});
+let rT;window.addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(()=>render(false),150)});
+render(true);
+(async()=>{
+  await Promise.race([initCloud(),sleep(6000)]);
+  if(!S.profile.onboarded)openOnboarding();
+})();
+})();
+</script>
+</body>
+</html>

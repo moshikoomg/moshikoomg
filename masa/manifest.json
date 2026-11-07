@@ -1,0 +1,12 @@
+{
+  "name": "מסע ההתפתחות שלי",
+  "short_name": "המסע שלי",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "he",
+  "background_color": "#9fd832",
+  "theme_color": "#9fd832",
+  "icons": [{"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}]
+}

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ביט·קאט — עורך וידאו אוטומטי עם AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0f; --card:#16161b; --line:#26262e; --tx:#f1f0ec; --mute:#8b8a93;
+  --acc:#d4ff3a; --hot:#ff3d7f; --cy:#3de0ff; --r:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--tx);font-family:Rubik,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding:18px 14px 60px;max-width:560px;margin:0 auto}
+header{display:flex;align-items:flex-end;justify-content:space-between;margin:6px 4px 18px}
+.logo{font-weight:900;font-size:34px;letter-spacing:-1px;line-height:1}
+.logo b{color:var(--acc)}
+.logo i{font-style:normal;color:var(--hot)}
+.tag{color:var(--mute);font-size:13px;max-width:180px;text-align:left;line-height:1.35}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.step{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.num{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#000;font-weight:900;display:grid;place-items:center;font-size:14px;flex:none}
+.step h2{font-size:17px;font-weight:700}
+.step small{color:var(--mute);font-size:12px;margin-inline-start:auto}
+.drop{position:relative;display:flex;align-items:center;gap:12px;border:1.5px dashed #3a3a44;border-radius:14px;padding:14px;cursor:pointer;transition:.2s}
+.drop:hover{border-color:var(--acc)}
+.drop.ok{border-style:solid;border-color:var(--acc);background:#d4ff3a0d}
+.drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:0;z-index:2}
+.step .num.alt{background:var(--hot);color:#fff}
+#understand{display:none;margin-top:12px;padding:14px;border-radius:14px;background:linear-gradient(140deg,#3de0ff14,#ff3d7f14);border:1px solid #3de0ff40;font-size:14px;line-height:1.55}
+#understand h3{font-size:15px;margin-bottom:6px;color:var(--cy)}
+#understand ul{padding-inline-start:18px;margin-top:6px}
+#understand li{margin:3px 0}
+#understand .tt{color:var(--acc);font-weight:700;font-variant-numeric:tabular-nums}
+details.adv summary{cursor:pointer;color:var(--mute);font-size:13.5px;list-style:none}
+details.adv summary::before{content:'＋ '}
+details.adv[open] summary::before{content:'－ '}
+.chk{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13.5px;color:var(--tx)}
+.chk input{accent-color:var(--acc);width:18px;height:18px}
+.drop .ic{font-size:26px}
+.drop .t1{font-weight:600}
+.drop .t2{color:var(--mute);font-size:12.5px;margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:#1d1d23;color:var(--tx);border-radius:999px;padding:9px 14px;font:inherit;font-size:14px;cursor:pointer;transition:.15s}
+.chip.on{background:var(--acc);color:#000;border-color:var(--acc);font-weight:700}
+.chip .sub{display:block;font-size:11px;opacity:.7;font-weight:400}
+.row{display:flex;align-items:center;gap:10px;margin-top:12px;color:var(--mute);font-size:13.5px}
+.row input[type=range]{flex:1;accent-color:var(--acc)}
+.row b{color:var(--tx);min-width:56px;text-align:center}
+.ai{display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;background:linear-gradient(120deg,#ff3d7f22,#3de0ff18);border:1px solid #ff3d7f55;margin-top:4px}
+.ai .t{flex:1;font-size:13.5px;line-height:1.4}
+.ai .t b{display:block;font-size:15px}
+.sw{position:relative;width:48px;height:28px;flex:none}
+.sw input{opacity:0;width:0;height:0}
+.sw span{position:absolute;inset:0;background:#34343d;border-radius:99px;transition:.2s;cursor:pointer}
+.sw span:before{content:"";position:absolute;width:22px;height:22px;top:3px;right:3px;background:#fff;border-radius:50%;transition:.2s}
+.sw input:checked+span{background:var(--hot)}
+.sw input:checked+span:before{transform:translateX(-20px)}
+.go{width:100%;border:0;border-radius:16px;padding:18px;font:inherit;font-size:19px;font-weight:900;background:var(--acc);color:#000;cursor:pointer;margin-top:4px;letter-spacing:-.3px;box-shadow:0 8px 30px #d4ff3a30}
+.go:disabled{opacity:.35;box-shadow:none;cursor:default}
+.ghost{background:transparent;border:1px solid var(--line);color:var(--tx);border-radius:14px;padding:13px;font:inherit;font-weight:600;cursor:pointer;flex:1}
+.prog{height:6px;background:#23232a;border-radius:9px;overflow:hidden;margin:14px 0 8px}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--cy));transition:width .2s}
+#status{font-size:14px;font-weight:600}
+#log{font-size:12.5px;color:var(--mute);margin-top:8px;line-height:1.6;max-height:150px;overflow:auto}
+#log div::before{content:"› ";color:var(--acc)}
+.stats{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.stat{background:#1d1d23;border-radius:10px;padding:8px 11px;font-size:12px;color:var(--mute)}
+.stat b{display:block;color:var(--tx);font-size:16px}
+#tl{width:100%;height:92px;display:block;margin-top:12px;border-radius:10px;background:#101014}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:11.5px;color:var(--mute)}
+.legend span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-inline-end:5px;background:var(--c);vertical-align:-1px}
+#plan{margin-top:10px;font-size:12.5px;line-height:1.5}
+#plan .seg{display:flex;gap:8px;padding:7px 0;border-top:1px solid var(--line)}
+#plan .seg .b{color:var(--mute);min-width:62px;font-variant-numeric:tabular-nums}
+#plan .seg .ty{font-weight:700;min-width:62px}
+#plan .seg .w{color:#c9c8cf}
+#summary{font-size:14px;margin-top:10px;padding:10px 12px;border-radius:10px;background:#ff3d7f14;border-inline-start:3px solid var(--hot);display:none}
+video#out{width:100%;border-radius:14px;margin-top:12px;background:#000;display:block;max-height:70vh}
+.btns{display:flex;gap:8px;margin-top:10px}
+.hide{display:none!important}
+.note{font-size:12px;color:var(--mute);margin-top:10px;line-height:1.5}
+.err{color:#ff8a8a}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">ביט<i>·</i><b>קאט</b></div>
+  <div class="tag">רפרנס + הצילום שלך. ה-AI מבין את העריכה ומעתיק אותה.</div>
+</header>
+
+<section class="card">
+  <div class="step"><div class="num alt">1</div><h2>סרטון רפרנס</h2><small>"תעשה כמו זה"</small></div>
+  <label class="drop" id="refDrop">
+    <input type="file" id="refIn" accept="video/*">
+    <div class="ic">✨</div>
+    <div><div class="t1" id="refT1">בחר סרטון רפרנס</div><div class="t2" id="refT2">ריל ערוך שאתה אוהב, או סרטון הדרכה שמראה את האפקט</div></div>
+  </label>
+</section>
+
+<section class="card">
+  <div class="step"><div class="num">2</div><h2>הסרטון שלך</h2><small>צילום גולמי</small></div>
+  <label class="drop" id="vidDrop">
+    <input type="file" id="vidIn" accept="video/*">
+    <div class="ic">🎬</div>
+    <div><div class="t1" id="vidT1">בחר את הצילום שלך</div><div class="t2" id="vidT2">צילום רציף מהטלפון, 10–60 שניות</div></div>
+  </label>
+</section>
+
+<section class="card">
+  <div class="step"><div class="num">3</div><h2>סאונד</h2><small>לא חובה</small></div>
+  <label class="chk hide" id="useRefRow"><input type="checkbox" id="useRef" checked> <span id="useRefTxt">להשתמש בסאונד של הרפרנס</span></label>
+  <label class="drop" id="musDrop" style="margin-top:10px">
+    <input type="file" id="musIn" accept="audio/*,video/*">
+    <div class="ic">🎧</div>
+    <div><div class="t1" id="musT1">או העלה שיר אחר</div><div class="t2" id="musT2">בלי שיר: עריכה לפי BPM, והסאונד מתווסף באפליקציה</div></div>
+  </label>
+  <div class="row" id="bpmRow"><span>קצב</span><input type="range" id="bpm" min="80" max="160" value="120"><b id="bpmV">120 BPM</b></div>
+</section>
+
+<section class="card">
+  <div class="ai">
+    <div class="t"><b>במאי AI</b>Claude צופה ברפרנס, מסביר מה נעשה בו, ומחיל את אותה עריכה על הסרטון שלך.</div>
+    <label class="sw"><input type="checkbox" id="aiOn" checked><span></span></label>
+  </div>
+  <div class="note hide" id="aiNote"></div>
+  <div class="hide" id="keyBox" style="margin-top:10px">
+    <div class="row" style="margin-top:0"><input id="apiKey" type="password" placeholder="Anthropic API key (sk-ant-…)" dir="ltr" style="flex:1;background:#101014;border:1px solid var(--line);border-radius:10px;color:var(--tx);padding:11px;font:inherit;font-size:13px"></div>
+    <div class="note">המפתח נשמר רק בטלפון שלך ונשלח ישירות ל-Anthropic. מפתח יוצרים ב-console.anthropic.com. בלי מפתח, העריכה רצה לפי סגנון הגיבוי.</div>
+  </div>
+  <details class="adv" style="margin-top:12px">
+    <summary>סגנון גיבוי (כשאין רפרנס או AI)</summary>
+    <div class="chips" id="presets" style="margin-top:10px">
+      <button class="chip on" data-p="stutter">Stutter Flow<span class="sub">גמגום, סלואו, היפוך</span></button>
+      <button class="chip" data-p="pop">Speed Ramp Pop<span class="sub">האצה לתקריב, סלואו</span></button>
+      <button class="chip" data-p="beatcut">Beat Cut<span class="sub">חיתוך על כל ביט</span></button>
+    </div>
+    <div class="row"><span>אורך</span>
+      <div class="chips" id="lens" style="flex:1">
+        <button class="chip" data-n="16">16 ביטים</button>
+        <button class="chip on" data-n="24">24</button>
+        <button class="chip" data-n="32">32</button>
+      </div>
+    </div>
+  </details>
+</section>
+
+<button class="go" id="go" disabled>צור סרטון ⚡</button>
+
+<section class="card hide" id="work" style="margin-top:12px">
+  <div id="status">מתחיל…</div>
+  <div class="prog"><i id="bar"></i></div>
+  <div class="stats" id="stats"></div>
+  <div id="understand"></div>
+  <div id="summary"></div>
+  <canvas id="tl"></canvas>
+  <div class="legend" id="legend"></div>
+  <video id="out" class="hide" controls playsinline loop></video>
+  <div class="btns hide" id="outBtns">
+    <button class="go" id="dl" style="flex:2;font-size:16px;padding:14px">שמור / שתף MP4</button>
+    <button class="ghost" id="reroll">🎲 גרסה אחרת</button>
+  </div>
+  <div id="plan"></div>
+  <div id="log"></div>
+</section>
+
+<video id="src" muted playsinline preload="auto" class="hide"></video>
+<video id="refv" muted playsinline preload="auto" class="hide"></video>
+
+<script type="module">
+// ================= State =================
+const $ = id => document.getElementById(id);
+const S = {
+  file:null, D:0, vw:0, vh:0,
+  ref:null, refD:0, rvw:0, rvh:0, refA:null, refAudio:null, refBeat:null,
+  motion:null, thumbs:null, sheetBlob:null,
+  music:null, musicName:'', beat:null,
+  preset:'stutter', N:24, seed:1, variation:0,
+  plan:null, outBlob:null, busy:false
+};
+const W = 720, H = 1280, FPS = 30;
+const SEG_TYPES = ['normal','slowmo','ramp_in','ramp_out','stutter','reverse','freeze'];
+const FX_TYPES = ['zoom_punch','flash','shake','rgb_split','glitch','whip'];
+const TYPE_HE = {normal:'רגיל',slowmo:'סלואו',ramp_in:'האצה',ramp_out:'בלימה',stutter:'סטאטר',reverse:'היפוך',freeze:'פריז'};
+const TYPE_C = {normal:'#5b5b68',slowmo:'#3de0ff',ramp_in:'#d4ff3a',ramp_out:'#9ad13a',stutter:'#ff3d7f',reverse:'#b37bff',freeze:'#ffffff'};
+const FX_HE = {zoom_punch:'זום',flash:'פלאש',shake:'שייק',rgb_split:'RGB',glitch:'גליץ׳',whip:'וויפ'};
+const src = $('src'); const refv = $('refv');
+
+let sampleFn = null, downloadsNS = null;
+const MODEL='claude-sonnet-5-5';
+function getKey(){ return ($('apiKey').value||'').trim(); }
+const blobToB64 = b => new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(String(r.result).split(',')[1]); r.onerror=rej; r.readAsDataURL(b); });
+function parseJSONLoose(t){ try{ return JSON.parse(t); }catch(_){} const m=t.match(/```(?:json)?\s*([\s\S]*?)```/); if(m){ try{ return JSON.parse(m[1]); }catch(_){} } const i=t.indexOf('{'), j=t.lastIndexOf('}'); if(i>=0&&j>i) return JSON.parse(t.slice(i,j+1)); throw {code:'invalid_json',message:'no JSON'}; }
+const anthropicSample = Object.assign(async()=>({text:''}),{
+  limits: async()=>({images:{maxCount:10}}),
+  json: async(prompt,{images=[]}={})=>{
+    const key=getKey(); if(!key) throw {code:'no_key',message:'no key'};
+    const content=[]; for(const b of images) content.push({type:'image',source:{type:'base64',media_type:'image/jpeg',data:await blobToB64(b)}});
+    content.push({type:'text',text:prompt});
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:MODEL,max_tokens:4000,messages:[{role:'user',content}]})});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok) throw {code: r.status===401?'bad_key':(r.status===429?'rate_limited':'upstream_error'), message: j?.error?.message||('HTTP '+r.status)};
+    return parseJSONLoose((j.content||[]).filter(c=>c.type==='text').map(c=>c.text).join(''));
+  }
+});
+let inClaude=false;
+(async()=>{
+  try{ if(window.claude){ const sm = await claude.use('sample'); downloadsNS = await claude.use('downloads'); if(sm){ sampleFn=sm; inClaude=true; } } }catch(e){}
+  if(!inClaude){
+    sampleFn = anthropicSample;
+    $('keyBox').classList.remove('hide');
+    try{ $('apiKey').value = localStorage.getItem('beatcut_key')||''; }catch(_){}
+    $('apiKey').addEventListener('change',()=>{ try{ localStorage.setItem('beatcut_key',getKey()); }catch(_){} });
+  }
+})();
+
+// ================= UI wiring =================
+function log(m){ const d=document.createElement('div'); d.textContent=m; $('log').prepend(d); console.log('[beatcut]',m); }
+function status(m,p){ $('status').textContent=m; if(p!=null) $('bar').style.width=(p*100).toFixed(1)+'%'; }
+function stats(items){ $('stats').innerHTML = items.map(([k,v])=>`<div class="stat"><b>${v}</b>${k}</div>`).join(''); }
+function refreshGo(){ $('go').disabled = !S.file || S.busy; $('go').textContent = S.ref ? 'נתח רפרנס וערוך ⚡' : 'צור סרטון ⚡'; }
+
+$('bpm').oninput = e => $('bpmV').textContent = e.target.value+' BPM';
+document.querySelectorAll('#presets .chip').forEach(b=>b.onclick=()=>{document.querySelectorAll('#presets .chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');S.preset=b.dataset.p;});
+document.querySelectorAll('#lens .chip').forEach(b=>b.onclick=()=>{document.querySelectorAll('#lens .chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');S.N=+b.dataset.n;});
+
+async function loadVideoEl(el,f){
+  el.src = URL.createObjectURL(f);
+  await new Promise((res,rej)=>{ el.onloadedmetadata=res; el.onerror=()=>rej(new Error('לא הצלחתי לפתוח את הסרטון')); });
+  try{ await el.play(); el.pause(); }catch(_){}
+  if(!el.videoWidth){ await new Promise(r=>{ const t=setTimeout(r,2500); el.addEventListener('loadeddata',()=>{clearTimeout(t);r();},{once:true}); }); }
+  if(!el.videoWidth) throw new Error('הדפדפן לא מצליח לפענח את הווידאו (כנראה HEVC/H.265). נסה Chrome, או שמור את הסרטון כ-H.264');
+  return {D:el.duration, w:el.videoWidth, h:el.videoHeight};
+}
+$('vidIn').onchange = async e => {
+  const f = e.target.files[0]; if(!f) return;
+  try{
+    const m=await loadVideoEl(src,f);
+    S.file=f; S.motion=null; S.thumbs=null; S.sheetBlob=null; S.D=m.D; S.vw=m.w; S.vh=m.h;
+    $('vidDrop').classList.add('ok'); $('vidT1').textContent = f.name;
+    $('vidT2').innerHTML = `${S.D.toFixed(1)} שניות · <span dir="ltr">${S.vw}×${S.vh}</span>`;
+  }catch(err){ $('vidT1').textContent='לא הצלחתי לפתוח'; $('vidT2').textContent=String(err.message||err); }
+  refreshGo();
+};
+$('refIn').onchange = async e => {
+  const f = e.target.files[0]; if(!f) return;
+  $('refT1').textContent='טוען…';
+  try{
+    const m=await loadVideoEl(refv,f);
+    S.ref=f; S.refA=null; S.refD=m.D; S.rvw=m.w; S.rvh=m.h; S.refAudio=null; S.refBeat=null;
+    $('refDrop').classList.add('ok'); $('refT1').textContent=f.name;
+    $('refT2').innerHTML=`${S.refD.toFixed(1)} שניות · <span dir="ltr">${m.w}×${m.h}</span> · בודק סאונד…`;
+    try{
+      const ac=new (window.AudioContext||window.webkitAudioContext)();
+      const buf=await ac.decodeAudioData(await f.arrayBuffer()); ac.close?.();
+      S.refAudio=buf; S.refBeat=analyzeMusic(buf);
+      const ok=S.refBeat.conf>=1.6;
+      $('useRefRow').classList.remove('hide'); $('useRef').checked=ok;
+      $('useRefTxt').textContent=`להשתמש בסאונד של הרפרנס (${Math.round(60/S.refBeat.P)} BPM${ok?'':' · ביט לא ברור, כנראה דיבור'})`;
+      $('refT2').innerHTML=`${S.refD.toFixed(1)} שניות · <span dir="ltr">${m.w}×${m.h}</span> · יש סאונד`;
+    }catch(_){ $('refT2').innerHTML=`${S.refD.toFixed(1)} שניות · <span dir="ltr">${m.w}×${m.h}</span> · בלי סאונד`; }
+  }catch(err){ $('refT1').textContent='לא הצלחתי לפתוח'; $('refT2').textContent=String(err.message||err); S.ref=null; }
+  refreshGo();
+};
+$('musIn').onchange = async e => {
+  const f = e.target.files[0]; if(!f) return;
+  $('musT1').textContent='מנתח את השיר…';
+  try{
+    const ac = new (window.AudioContext||window.webkitAudioContext)();
+    const buf = await ac.decodeAudioData(await f.arrayBuffer());
+    ac.close?.();
+    S.music = buf; S.musicName=f.name;
+    S.beat = analyzeMusic(buf);
+    $('musDrop').classList.add('ok'); $('musT1').textContent=f.name;
+    $('musT2').textContent=`${Math.round(60/S.beat.P)} BPM · דרופ ב-${S.beat.dropTime.toFixed(1)} שנ׳ · ${buf.duration.toFixed(0)} שנ׳`;
+    $('bpmRow').classList.add('hide'); $('useRef').checked=false;
+  }catch(err){ $('musT1').textContent='לא הצלחתי לקרוא את הקובץ'; $('musT2').textContent=String(err.message||err); S.music=null; S.beat=null; }
+};
+
+// ================= Helpers =================
+function rng(seed){ let s = seed>>>0 || 1; return ()=>{ s^=s<<13; s>>>=0; s^=s>>17; s^=s<<5; s>>>=0; return (s%100000)/100000; }; }
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function seekV(v,t){
+  return new Promise(res=>{
+    t = clamp(t,0,Math.max(0,v.duration-0.04));
+    if(Math.abs(v.currentTime-t)<0.0005 && v.readyState>=2) return res();
+    let done=false; const fin=()=>{ if(done) return; done=true; v.removeEventListener('seeked',fin); res(); };
+    v.addEventListener('seeked',fin); setTimeout(fin,3000);
+    v.currentTime = t;
+  });
+}
+const seekTo = t => seekV(src,t);
+function coverRect(vw,vh,cw,ch){ const s=Math.max(cw/vw,ch/vh); return [vw*s,vh*s]; }
+
+// ================= Music analysis =================
+function fft(re,im){
+  const n=re.length;
+  for(let i=1,j=0;i<n;i++){ let bit=n>>1; for(;j&bit;bit>>=1) j^=bit; j^=bit; if(i<j){ [re[i],re[j]]=[re[j],re[i]]; [im[i],im[j]]=[im[j],im[i]]; } }
+  for(let len=2;len<=n;len<<=1){
+    const ang=-2*Math.PI/len, wr=Math.cos(ang), wi=Math.sin(ang);
+    for(let i=0;i<n;i+=len){ let cr=1,ci=0;
+      for(let k=0;k<len/2;k++){ const a=i+k,b=a+len/2; const xr=re[b]*cr-im[b]*ci, xi=re[b]*ci+im[b]*cr;
+        re[b]=re[a]-xr; im[b]=im[a]-xi; re[a]+=xr; im[a]+=xi; const t=cr*wr-ci*wi; ci=cr*wi+ci*wr; cr=t; } } }
+}
+function analyzeMusic(buf){
+  // mono, decimate to ~22kHz
+  const sr0=buf.sampleRate, dec = sr0>32000?2:1, sr=sr0/dec;
+  const L=Math.floor(buf.length/dec), x=new Float32Array(L);
+  for(let c=0;c<buf.numberOfChannels;c++){ const d=buf.getChannelData(c); for(let i=0;i<L;i++) x[i]+=d[i*dec]/buf.numberOfChannels; }
+  const N=1024, hop=256, frames=Math.floor((L-N)/hop);
+  const win=new Float32Array(N).map((_,i)=>0.5-0.5*Math.cos(2*Math.PI*i/N));
+  const env=new Float32Array(frames), low=new Float32Array(frames);
+  let prev=new Float32Array(N/2); const lowBin=Math.round(150/(sr/N));
+  const re=new Float32Array(N), im=new Float32Array(N);
+  for(let f=0;f<frames;f++){
+    const o=f*hop; for(let i=0;i<N;i++){ re[i]=x[o+i]*win[i]; im[i]=0; }
+    fft(re,im);
+    let fl=0, lf=0;
+    for(let k=1;k<N/2;k++){ const m=Math.log1p(10*Math.hypot(re[k],im[k])); const d=m-prev[k]; if(d>0){ fl+=d; if(k<=lowBin) lf+=d; } prev[k]=m; }
+    env[f]=fl; low[f]=lf;
+  }
+  // normalize: subtract local mean
+  const W2=Math.round(0.4*sr/hop), on=new Float32Array(frames);
+  let acc=0; for(let i=0;i<frames;i++){ acc+=env[i]; if(i>=W2) acc-=env[i-W2]; const mean=acc/Math.min(i+1,W2); on[i]=Math.max(0,env[i]-mean); }
+  const fps=sr/hop;
+  // tempo via autocorrelation, 70–180 BPM, prefer ~120
+  const minL=Math.floor(fps*60/180), maxL=Math.ceil(fps*60/70);
+  let best=-1,bestL=minL; const ac=[]; let acSum=0,acN=0;
+  for(let l=minL;l<=maxL;l++){ let s=0; for(let i=0;i+l<frames;i++) s+=on[i]*on[i+l]; s/= (frames-l);
+    const bpm=60*fps/l, w=Math.exp(-0.5*Math.pow(Math.log2(bpm/120)/0.9,2)); ac[l]=s; acSum+=s; acN++; const sc=s*w; if(sc>best){best=sc;bestL=l;} }
+  // parabolic refine
+  let Lr=bestL; if(ac[bestL-1]!=null&&ac[bestL+1]!=null){ const a=ac[bestL-1],b=ac[bestL],c=ac[bestL+1]; const den=a-2*b+c; if(den) Lr=bestL+0.5*(a-c)/den; }
+  const P=Lr/fps;
+  // phase
+  let bp=0,bs=-1; for(let ph=0;ph<Lr;ph+=0.5){ let s=0; for(let t=ph;t<frames;t+=Lr) s+=on[Math.round(t)]||0; if(s>bs){bs=s;bp=ph;} }
+  const phase=bp/fps;
+  const beats=[]; for(let t=phase;t<buf.duration;t+=P) beats.push(t);
+  // downbeat offset (0..3) by low-band flux
+  let dOff=0,dBest=-1; for(let m=0;m<4;m++){ let s=0; for(let k=m;k<beats.length;k+=4){ const fi=Math.round(beats[k]*fps); for(let j=-2;j<=2;j++) s+=low[fi+j]||0; } if(s>dBest){dBest=s;dOff=m;} }
+  // bar energies -> drop
+  const bars=[]; for(let k=dOff;k+4<beats.length;k+=4){ const a=Math.floor(beats[k]*sr), b=Math.floor(beats[k+4]*sr); let e=0; for(let i=a;i<b;i+=4) e+=x[i]*x[i]; bars.push({t:beats[k],e:Math.sqrt(e/((b-a)/4))}); }
+  let dropTime=bars[0]?.t||0, dBestS=-1;
+  for(let i=2;i<bars.length-1;i++){ const before=(bars[i-1].e+bars[i-2].e)/2, after=(bars[i].e+bars[i+1].e)/2; const s=(after-before)*after; if(s>dBestS){dBestS=s;dropTime=bars[i].t;} }
+  const conf = ac[bestL]/((acSum/acN)||1);
+  return {P, phase, beats, downOff:dOff, dropTime, duration:buf.duration, conf};
+}
+
+// ================= Video analysis =================
+async function analyzeClip(v, D, vw, vh, {maxSamples=160, nThumbs=16, cols=4, label='', p0=0, p1=1}){
+  const n = Math.min(maxSamples, Math.max(24, Math.ceil(D/0.2))), step=D/n;
+  const sw=48, sh=85; const c=document.createElement('canvas'); c.width=sw; c.height=sh; const cx=c.getContext('2d',{willReadFrequently:true});
+  const TW=150, TH=266;
+  const th=document.createElement('canvas'); th.width=TW; th.height=TH; const tx=th.getContext('2d');
+  const thumbEvery = n/nThumbs;
+  let prev=null; const motion=[], bright=[], diffs=[], thumbs=[];
+  const [cw,ch]=coverRect(vw,vh,sw,sh), [tw,thh]=coverRect(vw,vh,TW,TH);
+  let nextThumb=0;
+  for(let i=0;i<n;i++){
+    const t=i*step; await seekV(v,t);
+    cx.drawImage(v,(sw-cw)/2,(sh-ch)/2,cw,ch);
+    const d=cx.getImageData(0,0,sw,sh).data; const g=new Float32Array(sw*sh); let br=0;
+    for(let p=0;p<g.length;p++){ g[p]=(d[p*4]*0.3+d[p*4+1]*0.59+d[p*4+2]*0.11); br+=g[p]; }
+    let m=0; if(prev){ for(let p=0;p<g.length;p++) m+=Math.abs(g[p]-prev[p]); m/=g.length; }
+    prev=g; motion.push({t,m:m/step}); diffs.push(m); bright.push(br/g.length);
+    if(i>=nextThumb && thumbs.length<nThumbs){ tx.drawImage(v,(TW-tw)/2,(TH-thh)/2,tw,thh); thumbs.push({t,img:tx.getImageData(0,0,TW,TH)}); nextThumb+=thumbEvery; }
+    if(i%4===0) status(`${label} ${Math.round(i/n*100)}%`, p0+(p1-p0)*i/n);
+  }
+  if(motion.length>1){ motion[0].m=motion[1].m; diffs[0]=diffs[1]; }
+  const mx=Math.max(...motion.map(o=>o.m))||1; motion.forEach(o=>o.m=Math.round(o.m/mx*100));
+  // cuts = diff spikes; flashes = brightness spikes
+  const mean=diffs.reduce((a,b)=>a+b,0)/diffs.length, sd=Math.sqrt(diffs.reduce((a,b)=>a+(b-mean)**2,0)/diffs.length)||1;
+  const cuts=[]; diffs.forEach((dv,i)=>{ if(i>0 && (dv-mean)/sd>2.5 && dv>=(diffs[i-1]||0) && dv>=(diffs[i+1]||0)) cuts.push(+(i*step).toFixed(2)); });
+  const bm=bright.reduce((a,b)=>a+b,0)/bright.length;
+  const flashes=[]; bright.forEach((x,i)=>{ if(x-bm>45 && x>=(bright[i-1]||0) && x>=(bright[i+1]||0)) flashes.push(+(i*step).toFixed(2)); });
+  const rows=Math.ceil(thumbs.length/cols); const sc=document.createElement('canvas'); sc.width=cols*TW; sc.height=rows*TH; const sx=sc.getContext('2d');
+  sx.fillStyle='#000'; sx.fillRect(0,0,sc.width,sc.height);
+  thumbs.forEach((o,k)=>{ const X=(k%cols)*TW, Y=Math.floor(k/cols)*TH; sx.putImageData(o.img,X,Y);
+    sx.fillStyle='rgba(0,0,0,.75)'; sx.fillRect(X+3,Y+3,92,24); sx.fillStyle='#d4ff3a'; sx.font='bold 17px sans-serif'; sx.direction='ltr'; sx.textAlign='left'; sx.fillText(`#${k+1} ${o.t.toFixed(1)}s`,X+8,Y+21); });
+  const sheetBlob = await new Promise(r=>sc.toBlob(r,'image/jpeg',0.82));
+  return {motion, cuts, flashes, sheetBlob, thumbs:thumbs.map((o,k)=>({k:k+1,t:o.t}))};
+}
+async function analyzeVideo(){
+  const r=await analyzeClip(src,S.D,S.vw,S.vh,{label:'מנתח את הסרטון שלך…',p0:S.ref?0.22:0.05,p1:0.32});
+  S.motion=r.motion; S.thumbs=r.thumbs; S.sheetBlob=r.sheetBlob;
+}
+function motionAt(t){ const m=S.motion; if(!m||!m.length) return 50; let i=Math.round(t/(S.D/m.length)); return m[clamp(i,0,m.length-1)].m; }
+function heroGuess(r){
+  // smoothed motion; in the middle of the clip, pick lowest-motion point (camera "lands" on the subject)
+  const m=S.motion; const n=m.length; let best=null, bs=1e9;
+  for(let i=Math.floor(n*0.3); i<Math.ceil(n*0.75); i++){ let s=0,c=0; for(let j=-3;j<=3;j++){ const o=m[i+j]; if(o){s+=o.m;c++;} } s=s/c + r()*18; if(s<bs){bs=s;best=m[i].t;} }
+  return best ?? S.D*0.5;
+}
+
+// ================= Directors =================
+function rulesPlan(preset,N,bd,D,r){
+  const H=heroGuess(r); const segs=[], fx=[];
+  const add=(beats,type,s0,s1,why)=>segs.push({beats,type,src_start:s0,src_end:s1,why});
+  if(preset==='stutter'){
+    add(4,'stutter',Math.max(0,H-4*bd*3.2),H-0.45,'גמגום מהירות בגישה לנושא');
+    add(2,'slowmo',H-0.45,H+0.35,'סלואו ברגע הכי קרוב');
+    add(1,'reverse',H+0.35,H-0.25,'קפיצה אחורה (Bounce)');
+    add(1,'ramp_in',H-0.25,H+0.25+bd*2,'האצה החוצה מהרגע');
+    let t=H+0.25+bd*2+0.2, b=8, alt=0;
+    while(b<N){ const k=Math.min(4,N-b); if(alt%2===0){ add(k,'normal',t,t+k*bd*1.8,'זרימה'); t+=k*bd*1.8; } else { add(k,'stutter',t,t+k*bd*3,'סטאטר על הביט'); t+=k*bd*3; } b+=k; alt++; }
+    fx.push({beat:4,type:'zoom_punch'},{beat:6,type:'flash'},{beat:7,type:'shake'},{beat:8,type:'whip'});
+    for(let b2=12;b2<N;b2+=4) fx.push({beat:b2,type: (b2/4)%2? 'zoom_punch':'rgb_split'});
+  } else if(preset==='pop'){
+    add(3,'ramp_in',Math.max(0,H-3*bd*4),H-0.2,'האצה חדה לתקריב');
+    add(3,'slowmo',H-0.2,H+0.55,'סלואו עמוק');
+    add(2,'ramp_out',H+0.55,H+0.55+2*bd*2.5,'יציאה ובלימה');
+    let t=H+0.55+2*bd*2.5, b=8;
+    while(b<N){ const k=Math.min(4,N-b); add(k, (b/4)%2?'ramp_out':'ramp_in', t, t+k*bd*2.2,'פופ קצבי'); t+=k*bd*2.2; b+=k; }
+    fx.push({beat:3,type:'zoom_punch'},{beat:3,type:'flash'},{beat:6,type:'shake'});
+    for(let b2=8;b2<N;b2+=4) fx.push({beat:b2,type:'zoom_punch'});
+  } else {
+    const n=Math.ceil(N/2); const starts=[];
+    for(let i=0;i<n;i++) starts.push(clamp((i+0.15+r()*0.5)/n*D,0,D-2*bd*1.3-0.05));
+    starts.forEach((s,i)=>add(Math.min(2,N-i*2),'normal',s,s+2*bd*1.3, i===0?'פתיחה':'חיתוך על הביט'));
+    for(let b2=0;b2<N;b2+=4) fx.push({beat:b2,type:'zoom_punch'});
+    for(let b2=8;b2<N;b2+=8) fx.push({beat:b2-0.5,type:'glitch'});
+    fx.push({beat:Math.min(8,N-4),type:'flash'});
+  }
+  return {hero_time:H, hero_beat: preset==='beatcut'?8:(preset==='pop'?3:4), segments:segs, fx, summary:''};
+}
+
+const RECIPES = {
+  stutter:'"Stutter Flow" (like the CapCut tutorial): open with a stutter run approaching the subject, land on the hero moment in slow motion, then a short reverse bounce (0.5–1 beat) and an accelerating ramp out; continue alternating flow and stutter. Zoom punch on landing, flash on the reverse.',
+  pop:'"Speed Ramp Pop": ramp_in hard toward the hero close-up, deep slowmo on it, ramp_out away; repeat smaller pops on every bar. Zoom punch + flash on each landing.',
+  beatcut:'"Beat Cut": hard cuts every 1–2 beats between the best moments of the clip in normal speed (1–1.5x), zoom punch on downbeats, a glitch before section changes, one flash on the hero beat.'
+};
+const SEG_DOC = (bd)=>`Segment types (each maps an output span of beats to a source span src_start→src_end of MY clip):
+- normal: constant speed (speed = |src_end-src_start| / (beats*${bd.toFixed(3)})).
+- slowmo: constant, speed ≤ 0.6.
+- ramp_in: starts near-frozen, accelerates (rush toward a moment).
+- ramp_out: fast, decelerates to near-frozen (land on a moment).
+- stutter: every half beat a burst of speed then near-stop, CapCut "custom curve" stutter (avg speed 2–5).
+- reverse: plays backwards, src_end < src_start (bounce, 0.5–1 beat).
+- freeze: holds src_start.
+FX at a beat: zoom_punch, flash, shake, rgb_split, glitch, whip (motion-blur transition on segment boundaries).`;
+async function aiPlan(preset,N,bd,D,variation,beatInfo){
+  const motionStr = S.motion.filter((_,i)=>i%2===0).map(o=>`${o.t.toFixed(1)}:${o.m}`).join(' ');
+  const R = S.refA;
+  const images=[]; let prompt;
+  const musicLine = beatInfo.line;
+  if(R){
+    images.push(R.sheetBlob, S.sheetBlob);
+    const rMotion=R.motion.filter((_,i)=>i%2===0).map(o=>`${o.t.toFixed(1)}:${o.m}`).join(' ');
+    prompt = `You are a pro short-form video editor. TASK: understand how the REFERENCE video was edited, explain it, then edit MY clip the same way.
+
+IMAGE 1 = contact sheet of the REFERENCE (${S.refD.toFixed(1)} s), frames labelled "#k t s".
+IMAGE 2 = contact sheet of MY raw clip (${D.toFixed(2)} s), same labelling.
+The reference may be a finished edit, OR a tutorial / screen recording that teaches an editing technique (e.g. CapCut speed curves, reverse, transitions). If it is a tutorial, extract the technique it teaches (read on-screen UI: speed curve shapes, buttons like Reverse, Split) and apply THAT technique — do not copy the tutorial's UI.
+
+Reference measurements (computed by code):
+- motion energy (t:0-100): ${rMotion}
+- detected hard cuts at: ${R.cuts.join(', ')||'none'} s
+- brightness flashes at: ${R.flashes.join(', ')||'none'} s
+MY clip motion energy (t:0-100): ${motionStr}
+${musicLine}
+
+${SEG_DOC(bd)}
+
+Rules: output between 12 and 40 beats (choose to match the reference's pacing; ${N} is a good default); segments consecutive; beats multiples of 0.5 summing exactly to output_beats; source times within [0, ${D.toFixed(2)}] of MY clip; avg speed 0.15–8; jumps in source are allowed. Choose MY clip's hero moment from image 2 (most striking frame: closest to the subject / peak of the camera move). Mirror the reference's rhythm: where it stutters, stutter; where it slows, slow; where it reverses, reverse; matching transitions/FX. Big FX on strong beats only; at most output_beats/2 FX.
+${variation?`Variation #${variation+1}: keep the reference's technique but make different choices (another hero moment or arrangement).`:''}
+
+Reply with ONLY JSON:
+{"reference":{"kind":"edit|tutorial","summary":"<2 sentences Hebrew: what kind of edit this is and why it works>","techniques":[{"when":"<time range in the reference, e.g. 0–3s>","what":"<Hebrew: the technique, concretely>"}],"apply":"<1 sentence Hebrew: how you apply it to my clip>"},
+"output_beats":24,"hero_time":<s in my clip>,"hero_beat":<beat where hero lands>,
+"segments":[{"beats":4,"type":"stutter","src_start":0.5,"src_end":6.2,"why":"<short Hebrew, mention which reference moment it mirrors>"}],
+"fx":[{"beat":4,"type":"zoom_punch"}],"summary":"<one short Hebrew sentence>"}`;
+  } else {
+    images.push(S.sheetBlob);
+    prompt = `You are the editor of a short vertical video (TikTok/Reels) in the viral CapCut speed-ramp style. You decide WHAT happens on WHICH beat; code computes exact frame timing.
+
+The attached image is a contact sheet of the source clip: frames labelled "#k t s". Source duration: ${D.toFixed(2)} s.
+Camera motion energy (time:0-100): ${motionStr}
+${musicLine}
+Output length: exactly ${N} beats.
+Style: ${RECIPES[preset]}
+${variation?`Variation #${variation+1}: make clearly different choices.`:''}
+
+${SEG_DOC(bd)}
+
+Rules: segments consecutive; beats multiples of 0.5 summing exactly to ${N}; source times within [0, ${D.toFixed(2)}]; avg speed 0.15–8; jumps allowed. Pick the hero moment from the frames. Big FX on strong beats (multiples of 4), at most ${Math.round(N/2)} FX.
+
+Reply with ONLY JSON:
+{"output_beats":${N},"hero_time":<s>,"hero_beat":<n>,"segments":[{"beats":4,"type":"stutter","src_start":0.5,"src_end":6.2,"why":"<short Hebrew>"}],"fx":[{"beat":4,"type":"zoom_punch"}],"summary":"<one short Hebrew sentence>"}`;
+  }
+  let imgs=images;
+  try{ const lim=await sampleFn.limits(); if(!lim?.images) throw {code:'images_unavailable'}; if(lim.images.maxCount<imgs.length) imgs=imgs.slice(0,lim.images.maxCount); }catch(e){ if(e?.code) throw e; }
+  return await sampleFn.json(prompt, {images:imgs, cache:false});
+}
+
+function validatePlan(raw,N,bd,D){
+  if(isFinite(+raw?.output_beats)) N=clamp(Math.round(+raw.output_beats*2)/2,8,48);
+  let segs=(Array.isArray(raw?.segments)?raw.segments:[]).map(s=>({
+    beats: Math.max(0.5, Math.round((+s.beats||0)*2)/2),
+    type: SEG_TYPES.includes(s.type)?s.type:'normal',
+    s0: +s.src_start, s1: +s.src_end, why: String(s.why||'').slice(0,80)
+  })).filter(s=>isFinite(s.s0)&&isFinite(s.s1));
+  if(!segs.length) throw new Error('תוכנית ריקה');
+  let sum=0; const out=[];
+  for(const s of segs){ if(sum>=N) break; if(sum+s.beats>N) s.beats=N-sum; out.push(s); sum+=s.beats; }
+  segs=out;
+  if(sum<N){ const last=segs[segs.length-1]; const st=clamp(last.type==='reverse'?last.s0:last.s1,0,D-0.1); segs.push({beats:N-sum,type:'normal',s0:st,s1:st+(N-sum)*bd*1.5,why:'השלמה'}); }
+  const maxT=Math.max(0,D-0.05);
+  let b=0;
+  for(const s of segs){
+    s.s0=clamp(s.s0,0,maxT); s.s1=clamp(s.s1,0,maxT);
+    if(s.type==='reverse' && s.s1>s.s0) [s.s0,s.s1]=[s.s1,s.s0];
+    if(s.type!=='reverse' && s.type!=='freeze' && s.s1<s.s0) s.type='reverse';
+    if(s.type==='freeze') s.s1=s.s0;
+    const dur=s.beats*bd, sign=s.s1>=s.s0?1:-1; let span=Math.abs(s.s1-s.s0);
+    if(s.type==='slowmo' && span/dur>0.6){ const mid=(s.s0+s.s1)/2, hs=0.3*dur; s.s0=clamp(mid-sign*hs,0,maxT); s.s1=clamp(mid+sign*hs,0,maxT); span=Math.abs(s.s1-s.s0); }
+    if(s.type!=='freeze'){
+      if(span/dur>8){ span=8*dur; s.s0=clamp(s.s1-sign*span,0,maxT); }
+      if(span/dur<0.15){ s.s1=clamp(s.s0+sign*0.15*dur,0,maxT); if(Math.abs(s.s1-s.s0)<0.15*dur) s.s0=clamp(s.s1-sign*0.15*dur,0,maxT); }
+    }
+    s.b0=b; b+=s.beats; s.b1=b;
+  }
+  const fx=(Array.isArray(raw?.fx)?raw.fx:[]).filter(f=>FX_TYPES.includes(f.type)&&isFinite(+f.beat)).map(f=>({type:f.type,beat:clamp(Math.round(+f.beat*2)/2,0,N-0.5)})).slice(0,N);
+  const hero_beat=clamp(Math.round(+raw.hero_beat||4),0,N-1);
+  return {N, segments:segs, fx, hero_beat, hero_time:+raw.hero_time||0, summary:String(raw.summary||'').slice(0,200), reference: raw.reference||null};
+}
+
+// map output fraction u∈[0,1] of a segment → source time
+function mapSrc(s,u){
+  const d=s.s1-s.s0;
+  switch(s.type){
+    case 'freeze': return s.s0;
+    case 'ramp_in': return s.s0+d*u*u*u;
+    case 'ramp_out': return s.s0+d*(1-Math.pow(1-u,3));
+    case 'stutter': { const n=Math.max(2,Math.round(s.beats*2)); const k=Math.min(n-1,Math.floor(u*n)); const v=u*n-k; return s.s0+d*(k+(1-Math.pow(1-v,4)))/n; }
+    default: return s.s0+d*u;
+  }
+}
+
+// ================= Timeline viz =================
+function drawTimeline(plan,N){
+  const c=$('tl'), dpr=devicePixelRatio||1; c.width=c.clientWidth*dpr; c.height=92*dpr; const x=c.getContext('2d'); x.scale(dpr,dpr);
+  const w=c.clientWidth, top=26, h=36, px=b=>8+(w-16)*b/N;
+  x.clearRect(0,0,w,92);
+  for(let b=0;b<=N;b++){ x.fillStyle=b%4===0?'#55555f':'#2a2a31'; x.fillRect(px(b),top-6,1,h+12); }
+  plan.segments.forEach(s=>{ x.fillStyle=TYPE_C[s.type]; const X=px(s.b0)+1, Wd=px(s.b1)-px(s.b0)-2; x.globalAlpha=.9; x.beginPath(); x.roundRect(X,top,Wd,h,6); x.fill(); x.globalAlpha=1;
+    if(s.type==='stutter'){ x.fillStyle='rgba(0,0,0,.35)'; const n=Math.round(s.beats*2); for(let k=0;k<n;k++) x.fillRect(X+Wd*(k+0.62)/n,top+5,2,h-10); }
+    if(Wd>34){ x.fillStyle=s.type==='normal'?'#ddd':'#000'; x.font='600 11px Rubik,sans-serif'; x.textAlign='center'; x.fillText(TYPE_HE[s.type],X+Wd/2,top+h/2+4); } });
+  plan.fx.forEach(f=>{ const X=px(f.beat); x.fillStyle='#fff'; x.beginPath(); x.moveTo(X,top-3); x.lineTo(X-4,top-10); x.lineTo(X+4,top-10); x.fill();
+    x.font='10px Rubik,sans-serif'; x.textAlign='center'; x.fillStyle='#bbb'; x.fillText(FX_HE[f.type],X,top-13); });
+  const hb=plan.hero_beat; x.fillStyle=getComputedStyle(document.body).getPropertyValue('--acc'); x.fillRect(px(hb)-1,top+h+4,3,10); x.font='700 10px Rubik'; x.fillText(S.beat?'דרופ ★':'שיא ★',px(hb),top+h+24);
+  $('legend').innerHTML = Object.keys(TYPE_HE).filter(t=>plan.segments.some(s=>s.type===t)).map(t=>`<span style="--c:${TYPE_C[t]}">${TYPE_HE[t]}</span>`).join('');
+  $('plan').innerHTML = plan.segments.map(s=>{ const sp=Math.abs(s.s1-s.s0)/(s.beats*S.bd);
+    return `<div class="seg"><span class="b">ביט ${s.b0}–${s.b1}</span><span class="ty" style="color:${TYPE_C[s.type]==='#5b5b68'?'#aaa':TYPE_C[s.type]}">${TYPE_HE[s.type]}</span><span class="w">${s.s0.toFixed(1)}→${s.s1.toFixed(1)} שנ׳ · ×${sp.toFixed(1)}${s.why?' · '+s.why:''}</span></div>`; }).join('');
+}
+
+// ================= Render =================
+const FXDUR={zoom_punch:[0,0.38],flash:[0,0.22],shake:[0,0.4],rgb_split:[0,0.32],glitch:[0,0.26],whip:[-0.09,0.11]};
+function easeOut(t){ return 1-Math.pow(1-t,3); }
+async function loadMuxer(){ return await import('https://cdn.jsdelivr.net/npm/mp4-muxer@5/+esm'); }
+
+async function render(plan,bd,musicOffset,AUD){
+  if(!('VideoEncoder' in window)) throw new Error('הדפדפן לא תומך בקידוד וידאו (WebCodecs). נסה Chrome.');
+  const {Muxer, ArrayBufferTarget} = await loadMuxer();
+  let vcfg=null;
+  for(const codec of ['avc1.640028','avc1.4d0028','avc1.42e028','avc1.42001f']){
+    const c={codec,width:W,height:H,bitrate:8_000_000,framerate:FPS,avc:{format:'avc'}};
+    try{ if((await VideoEncoder.isConfigSupported(c)).supported){ vcfg=c; break; } }catch(_){}
+  }
+  if(!vcfg) throw new Error('אין מקודד H.264 בדפדפן הזה');
+  const total=plan.segments[plan.segments.length-1].b1*bd;
+  // audio
+  let acfg=null, ch=0, sr=0;
+  if(AUD && 'AudioEncoder' in window){
+    ch=Math.min(2,AUD.numberOfChannels); sr=AUD.sampleRate;
+    const c={codec:'mp4a.40.2',sampleRate:sr,numberOfChannels:ch,bitrate:160000};
+    try{ if((await AudioEncoder.isConfigSupported(c)).supported) acfg=c; }catch(_){}
+    if(!acfg){ const o={codec:'opus',sampleRate:48000,numberOfChannels:ch,bitrate:160000};
+      try{ if((await AudioEncoder.isConfigSupported(o)).supported){ acfg=o; log('AAC לא זמין, השמע מקודד ב-Opus'); } }catch(_){} }
+    if(!acfg) log('הדפדפן לא מקודד שמע, הסרטון ייצא בלי שמע');
+  }
+  let audioData=null;
+  if(acfg && acfg.sampleRate!==sr){
+    // resample music to 48k for Opus
+    const oc=new OfflineAudioContext(ch, Math.ceil(AUD.duration*acfg.sampleRate), acfg.sampleRate);
+    const bs=oc.createBufferSource(); bs.buffer=AUD; bs.connect(oc.destination); bs.start(); audioData=await oc.startRendering(); sr=acfg.sampleRate;
+  } else if(acfg) audioData=AUD;
+  const muxer=new Muxer({target:new ArrayBufferTarget(), video:{codec:'avc',width:W,height:H}, audio: acfg?{codec:acfg.codec==='opus'?'opus':'aac',sampleRate:sr,numberOfChannels:ch}:undefined, fastStart:'in-memory', firstTimestampBehavior:'offset'});
+  let encErr=null;
+  if(acfg){
+    const ae=new AudioEncoder({output:(c,m)=>muxer.addAudioChunk(c,m), error:e=>encErr=e});
+    ae.configure(acfg);
+    const start=Math.floor(musicOffset*sr), len=Math.floor(total*sr), CH=4096, fadeN=Math.floor(0.35*sr);
+    const chans=[...Array(ch)].map((_,c)=>audioData.getChannelData(c));
+    for(let i=0;i<len;i+=CH){ const n=Math.min(CH,len-i); const data=new Float32Array(n*ch);
+      for(let c=0;c<ch;c++){ const s=chans[c]; for(let j=0;j<n;j++){ const idx=i+j; const g=idx>len-fadeN?(len-idx)/fadeN:1; data[c*n+j]=(s[start+idx]||0)*g; } }
+      ae.encode(new AudioData({format:'f32-planar',sampleRate:sr,numberOfFrames:n,numberOfChannels:ch,timestamp:Math.round(i/sr*1e6),data})); }
+    await ae.flush(); ae.close();
+  }
+  const ve=new VideoEncoder({output:(c,m)=>muxer.addVideoChunk(c,m), error:e=>encErr=e});
+  ve.configure(vcfg);
+  const cv=document.createElement('canvas'); cv.width=W; cv.height=H; const ctx=cv.getContext('2d');
+  const t1=document.createElement('canvas'); t1.width=W; t1.height=H; const x1=t1.getContext('2d');
+  const t2=document.createElement('canvas'); t2.width=W; t2.height=H; const x2=t2.getContext('2d');
+  const [dw,dh]=coverRect(S.vw,S.vh,W,H);
+  const frames=Math.ceil(total*FPS);
+  const segAt=b=>plan.segments.find(s=>b<s.b1)||plan.segments[plan.segments.length-1];
+  const boundaries=new Set(plan.segments.map(s=>s.b0));
+  let lastSrc=-1;
+  for(let i=0;i<frames;i++){
+    if(encErr) throw encErr;
+    const t=i/FPS, b=t/bd, s=segAt(b), u=clamp((b-s.b0)/s.beats,0,1);
+    const st=mapSrc(s,u);
+    if(Math.abs(st-lastSrc)>0.004){ await seekTo(st); lastSrc=st; }
+    // active fx
+    let zoom=1.06, dx=0, dy=0, rot=0, flash=0, rgb=0, glitch=0, whip=0;
+    for(const f of plan.fx){ const [a,z]=FXDUR[f.type]; const lt=t-f.beat*bd; if(lt<a||lt>z) continue; const p=(lt-a)/(z-a);
+      if(f.type==='zoom_punch') zoom+=0.22*(1-easeOut(p));
+      if(f.type==='shake'){ const amp=(1-p)*26; const rr=rng(i*7+3); dx+=(rr()-0.5)*amp*2; dy+=(rr()-0.5)*amp*2; rot+=(rr()-0.5)*0.03*(1-p); }
+      if(f.type==='flash') flash=Math.max(flash,0.85*(1-p));
+      if(f.type==='rgb_split') rgb=Math.max(rgb,22*(1-p));
+      if(f.type==='glitch') glitch=Math.max(glitch,1-p);
+      if(f.type==='whip') whip=Math.max(whip,Math.sin(p*Math.PI)); }
+    ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=1; ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H);
+    const drawBase=(ox,alpha)=>{ ctx.save(); ctx.globalAlpha=alpha; ctx.translate(W/2+dx+ox,H/2+dy); ctx.rotate(rot); ctx.scale(zoom,zoom); ctx.drawImage(src,-dw/2,-dh/2,dw,dh); ctx.restore(); };
+    if(whip>0.02){ const n=7; for(let k=0;k<n;k++){ drawBase((k-(n-1)/2)*whip*70, k===0?1:1/(k+1)); } } else drawBase(0,1);
+    if(rgb>0.5){ x1.drawImage(cv,0,0); ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H);
+      for(const [col,off] of [['#ff0000',rgb],['#00ffff',-rgb]]){ x2.globalCompositeOperation='source-over'; x2.drawImage(t1,0,0); x2.globalCompositeOperation='multiply'; x2.fillStyle=col; x2.fillRect(0,0,W,H); ctx.globalCompositeOperation='lighter'; ctx.drawImage(t2,off,0); }
+      ctx.globalCompositeOperation='source-over'; }
+    if(glitch>0.05){ x1.drawImage(cv,0,0); const rr=rng(i*13+1); for(let k=0;k<9;k++){ const y=rr()*H, hh=10+rr()*70, off=(rr()-0.5)*120*glitch; ctx.drawImage(t1,0,y,W,hh,off,y,W,hh); } }
+    if(flash>0.01){ ctx.fillStyle=`rgba(255,255,255,${flash})`; ctx.fillRect(0,0,W,H); }
+    const vf=new VideoFrame(cv,{timestamp:Math.round(i*1e6/FPS),duration:Math.round(1e6/FPS)});
+    ve.encode(vf,{keyFrame:i%(FPS*2)===0}); vf.close();
+    while(ve.encodeQueueSize>8) await new Promise(r=>setTimeout(r,5));
+    if(i%5===0) status(`מרנדר… ${Math.round(i/frames*100)}%`, 0.45+0.55*i/frames);
+  }
+  await ve.flush(); ve.close(); if(encErr) throw encErr;
+  muxer.finalize();
+  return new Blob([muxer.target.buffer],{type:'video/mp4'});
+}
+
+// ================= Main flow =================
+function showUnderstanding(ref){
+  const el=$('understand');
+  if(!ref){ el.style.display='none'; return; }
+  const esc=t=>String(t||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const tech=(Array.isArray(ref.techniques)?ref.techniques:[]).slice(0,8).map(t=>`<li><span class="tt" dir="ltr">${esc(t.when)}</span> · ${esc(t.what)}</li>`).join('');
+  el.innerHTML=`<h3>מה הבנתי מהרפרנס${ref.kind==='tutorial'?' (סרטון הדרכה)':''}</h3>${esc(ref.summary)}${tech?`<ul>${tech}</ul>`:''}${ref.apply?`<div style="margin-top:8px"><b>על הסרטון שלך:</b> ${esc(ref.apply)}</div>`:''}`;
+  el.style.display='block';
+}
+async function run(isReroll){
+  if(S.busy) return; S.busy=true; refreshGo(); $('reroll').disabled=true;
+  $('work').classList.remove('hide'); $('out').classList.add('hide'); $('outBtns').classList.add('hide');
+  $('summary').style.display='none'; if(!isReroll) $('understand').style.display='none';
+  S.variation = isReroll ? S.variation+1 : 0;
+  S.seed = (Date.now()%100000)+S.variation*7919;
+  $('work').scrollIntoView({behavior:'smooth',block:'start'});
+  try{
+    status('מתחיל…',0.02);
+    const useAI = $('aiOn').checked && sampleFn && (inClaude || !!getKey());
+    if($('aiOn').checked && !inClaude && !getKey()) log('אין מפתח API, ממשיך בלי AI');
+    if(S.ref && useAI && !S.refA){ S.refA=await analyzeClip(refv,S.refD,S.rvw,S.rvh,{maxSamples:200,nThumbs:24,cols:6,label:'צופה בסרטון הרפרנס…',p0:0.03,p1:0.22}); log(`רפרנס: ${S.refA.cuts.length} חיתוכים, ${S.refA.flashes.length} הבזקים`); }
+    if(!S.motion){ await analyzeVideo(); log(`ניתוח תנועה: ${S.motion.length} דגימות`); }
+    // beat source: uploaded song > reference audio > BPM grid
+    let beat=null, AUD=null, srcName='';
+    if(S.music&&S.beat){ beat=S.beat; AUD=S.music; srcName='song'; }
+    else if($('useRef').checked && S.refBeat && S.refAudio){ beat=S.refBeat; AUD=S.refAudio; srcName='ref'; }
+    const bd = beat ? beat.P : 60/(+$('bpm').value); S.bd=bd;
+    let line;
+    if(srcName==='song') line=`Music: an uploaded song, ${Math.round(60/bd)} BPM (1 beat = ${bd.toFixed(3)} s). It will be offset so that hero_beat lands on the song's drop.`;
+    else if(srcName==='ref') line=`Music: the REFERENCE's own soundtrack, ${Math.round(60/bd)} BPM (1 beat = ${bd.toFixed(3)} s). Output beat 0 = reference time ${beat.phase.toFixed(2)} s; reference beat k is at ${beat.phase.toFixed(2)}+k*${bd.toFixed(3)} s, so the output follows the reference's timeline beat-for-beat. The music's drop is at output beat ${Math.max(0,Math.round((beat.dropTime-beat.phase)/bd))}.`;
+    else line=`No music yet; constant grid at ${Math.round(60/bd)} BPM (1 beat = ${bd.toFixed(3)} s). The user adds a song later.`;
+    let raw=null, by='rules';
+    if(useAI){
+      status(S.ref?'Claude מנתח את העריכה ברפרנס ומתכנן את שלך…':'Claude צופה בפריימים ומחליט על התזמון…',0.35);
+      try{ raw=await aiPlan(S.preset,S.N,bd,S.D,S.variation,{line}); by='ai'; log('תוכנית עריכה התקבלה מה-AI'); }
+      catch(e){
+        const map={not_granted:'לא אושרה גישה ל-Claude',rate_limited:'יותר מדי בקשות, נסה בעוד רגע',invalid_json:'ה-AI החזיר תשובה לא תקינה',images_unavailable:'אי אפשר לשלוח תמונות ל-Claude כאן',bad_key:'מפתח ה-API לא תקין',no_key:'אין מפתח API'};
+        log((map[e?.code]||('שגיאת AI: '+(e?.message||e)))+' · ממשיך עם חוקים');
+        if(e?.code==='not_granted'||e?.code==='sampling_disabled'){ $('aiOn').checked=false; }
+      }
+    } else if(S.ref){ log('הרפרנס דורש את במאי ה-AI. בלי AI העריכה רצה לפי סגנון הגיבוי'); }
+    if(!raw){ raw=rulesPlan(S.preset,S.N,bd,S.D,rng(S.seed)); }
+    const plan=validatePlan(raw,S.N,bd,S.D); S.plan=plan; const N=plan.N;
+    showUnderstanding(plan.reference);
+    let musicOffset=0;
+    if(srcName==='song'){
+      const total=N*bd, P=beat.P, ph=beat.phase;
+      let off=beat.dropTime - plan.hero_beat*bd; off = ph + Math.round((off-ph)/P)*P;
+      if(off<0 || off+total>beat.duration){ off = ph + beat.downOff*P; if(off+total>beat.duration) off=Math.max(0,beat.duration-total); }
+      musicOffset=Math.max(0,off); log(`שיר מתחיל מ-${musicOffset.toFixed(2)} שנ׳ · ביט ${plan.hero_beat} נוחת על הדרופ`);
+    } else if(srcName==='ref'){
+      musicOffset=beat.phase; if(musicOffset+N*bd>beat.duration) log('הסאונד של הרפרנס קצר מהעריכה, הסוף יהיה שקט');
+    }
+    stats([['קצב',Math.round(60/bd)+' BPM'],['אורך',(N*bd).toFixed(1)+' שנ׳'],['מקטעים',plan.segments.length],['אפקטים',plan.fx.length],['החלטות',by==='ai'?(S.ref?'לפי רפרנס 🤖':'AI 🤖'):'חוקים']]);
+    if(plan.summary){ $('summary').textContent=plan.summary; $('summary').style.display='block'; }
+    drawTimeline(plan,N);
+    status('מרנדר…',0.45);
+    const blob=await render(plan,bd,musicOffset,AUD);
+    S.outBlob=blob;
+    const v=$('out'); if(v.src) URL.revokeObjectURL(v.src); v.src=URL.createObjectURL(blob); v.classList.remove('hide');
+    $('outBtns').classList.remove('hide'); $('dl').classList.remove('hide');
+    status(`מוכן ✓ · ${(blob.size/1048576).toFixed(1)}MB`,1);
+    try{ v.play(); }catch(_){}
+  }catch(e){
+    console.error(e); status('נכשל: '+(e.message||e),0); $('status').classList.add('err'); setTimeout(()=>$('status').classList.remove('err'),4000);
+  }finally{ S.busy=false; refreshGo(); $('reroll').disabled=false; }
+}
+$('go').onclick=()=>run(false);
+$('reroll').onclick=()=>run(true);
+$('dl').onclick=async()=>{
+  if(!S.outBlob) return;
+  if(downloadsNS){
+    try{ await downloadsNS.save({filename:'beatcut.mp4', data:S.outBlob}); log('נשמר'); }
+    catch(e){ if(e?.code!=='declined') log('ההורדה נכשלה: '+(e?.code||e)); }
+    return;
+  }
+  const file=new File([S.outBlob],'beatcut.mp4',{type:'video/mp4'});
+  try{ if(navigator.canShare?.({files:[file]})){ await navigator.share({files:[file],title:'ביט·קאט'}); return; } }catch(e){ if(e?.name==='AbortError') return; }
+  const a=document.createElement('a'); a.href=URL.createObjectURL(S.outBlob); a.download='beatcut.mp4'; document.body.appendChild(a); a.click(); a.remove();
+};
+window.__beatcut = {S, run, analyzeMusic, validatePlan, rulesPlan, showUnderstanding, setSample:f=>{sampleFn=f;}};
+</script>
+</body>
+</html>

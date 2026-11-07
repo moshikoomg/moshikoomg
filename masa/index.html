@@ -81,7 +81,7 @@ header>*{pointer-events:auto}
   text-shadow:0 2px 0 #7fb81c,0 4px 0 #6aa514,0 9px 16px rgba(50,100,0,.35)}
 body.th-n .title,body.th-e .title{text-shadow:0 2px 0 #7a5cb4,0 4px 0 #5a3f94,0 9px 16px rgba(30,0,60,.4)}
 .chips{display:flex;justify-content:center;gap:6px;margin-top:7px;flex-wrap:wrap}
-.chip{background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:99px;padding:5px 11px;font-size:12.5px;font-weight:800;display:flex;gap:5px;align-items:center;box-shadow:0 2px 0 rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.7)}
+.chip{white-space:nowrap;background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:99px;padding:5px 11px;font-size:12.5px;font-weight:800;display:flex;gap:5px;align-items:center;box-shadow:0 2px 0 rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.7)}
 .chip.fire{color:#b54a00}
 .chip.fire .fl{display:inline-block;animation:flick 1.2s ease-in-out infinite}
 @keyframes flick{50%{transform:scale(1.15) rotate(-6deg)}}
@@ -279,6 +279,62 @@ body.th-n .title,body.th-e .title{text-shadow:0 2px 0 #7a5cb4,0 4px 0 #5a3f94,0 
 .dots i{width:9px;height:9px;border-radius:9px;background:rgba(255,255,255,.6);transition:.3s}
 .dots i.on{background:#fff;width:24px}
 .linkbtn{background:none;color:#3d5a0c;font-weight:800;font-size:13px;text-decoration:underline;margin-top:6px}
+
+/* ===== duolingo layer ===== */
+#mascot{position:absolute;right:8px;z-index:32;width:70px;cursor:pointer;filter:drop-shadow(0 6px 6px rgba(0,0,0,.18))}
+#mascot .mascot-svg{animation:idle 2.6s ease-in-out infinite}
+#mascot.jump .mascot-svg{animation:mjump .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes mjump{30%{transform:translateY(-18px) rotate(-8deg)}60%{transform:translateY(0) rotate(4deg)}}
+#mBubble{position:absolute;right:72px;top:6px;width:max-content;max-width:210px;background:#fff;border-radius:16px 16px 4px 16px;padding:9px 12px;font-size:13px;font-weight:800;line-height:1.4;box-shadow:0 6px 16px rgba(0,0,0,.16);opacity:0;transform:scale(.6);transform-origin:right top;transition:.25s cubic-bezier(.3,1.6,.5,1);pointer-events:none}
+#mBubble.show{opacity:1;transform:scale(1)}
+.chip .mini{width:16px;height:16px;border-radius:50%;background:conic-gradient(#ffb020 calc(var(--p)*360deg),rgba(0,0,0,.1) 0);display:inline-block;-webkit-mask:radial-gradient(circle,transparent 4px,#000 5px);mask:radial-gradient(circle,transparent 4px,#000 5px)}
+.chip.xp{color:#b56a00}
+.fly.xp{background:linear-gradient(#ffd34d,#ffa10a);font-size:15px}
+.sb{position:relative}
+.sb .dot{position:absolute;top:0;right:2px;width:13px;height:13px;border-radius:50%;background:#ff3b4e;border:2px solid #fff;display:none;animation:pulse 1.2s infinite}
+.mhead{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.mhead .bubble{flex:1;background:#fff;border-radius:16px 16px 16px 4px;padding:10px 12px;font-weight:800;font-size:14px;line-height:1.45;box-shadow:0 3px 0 #efe5c9}
+.goalcard{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#fff7dd,#ffeccc);border-radius:20px;padding:12px;margin-bottom:14px;box-shadow:0 3px 0 #f1d9a8}
+.ring{width:78px;height:78px;border-radius:50%;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,#fff 56%,transparent 57%),conic-gradient(#ffb020 calc(var(--p)*360deg),#f3e6c7 0)}
+.ring b{font-family:'Secular One';font-size:22px;line-height:1;color:#c26a00}
+.ring small{font-size:10px;font-weight:800;color:var(--muted)}
+.gtxt{flex:1}
+.gtxt b{font-size:15px;font-weight:900}
+.lbar{height:10px;border-radius:9px;background:#f3e6c7;overflow:hidden;margin:6px 0 4px}
+.lbar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#8fe35a,#4cb21f)}
+.gtxt small{font-size:11.5px;font-weight:700;color:var(--muted)}
+.moods{display:flex;gap:6px;justify-content:center;margin:8px 0}
+.moods button{flex:1;max-width:64px;background:#fff;border-radius:16px;padding:8px 2px;box-shadow:0 3px 0 #efe5c9;border:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:2px;transition:transform .15s}
+.moods button b{font-size:28px;line-height:1}
+.moods button span{font-size:10.5px;font-weight:800;color:var(--muted)}
+.moods button.sel{border-color:var(--red);transform:translateY(-4px) scale(1.06);box-shadow:0 5px 0 var(--red3)}
+.tiles2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 16px}
+.tbtn{background:linear-gradient(160deg,#fff,#fff6e3);border-radius:20px;padding:12px 10px;text-align:center;box-shadow:0 4px 0 #efe0bd;display:flex;flex-direction:column;align-items:center;gap:3px}
+.tbtn span{font-size:30px}.tbtn b{font-size:14px;font-weight:900}.tbtn small{font-size:11px;font-weight:700;color:var(--muted);line-height:1.3}
+.tbtn.ok{background:linear-gradient(160deg,#f1fce6,#dff6c8);box-shadow:0 4px 0 #bfe39a}
+.tbtn.ok b::after{content:" ✓";color:#3c9a14}
+.quest{display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:10px 12px;margin-bottom:7px;box-shadow:0 3px 0 #efe5c9}
+.quest .qe{font-size:24px}.quest .qt{flex:1}.quest .qt b{font-size:13.5px;font-weight:900}
+.qbar{height:9px;border-radius:9px;background:#efe8d6;overflow:hidden;margin-top:5px}
+.qbar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#ffd34d,#ffa10a);transition:width .4s}
+.quest.ok .qbar i{background:linear-gradient(90deg,#8fe35a,#4cb21f)}
+.quest .qn{font-size:12px;font-weight:900;color:var(--muted)}
+.chest{width:100%;margin-top:8px;padding:14px;border-radius:18px;font-weight:900;font-size:15px;background:#efe8d6;color:#9a9278;box-shadow:0 4px 0 #ddd2b4}
+.chest.ready{background:linear-gradient(#ffd34d,#ffa10a);color:#fff;box-shadow:0 4px 0 #c97a00;animation:pulse 1.2s infinite}
+.chest.open{background:#e9f8da;color:#3c8a10;box-shadow:0 4px 0 #c4e6a2}
+.weekrow{display:flex;justify-content:center;gap:5px;margin:10px 0}
+.weekrow .wd{display:flex;flex-direction:column;align-items:center;gap:3px}
+.weekrow .wd i{width:34px;height:34px;border-radius:50%;background:#f1ece0;display:grid;place-items:center;font-style:normal;font-size:16px;color:#bbb}
+.weekrow .wd.ok i{background:linear-gradient(#ffd34d,#ff8a1a);box-shadow:0 3px 0 #d06a00}
+.weekrow .wd.t i{box-shadow:0 0 0 3px var(--red)}
+.weekrow .wd.fut i{background:transparent;box-shadow:inset 0 0 0 2px #eee5d0}
+.weekrow .wd span{font-size:11px;font-weight:900;color:var(--muted)}
+.bigfire{font-size:64px;animation:flick 1s ease-in-out infinite;display:inline-block}
+.src{display:inline-block;background:#fff3d6;color:#a86400;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:900;margin-bottom:6px}
+.act{margin-top:12px;background:#f3fbe9;border-radius:14px;padding:10px;font-size:14.5px;text-align:right}
+.card .big svg{display:block}
+.vals{display:flex;flex-wrap:wrap;gap:6px}
+#rest .xpsum{font-family:'Secular One';font-size:22px;color:#b56a00;margin-bottom:8px}
 </style>
 </head>
 <body class="th-d">
@@ -289,8 +345,9 @@ body.th-n .title,body.th-e .title{text-shadow:0 2px 0 #7a5cb4,0 4px 0 #5a3f94,0 
   <header id="hdr">
     <div class="title">מסע ההתפתחות שלי</div>
     <div class="chips">
-      <div class="chip" id="cDate"></div>
       <div class="chip fire" id="cStreak"></div>
+      <div class="chip xp" id="cXp"></div>
+      <div class="chip" id="cLvl"></div>
       <div class="chip" id="cStars"></div>
       <div class="chip cloud" id="cCloud" title="סנכרון ענן">☁️</div>
     </div>
@@ -299,12 +356,14 @@ body.th-n .title,body.th-e .title{text-shadow:0 2px 0 #7a5cb4,0 4px 0 #5a3f94,0 
   </header>
 
   <div id="side">
+    <button class="sb" id="bToday"><div class="bub">🎯</div><span>היום</span><i class="dot" id="todayDot"></i></button>
     <button class="sb" id="bYear"><div class="bub">🗺️</div><span>השנה</span></button>
     <button class="sb" id="bHist"><div class="bub">📜</div><span>מעקב</span></button>
     <button class="sb" id="bAv"><div class="bub" id="avBub">🧑</div><span>הדמות</span></button>
     <button class="sb" id="bSet"><div class="bub">⚙️</div><span>הגדרות</span></button>
   </div>
 
+  <div id="mascot"><div id="mBubble"></div></div>
   <div id="clouds"></div>
   <div id="controls">
     <button class="pill" id="progBtn"><small id="progTxt">0/0</small><div class="bar"><i id="progBar"></i></div></button>
@@ -317,6 +376,7 @@ body.th-n .title,body.th-e .title{text-shadow:0 2px 0 #7a5cb4,0 4px 0 #5a3f94,0 
   <div id="rest">
     <div class="breath">🌿</div>
     <h2>הצעד הושלם.</h2>
+    <div class="xpsum" id="restXp"></div>
     <div id="breathTxt">שאיפה…</div>
     <p>נתראה בהרגל הבא בעולם האמיתי!<br>אפשר לסגור את המסך.</p>
     <button class="btn ghost" id="restBack">חזרה ללוח</button>
@@ -372,10 +432,10 @@ const DEFAULTS={
       {id:'h8',emoji:'📝',name:'סיכום יום / רפלקציה',sec:'e',days:ALLDAYS.slice()},
       {id:'h9',emoji:'📵',name:'ניתוק ממסכים',sec:'e',days:ALLDAYS.slice()}
     ],
-    testMode:false,sound:true
+    testMode:false,sound:true,dailyGoal:50
   },
-  profile:{onboarded:false,dream:'',why:'',dreamEmoji:'🏔️',start:null},
-  msSeen:[],days:{},stars:0,avatar:'🧑',unlocked:['🧑','🦁']
+  profile:{onboarded:false,dream:'',why:'',dreamEmoji:'🏔️',start:null,purpose:'',values:[],mantra:''},
+  msSeen:[],days:{},stars:0,xp:0,avatar:'🧑',unlocked:['🧑','🦁']
 };
 const MILESTONES=[
   {d:7,n:'שבוע ראשון',e:'🌱',m:'הצעד הראשון הוא הכי קשה – ועשית אותו.'},
@@ -420,6 +480,7 @@ function normalize(s){
   const o=Object.assign(d,s);
   ['msSeen','unlocked'].forEach(k=>{if(!Array.isArray(o[k]))o[k]=clone(DEFAULTS[k])});
   if(!o.days||typeof o.days!=='object')o.days={};
+  if(!Array.isArray(o.profile.values))o.profile.values=[];o.xp=+o.xp||0;
   return o;
 }
 function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
@@ -504,7 +565,7 @@ const dreamEmoji=()=>S.profile.dreamEmoji||'🏔️';
 const msEmoji=m=>m.e==='DREAM'?dreamEmoji():m.e;
 function day(k=today()){
   if(!S.days[k]){
-    Object.keys(S.days).forEach(o=>{if(o<k){const od=S.days[o];const dn={};Object.keys(od.done||{}).forEach(id=>dn[id]=1);S.days[o]={done:dn};if(od.bridge)S.days[o].bridge=true}});
+    Object.keys(S.days).forEach(o=>{if(o<k){const od=S.days[o];const dn={};Object.keys(od.done||{}).forEach(id=>dn[id]=1);S.days[o]={done:dn};if(od.bridge)S.days[o].bridge=true;if(od.xp)S.days[o].xp=od.xp;if(od.mood)S.days[o].mood=od.mood}});
     const hasHistory=Object.keys(S.days).length>0;
     const y=addDays(k,-1),yy=addDays(k,-2);
     S.days[k]={done:{},queue:[],pos:0,landed:{},opened:{},bridge:false,
@@ -692,14 +753,12 @@ function drawWheel(energy,spin){
 }
 
 /* ================= top render ================= */
-function layoutSide(){const h=$('hdr').getBoundingClientRect().height;$('side').style.top=(h-10)+'px';$('toast').style.top=(h+8)+'px'}
+function layoutSide(){const h=$('hdr').getBoundingClientRect().height;$('side').style.top=(h-10)+'px';$('toast').style.top=(h+8)+'px';const m=$('mascot');if(m){if(!m.querySelector('svg'))m.insertAdjacentHTML('afterbegin',mascotSVG('happy',66));m.style.top=(h-6)+'px'}}
 function render(scroll){
   applyTheme();const d=day();
-  $('cDate').textContent='📅 '+new Date().toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'numeric'});
   const si=streakInfo();
   const cs=$('cStreak');cs.className='chip '+(si.frozen?'frozen':'fire');
   cs.innerHTML=(si.frozen?'❄️':'<span class="fl">🔥</span>')+` ${si.n} ימי רצף${si.frozen?' · מוקפא':''}`;
-  $('cStars').textContent='⭐ '+S.stars;
   setCloud(cloud);
   const cur=currentSec();
   $('segs').innerHTML=secs().map(s=>{
@@ -711,7 +770,7 @@ function render(scroll){
   $('progTxt').textContent=`${dn}/${tot} היום`;$('progBar').style.width=(tot?dn/tot*100:0)+'%';
   const e=d.queue.length;$('energyTxt').textContent='אנרגיה '+e;$('go').className=e?'ready':'empty';drawWheel(e);
   $('avBub').textContent=S.avatar;
-  layoutSide();
+  layoutSide();renderDuo();
   renderBoard(scroll);
 }
 
@@ -744,13 +803,16 @@ function markHabit(id){
   if(left>0){toast(`כל הרגל בנפרד… (${Math.ceil(left/1000)})`);return}
   lastMark=Date.now();d.done[id]=Date.now();d.queue.push(id);save();sfx.pop();buzz(30);
   closeSheet();render(false);flyEnergy();toast(`${h.emoji} +1 ⚡ – לחץ GO`);
+  addXP(10);checkQuests();
+  const ml=MASCOT_LINES.done;mascotSay(ml[Math.floor(Math.random()*ml.length)]+' לחץ GO!');
+  if(!d.streakShown&&need(today())&&doneCount(today())>=need(today())){d.streakShown=true;save();queueCele(streakCele)}
 }
 
 /* ================= GO ================= */
 let busy=false;const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function go(){
   if(busy)return;const d=day();
-  if(!d.queue.length){toast('אין אנרגיה – בצע הרגל בעולם האמיתי ⚡');buzz(15);return}
+  if(!d.queue.length){toast('אין אנרגיה – בצע הרגל בעולם האמיתי ⚡');mascotSay(MASCOT_LINES.empty[Math.floor(Math.random()*2)]);buzz(15);return}
   busy=true;sfx.go();drawWheel(d.queue.length,true);await sleep(450);
   const hid=d.queue.shift();const h=habitById(hid);
   if(!h){save();busy=false;render(false);return}
@@ -778,23 +840,30 @@ async function go(){
     }
   }
   await checkMilestone();
-  busy=false;render(false);
+  busy=false;render(false);checkQuests();
+  await sleep(200);while(celeRun||celeQ.length)await sleep(300);
   if(!d.queue.length)showRest();
 }
 function pickAnchor(){
   const P=S.profile;
-  if(P.dream&&Math.random()<.4)return Math.random()<.5||!P.why?{t:'החלום שלי',m:`${dreamEmoji()} ${esc(P.dream)}<br><small>יום ${dayNum()} מתוך 365 · כל הרגל מקרב אותך.</small>`}:{t:'זכור למה',m:esc(P.why)};
+  const r=Math.random();
+  if(P.mantra&&r<.15)return {t:'המנטרה שלי',m:`אמור בקול:<br><b>"${esc(P.mantra)}"</b>`};
+  if(P.purpose&&r<.3)return {t:'היעוד שלי',m:esc(P.purpose)};
+  if(P.values&&P.values.length&&r<.4)return {t:'הערכים שלי',m:`היום אני חי לפי: <b>${P.values.map(esc).join(' · ')}</b><br><small>איך תבטא אחד מהם בשעה הקרובה?</small>`};
+  if(r<.6){const L=LESSONS[Math.floor(Math.random()*LESSONS.length)];return {t:(L.s==='רון'?'ג׳ים רון':'טוני רובינס')+' · '+L.t,m:L.m}}
+  if(P.dream&&Math.random()<.5)return Math.random()<.5||!P.why?{t:'החלום שלי',m:`${dreamEmoji()} ${esc(P.dream)}<br><small>יום ${dayNum()} מתוך 365 · כל הרגל מקרב אותך.</small>`}:{t:'זכור למה',m:esc(P.why)};
   return ANCHORS[Math.floor(Math.random()*ANCHORS.length)];
 }
 async function runEvent(ev){
   if(ev==='anchor'){const a=pickAnchor();
-    await showCard({icon:'💌',band:'b',title:'עוגן NLP · '+a.t,body:a.m,auto:5000,timer:true,buttons:'<button class="btn ghost" data-close>קיבלתי</button>'});
+    await showCard({icon:'💌',band:'b',title:'עוגן NLP · '+a.t,body:a.m,auto:5000,timer:true,buttons:'<button class="btn ghost" data-close>קיבלתי · +5 XP</button>'});addXP(5);
   }else{
     const locked=AVATARS.filter(a=>!S.unlocked.includes(a));
     if(locked.length&&Math.random()<.55){const a=locked[0];S.unlocked.push(a);save();sfx.win();confetti();
       await showCard({icon:a,band:'p',title:'הפתעה! דמות חדשה',body:'פרס על התמדה. אפשר להחליף בכפתור "הדמות".',buttons:`<button class="btn" data-close id="useAv">השתמש עכשיו</button><button class="btn ghost" data-close>אחר כך</button>`});
     }else{S.stars+=3;save();sfx.win();
-      await showCard({icon:'⭐',title:'הפתעה! +3 כוכבים',body:`ההתמדה שלך משתלמת. סה"כ ${S.stars} ⭐`,buttons:'<button class="btn" data-close>יש!</button>'})}
+      await showCard({icon:'💎',title:'הפתעה! +3 יהלומים',body:`ההתמדה שלך משתלמת. סה"כ ${S.stars} 💎`,buttons:'<button class="btn" data-close>יש!</button>'})}
+    addXP(5);
   }
 }
 $('card').addEventListener('click',e=>{
@@ -803,9 +872,9 @@ $('card').addEventListener('click',e=>{
 });
 async function runEnd(type){
   sfx.win();confetti(70);buzz([30,40,30]);
-  if(type==='gate'){S.stars+=5;save();await showCard({icon:'⛩️',title:'שער הבוקר נפתח!',body:'בוקר של ניצחונות הושלם.<br>בונוס אנרגיה: +5 ⭐',buttons:'<button class="btn" data-close>ממשיכים ליום</button>'})}
-  else if(type==='insight'){S.stars+=5;save();await showCard({icon:'💡',band:'b',title:'מיקרו-תובנה',body:INSIGHTS[Math.floor(Math.random()*INSIGHTS.length)],buttons:'<button class="btn" data-close>+5 ⭐ תודה</button>'})}
-  else{S.stars+=10;save();const si=streakInfo();await showCard({icon:'🎁',band:'g',title:'תיבת האוצר היומית!',body:`היום נסגר במלואו.<br>🔥 רצף: ${si.n} ימים · +10 ⭐`,buttons:'<button class="btn green" data-close>לילה טוב 🌙</button>'})}
+  if(type==='gate'){S.stars+=5;save();setTimeout(()=>addXP(20),50);await showCard({icon:'⛩️',title:'שער הבוקר נפתח!',body:'בוקר של ניצחונות הושלם.<br>בונוס: +5 💎 · +20 XP',buttons:'<button class="btn" data-close>ממשיכים ליום</button>'})}
+  else if(type==='insight'){S.stars+=5;save();setTimeout(()=>addXP(20),50);await showCard({icon:'💡',band:'b',title:'מיקרו-תובנה',body:INSIGHTS[Math.floor(Math.random()*INSIGHTS.length)],buttons:'<button class="btn" data-close>+5 💎 · +20 XP</button>'})}
+  else{S.stars+=10;save();const si=streakInfo();setTimeout(()=>addXP(20),50);await showCard({icon:'🎁',band:'g',title:'תיבת האוצר היומית!',body:`היום נסגר במלואו.<br>🔥 רצף: ${si.n} ימים · +10 💎 · +20 XP`,buttons:'<button class="btn green" data-close>לילה טוב 🌙</button>'})}
 }
 async function checkMilestone(){
   const sd=successDays();const hit=MILESTONES.filter(m=>m.d<=sd&&!S.msSeen.includes(m.d));if(!hit.length)return;
@@ -823,7 +892,7 @@ function openComeback(){
 }
 let breathT=null;
 function showRest(){
-  $('rest').classList.add('show');let i=0;const ph=['שאיפה…','החזקה…','נשיפה…','החזקה…'];
+  $('rest').classList.add('show');const d=day();$('restXp').textContent=`⚡ ${d.xp||0} XP היום · 🔥 ${streakInfo().n}`;let i=0;const ph=['שאיפה…','החזקה…','נשיפה…','החזקה…'];
   clearInterval(breathT);$('breathTxt').textContent=ph[0];breathT=setInterval(()=>{i=(i+1)%4;$('breathTxt').textContent=ph[i]},2000);
 }
 $('restBack').onclick=()=>{$('rest').classList.remove('show');clearInterval(breathT)};
@@ -846,6 +915,7 @@ function openHistory(){
   const pct=wkP?Math.round(wk/wkP*100):0;
   let html=`<h2>📜 המעקב שלי</h2><div class="hint">ההיסטוריה, הרצף וההתקדמות לאורך 365 הימים.</div>
   <div class="stats"><div class="stat"><b>${si.n}</b><span>${si.frozen?'רצף (מוקפא)':'ימי רצף'}</span></div><div class="stat"><b>${bestStreak()}</b><span>שיא רצף</span></div><div class="stat"><b>${successDays()}</b><span>ימי הצלחה</span></div></div>
+  <div class="stats"><div class="stat"><b>${S.xp||0}</b><span>⚡ XP סה״כ</span></div><div class="stat"><b>${lvlOf(S.xp||0).cur.e} ${lvlOf(S.xp||0).i+1}</b><span>${lvlOf(S.xp||0).cur.n}</span></div><div class="stat"><b>${S.stars}</b><span>💎 יהלומים</span></div></div>
   <div class="sech"><span>מפת 365 הימים</span><span class="badge open">יום ${Math.min(dayNum(),365)}/365</span></div>
   <div class="heat">${heatmap()}</div>
   <div class="legend" style="margin-bottom:16px"><span>פחות</span><i style="background:#efe8d6"></i><i style="background:#d6f0b4"></i><i style="background:#a6e070"></i><i style="background:#4fb51f"></i><span>יותר</span></div>
@@ -853,9 +923,9 @@ function openHistory(){
   const dn=['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
   for(let i=6;i>=0;i--){const k=addDays(t,-i);const c=doneCount(k);const hn=habitsOn(k).length;const hg=hn?Math.round(Math.min(1,c/hn)*72):0;
     html+=`<div class="wb"><span>${c}</span><i style="height:${hg}px;${counted(k)?'':'opacity:.45'}"></i><span>${dn[wdOf(k)]}</span></div>`}
-  html+=`</div><div class="sech"><span>פירוט לפי הרגל · 14 ימים</span></div><table class="grid"><tr><th></th>${habits().map(h=>`<th title="${esc(h.name)}">${esc(h.emoji)}</th>`).join('')}<th></th></tr>`;
+  html+=`</div><div class="sech"><span>פירוט לפי הרגל · 14 ימים</span></div><table class="grid"><tr><th></th>${habits().map(h=>`<th title="${esc(h.name)}">${esc(h.emoji)}</th>`).join('')}<th>💛</th><th></th></tr>`;
   for(let i=0;i<14;i++){const k=addDays(t,-i);const d=S.days[k];const [y,m,dd]=k.split('-').map(Number);
-    html+=`<tr><td class="d">${i===0?'היום':dd+'/'+m}</td>${habits().map(h=>{const sch=!h.days||h.days.includes(wdOf(k));return `<td><div class="cell${d&&d.done&&d.done[h.id]?' y':''}${i===0?' today':''}"${sch?'':' style="opacity:.3"'}></div></td>`}).join('')}<td>${counted(k)&&(k<t||doneCount(k)>=need(k))?'🔥':(d&&d.bridge?'🌱':'')}</td></tr>`}
+    html+=`<tr><td class="d">${i===0?'היום':dd+'/'+m}</td>${habits().map(h=>{const sch=!h.days||h.days.includes(wdOf(k));return `<td><div class="cell${d&&d.done&&d.done[h.id]?' y':''}${i===0?' today':''}"${sch?'':' style="opacity:.3"'}></div></td>`}).join('')}<td style="font-size:15px">${d&&d.mood?((MOODS.find(m=>m.v===Math.round(((d.mood.am||0)+(d.mood.pm||0))/((d.mood.am?1:0)+(d.mood.pm?1:0)||1)))||{}).e||''):''}</td><td>${counted(k)&&(k<t||doneCount(k)>=need(k))?'🔥':(d&&d.bridge?'🌱':'')}</td></tr>`}
   html+=`</table><div class="hint" style="margin-top:10px">🔥 יום הצלחה = לפחות חצי מהרגלי היום. 🌱 = אתגר חזרה הושלם.</div><div class="row" style="margin-top:8px"><button class="btn ghost" id="closeH">סגירה</button></div>`;
   openSheet(html);$('closeH').onclick=closeSheet;
 }
@@ -921,6 +991,9 @@ function drawSettings(){
   <h4>🎯 החלום והמסע</h4>
   <div class="hrow"><input class="inp e" id="pEmoji" value="${esc(draftP.dreamEmoji)}" maxlength="4"><input class="inp n" id="pDream" placeholder="החלום שלי בעוד שנה…" value="${esc(draftP.dream)}"></div>
   <div class="hrow"><input class="inp n" id="pWhy" placeholder="למה זה חשוב לי?" value="${esc(draftP.why)}"></div>
+  <div class="hrow"><input class="inp n" id="pPurpose" placeholder="🧭 היעוד שלי" value="${esc(draftP.purpose||'')}"></div>
+  <div class="hrow"><input class="inp n" id="pMantra" placeholder="🗣️ המנטרה שלי" value="${esc(draftP.mantra||'')}"></div>
+  <div class="trow"><span class="lab">🎯 יעד XP יומי</span><select class="inp" id="sGoal">${[[30,'קליל · 30'],[50,'רגיל · 50'],[80,'רציני · 80'],[120,'אינטנסיבי · 120']].map(([v,t])=>`<option value="${v}"${+draft.dailyGoal===v?' selected':''}>${t}</option>`).join('')}</select></div>
   <div class="trow"><span class="lab">תחילת המסע (365 יום)</span><input class="inp" type="date" id="pStart" value="${draftP.start||startKey()}" style="width:150px"></div>
   <h4>✅ ההרגלים שלי</h4><div class="hint">שם, מקטע וימים בשבוע לכל הרגל.</div>`;
   draft.habits.forEach((h,i)=>{const days=h.days||ALLDAYS;
@@ -939,9 +1012,10 @@ function drawSettings(){
   sh.querySelectorAll('[data-f]').forEach(inp=>inp.oninput=inp.onchange=()=>{if(inp.dataset.i!==undefined)draft.habits[+inp.dataset.i][inp.dataset.f]=inp.value;else draft.sections[+inp.dataset.s][inp.dataset.f]=inp.value});
   sh.querySelectorAll('[data-wd]').forEach(b=>b.onclick=()=>{const [i,w]=b.dataset.wd.split(':').map(Number);const h=draft.habits[i];h.days=h.days||ALLDAYS.slice();
     if(h.days.includes(w)){if(h.days.length>1)h.days=h.days.filter(x=>x!==w)}else h.days.push(w);h.days.sort();b.classList.toggle('on',h.days.includes(w))});
-  [['pEmoji','dreamEmoji'],['pDream','dream'],['pWhy','why'],['pStart','start']].forEach(([id,k])=>$(id).oninput=$(id).onchange=e=>draftP[k]=e.target.value);
+  [['pEmoji','dreamEmoji'],['pDream','dream'],['pWhy','why'],['pStart','start'],['pPurpose','purpose'],['pMantra','mantra']].forEach(([id,k])=>$(id).oninput=$(id).onchange=e=>draftP[k]=e.target.value);
   sh.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{draft.habits.splice(+b.dataset.del,1);drawSettings()});
   $('addH').onclick=()=>{draft.habits.push({id:'h'+Date.now().toString(36),emoji:'⭐',name:'הרגל חדש',sec:(currentSec()||secs()[0]).id,days:ALLDAYS.slice()});drawSettings()};
+  $('sGoal').onchange=e=>draft.dailyGoal=+e.target.value;
   $('sSound').onchange=e=>draft.sound=e.target.checked;$('sTest').onchange=e=>draft.testMode=e.target.checked;
   $('cancelS').onclick=closeSheet;
   $('saveS').onclick=()=>{const hl=draft.habits;const st=clone(draft);st.habits=S.settings.habits;S.settings=st;applyHabits(hl);if(!draftP.start)draftP.start=startKey();S.profile=draftP;save();closeSheet();render(true);toast('נשמר ✓')};
@@ -964,11 +1038,11 @@ async function connectCode(v){
 /* ================= onboarding ================= */
 let ob=null;
 function openOnboarding(){
-  ob={step:0,dream:S.profile.dream,why:S.profile.why,emoji:S.profile.dreamEmoji||'🏔️',start:S.profile.start||today(),habits:clone(S.settings.habits)};
+  ob={step:0,purpose:S.profile.purpose||'',values:(S.profile.values||[]).slice(),mantra:S.profile.mantra||'',dream:S.profile.dream,why:S.profile.why,emoji:S.profile.dreamEmoji||'🏔️',start:S.profile.start||today(),habits:clone(S.settings.habits)};
   drawOnb();$('onb').classList.add('show');
 }
 function drawOnb(){
-  const dots=`<div class="dots">${[0,1,2].map(i=>`<i class="${i===ob.step?'on':''}"></i>`).join('')}</div>`;
+  const dots=`<div class="dots">${[0,1,2,3].map(i=>`<i class="${i===ob.step?'on':''}"></i>`).join('')}</div>`;
   let h='<div class="onbw">'+dots;
   if(ob.step===0){
     const EM=['🏔️','🚀','💎','🏆','🏡','❤️','💪','🌍','📚','💰','🎯','🌟'];
@@ -980,6 +1054,12 @@ function drawOnb(){
     <div class="row"><button class="linkbtn" id="oHave">יש לי כבר מסע במכשיר אחר</button></div>
     <div class="ocard" id="oHaveBox" style="display:none;margin-top:10px"><label>הדבק את קישור/קוד הסנכרון</label><div class="addrow"><input class="inp" id="oCode" dir="ltr" placeholder="https://…#sync=…"><button class="btn sm" id="oConnect">חבר</button></div></div>`;
   }else if(ob.step===1){
+    h+=`<h2>היעוד והערכים שלך</h2><div class="sub">מי אתה רוצה להיות בדרך לחלום? זה הדלק לימים הקשים.</div>
+    <div class="ocard"><label>🧭 היעוד שלי</label><textarea id="oPurpose" rows="2" placeholder="למשל: להיות אבא נוכח, אדם בריא ויוצר שמשפיע על אחרים">${esc(ob.purpose)}</textarea>
+    <label>💎 3 ערכים מובילים</label><div class="chs vals">${VALUES.map(v=>`<button class="ch${ob.values.includes(v)?' on':''}" data-val="${v}">${v}</button>`).join('')}</div>
+    <label style="margin-top:12px">🗣️ המנטרה שלי (משפט כוח לומר בקול)</label><input type="text" id="oMantra" placeholder="אני חזק, ממוקד ומלא אנרגיה" value="${esc(ob.mantra)}"></div>
+    <div class="row"><button class="btn" id="oNext">הבא ←</button><button class="btn ghost" id="oBack">חזרה</button></div>`;
+  }else if(ob.step===2){
     h+=`<h2>ההרגלים שיביאו אותך לשם</h2><div class="sub">סמן הרגלים מוכנים או הוסף משלך. מומלץ 2–4 בכל מקטע.</div>`;
     secs().forEach(sec=>{
       const mine=ob.habits.filter(x=>x.sec===sec.id);const all=mine.map(x=>[x.emoji,x.name]);
@@ -990,7 +1070,7 @@ function drawOnb(){
     });
     h+=`<div class="sub">אפשר לקבוע ימים בשבוע לכל הרגל בהגדרות.</div><div class="row"><button class="btn" id="oNext">הבא ←</button><button class="btn ghost" id="oBack">חזרה</button></div>`;
   }else{
-    h+=`<h2>המסע מתחיל</h2><div class="sub">365 ימים · 9 תחנות · חלום אחד</div>
+    h+=`<h2>המסע מתחיל</h2><div class="sub">365 ימים · 9 תחנות · חלום אחד · XP ומשימות כל יום</div>
     <div class="ocard" style="text-align:center"><div style="font-size:70px;filter:drop-shadow(0 8px 8px rgba(0,0,0,.15))">${ob.emoji}</div>
     <div style="font-family:'Secular One';font-size:20px;margin:6px 0">${ob.dream?esc(ob.dream):'החלום שלי'}</div>
     ${ob.why?`<div style="color:var(--muted);font-size:14px;margin-bottom:10px">${esc(ob.why)}</div>`:''}
@@ -1001,9 +1081,11 @@ function drawOnb(){
   h+='</div>';const o=$('onb');o.innerHTML=h;o.scrollTop=0;
   o.querySelectorAll('[data-em]').forEach(b=>b.onclick=()=>{ob.emoji=b.dataset.em;o.querySelectorAll('[data-em]').forEach(x=>x.classList.toggle('sel',x===b))});
   if($('oDream')){$('oDream').oninput=e=>ob.dream=e.target.value;$('oWhy').oninput=e=>ob.why=e.target.value}
+  if($('oPurpose')){$('oPurpose').oninput=e=>ob.purpose=e.target.value;$('oMantra').oninput=e=>ob.mantra=e.target.value}
+  o.querySelectorAll('[data-val]').forEach(b=>b.onclick=()=>{const v=b.dataset.val;const i=ob.values.indexOf(v);if(i>=0)ob.values.splice(i,1);else{if(ob.values.length>=3){toast('עד 3 ערכים');return}ob.values.push(v)}b.classList.toggle('on',i<0)});
   if($('oHave'))$('oHave').onclick=()=>{$('oHaveBox').style.display='block'};
   if($('oConnect'))$('oConnect').onclick=()=>connectCode($('oCode').value);
-  o.querySelectorAll('.ch').forEach(b=>b.onclick=()=>{const {sec,e,n}=b.dataset;const i=ob.habits.findIndex(x=>x.sec===sec&&x.name===n);
+  o.querySelectorAll('.ch[data-n]').forEach(b=>b.onclick=()=>{const {sec,e,n}=b.dataset;const i=ob.habits.findIndex(x=>x.sec===sec&&x.name===n);
     if(i>=0)ob.habits.splice(i,1);else ob.habits.push({id:'h'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),emoji:e,name:n,sec,days:ALLDAYS.slice()});b.classList.toggle('on',i<0)});
   o.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{const sec=b.dataset.add;const v=o.querySelector(`[data-addin="${sec}"]`).value.trim();if(!v)return;
     let em='⭐',name=v;const m=v.match(/^(\p{Extended_Pictographic}️?)\s*(.+)$/u);if(m){em=m[1];name=m[2]}
@@ -1011,16 +1093,230 @@ function drawOnb(){
   if($('oStart'))$('oStart').onchange=e=>ob.start=e.target.value||today();
   if($('oBack'))$('oBack').onclick=()=>{ob.step--;drawOnb()};
   if($('oSkip'))$('oSkip').onclick=()=>o.classList.remove('show');
-  if($('oNext'))$('oNext').onclick=()=>{if(ob.step===1&&!ob.habits.length){toast('בחר לפחות הרגל אחד');return}ob.step++;drawOnb()};
+  if($('oNext'))$('oNext').onclick=()=>{if(ob.step===2&&!ob.habits.length){toast('בחר לפחות הרגל אחד');return}ob.step++;drawOnb()};
   if($('oGo'))$('oGo').onclick=()=>{
-    S.profile={onboarded:true,dream:ob.dream.trim(),why:ob.why.trim(),dreamEmoji:ob.emoji,start:ob.start};
-    applyHabits(ob.habits);save();push();o.classList.remove('show');render(true);sfx.win();confetti(80);toast('יום '+dayNum()+' מתוך 365 – יאללה! 🚀');
+    S.profile={onboarded:true,dream:ob.dream.trim(),why:ob.why.trim(),dreamEmoji:ob.emoji,start:ob.start,purpose:ob.purpose.trim(),values:ob.values.slice(0,3),mantra:ob.mantra.trim()};
+    applyHabits(ob.habits);save();push();o.classList.remove('show');render(true);sfx.win();confetti(80);toast('יום '+dayNum()+' מתוך 365 – יאללה! 🚀');setTimeout(()=>{mascotSay('היי! אני ניצן 🌱 אלווה אותך כל הדרך לחלום.',5000)},900);setTimeout(dailyFlow,2500);
   };
+}
+
+/* ================= Duolingo layer: content ================= */
+const LESSONS=[
+ {s:'רון',t:'משמעת קטנה, כל יום',m:'הצלחה היא לא אירוע גדול – היא כמה פעולות פשוטות שחוזרות כל יום. גם כישלון נבנה ככה, מכמה ויתורים קטנים.',a:'בחר הרגל אחד שאתה עושה היום "גם אם אין חשק".'},
+ {s:'רובינס',t:'המצב קובע את התוצאה',m:'הרגש שלך נבנה משלושה דברים: איך הגוף עומד, במה אתה מתמקד, ואילו מילים אתה אומר לעצמך. שנה אחד מהם – והרגש משתנה.',a:'עכשיו: זקוף גב, חייך, ושאל "מה טוב כאן?"'},
+ {s:'רון',t:'משקל המשמעת מול משקל החרטה',m:'כאב המשמעת קל ונמדד בדקות. כאב החרטה כבד ונמדד בשנים. בכל בוקר אתה בוחר איזה מהם לסחוב.',a:'עשה עכשיו את הדבר הקטן שהכי מתחשק לדחות.'},
+ {s:'רובינס',t:'ה"למה" נותן כוח',m:'כשה"למה" שלך חזק מספיק, ה"איך" כבר יימצא. אנשים לא מוותרים מחוסר יכולת – הם מוותרים מחוסר סיבה.',a:'קרא בקול את ה"למה" שכתבת לחלום שלך.'},
+ {s:'רון',t:'עבוד על עצמך',m:'אם תשקיע בעצמך יותר משאתה משקיע בעבודה – העבודה, הכסף והקשרים ישתפרו בעקבותיך.',a:'הקדש היום 10 דקות לקריאה או ללמידה.'},
+ {s:'רובינס',t:'החלטה אמיתית',m:'החלטה אמיתית היא כזו שחותכת כל אפשרות אחרת. מרגע שהחלטת באמת – אתה לא שואל "אם", רק "איך".',a:'כתוב משפט אחד: "החלטתי ש..."'},
+ {s:'רון',t:'עונות החיים',m:'אחרי כל חורף מגיע אביב. אי אפשר לשנות את העונה – אפשר לשנות את עצמך. החורף מלמד, האביב מזמין לזרוע.',a:'מה ה"זרע" הקטן שאתה שותל היום?'},
+ {s:'רובינס',t:'מה שמתמקדים בו – מרגישים',m:'הפוקוס שלך הוא זרקור. מה שהוא מאיר – גדל. התמקדות בחסר יוצרת פחד, התמקדות במה שיש יוצרת כוח.',a:'כתוב 3 דברים שאתה מודה עליהם עכשיו.'},
+ {s:'רון',t:'חמשת האנשים',m:'אתה מושפע מאוד מהאנשים שאתה מבלה איתם הכי הרבה. בחר בתבונה מי מקבל גישה לראש שלך.',a:'שלח הודעה לאדם אחד שמעורר בך השראה.'},
+ {s:'רובינס',t:'העלה את הסטנדרט',m:'אתה לא מקבל את מה שאתה רוצה – אתה מקבל את מה שאתה מסרב לוותר עליו. שינוי אמיתי מתחיל כש"כדאי" הופך ל"חייב".',a:'בחר דבר אחד שמהיום הוא "חייב" ולא "כדאי".'},
+ {s:'רון',t:'תכנן את היום לפני שהוא מתחיל',m:'אל תתחיל יום לפני שסיימת אותו על הנייר. תוכנית קטנה חוסכת שעות של בלבול.',a:'כתוב את 3 הדברים החשובים של מחר.'},
+ {s:'רובינס',t:'שאלות טובות – חיים טובים',m:'איכות החיים שלך תלויה באיכות השאלות שאתה שואל את עצמך. "למה זה קורה לי?" מחליש. "מה אני יכול ללמוד מזה?" מחזק.',a:'החלף שאלה מחלישה אחת בשאלה מחזקת.'},
+ {s:'רון',t:'אל תבקש שיהיה קל',m:'אל תייחל שהחיים יהיו קלים יותר – תייחל שאתה תהיה טוב יותר. אל תבקש פחות בעיות – בקש יותר כישורים.',a:'איזו מיומנות אחת תחזק היום?'},
+ {s:'רובינס',t:'התקדמות = אושר',m:'אנחנו מרגישים חיים כשאנחנו מתקדמים. לא צריך קפיצות – מספיק צעד קטן שמראה שאתה בתנועה.',a:'סמן הרגל אחד עכשיו ותרגיש את ההתקדמות.'},
+ {s:'רון',t:'אחריות מלאה',m:'השנה תשתנה כשאתה תשתנה. לא הכלכלה, לא הבוס, לא מזג האוויר – אתה ההגה.',a:'במה אתה לוקח היום אחריות מלאה?'},
+ {s:'רובינס',t:'החיים קורים בשבילך',m:'נסה לראות את האתגר של היום כמשהו שקורה בשבילך – כדי לחזק, ללמד ולכוון – ולא נגדך.',a:'מה המתנה שמסתתרת באתגר הנוכחי שלך?'},
+ {s:'רון',t:'פילוסופיה אישית',m:'מה שקובע את העתיד שלך הוא לא מה שקורה – אלא איך אתה מפרש את מה שקורה. פילוסופיה טובה מובילה להחלטות טובות.',a:'כתוב עיקרון אחד שאתה חי לפיו.'},
+ {s:'רובינס',t:'הגוף מוביל את הרגש',m:'תנועה יוצרת רגש. אי אפשר להרגיש מובס כשהגוף עומד כמו מנצח. שנה את התנוחה – תשנה את התחושה.',a:'30 שניות של תנועה אנרגטית עכשיו.'},
+ {s:'רון',t:'קרא, כתוב, למד',m:'אדם שלא קורא לא טוב יותר מאדם שלא יודע לקרוא. ספרים הם קיצור דרך לניסיון של אחרים.',a:'קרא היום לפחות 5 עמודים.'},
+ {s:'רובינס',t:'הודיה מנטרלת פחד',m:'אי אפשר להרגיש הכרת תודה ופחד באותו רגע. הודיה היא הכלי הכי מהיר לצאת ממצב חלש.',a:'עצור, נשום, ומצא דבר אחד שאתה מודה עליו.'},
+ {s:'רון',t:'תן יותר ממה שמצופה',m:'החיים מתגמלים לפי הערך שאתה מביא. תן קצת יותר מהצפוי – והתמורה תגיע בזמן.',a:'הוסף היום "עוד 10%" למשהו שאתה עושה.'},
+ {s:'רובינס',t:'מילים משנות רגש',m:'המילים שאתה בוחר משנות את עוצמת הרגש. "אני מבואס" כבד יותר מ"קצת לא מרוצה". בחר מילים שמשרתות אותך.',a:'החלף היום מילה שלילית אחת במילה עדינה יותר.'},
+ {s:'רון',t:'מטרות כתובות',m:'מטרה שלא נכתבה היא רק משאלה. הכתיבה הופכת חלום לתוכנית ונותנת לך כיוון.',a:'כתוב את החלום שלך במשפט אחד, בזמן הווה.'},
+ {s:'רובינס',t:'תוצאה, מטרה, פעולה',m:'דע מה אתה רוצה (תוצאה), למה זה חשוב לך (מטרה), ואז פעל בעוצמה (פעולה). זה כל הסוד.',a:'מה הפעולה המשמעותית של היום שמקדמת את החלום?'},
+ {s:'רון',t:'עקביות מנצחת עוצמה',m:'תפוח אחד ביום לא משנה כלום היום – ומשנה הכל בעוד שנה. הקסם נמצא בחזרה, לא בעוצמה.',a:'שמור על הרצף היום – גם בגרסה מינימלית.'},
+ {s:'רובינס',t:'פריימינג בוקר',m:'עשר דקות בבוקר של נשימה, הודיה ודמיון מכוונות את כל היום. אל תיתן לטלפון להחליט איך תרגיש.',a:'עשה עכשיו את תרגיל "שינוי מצב" באפליקציה.'},
+ {s:'רון',t:'הסיבות קודם',m:'הסיבות מגיעות לפני התשובות. כשיש לך מספיק סיבות טובות – תמצא את הדרך לעשות כמעט הכל.',a:'רשום 3 סיבות למה החלום שלך חשוב.'},
+ {s:'רובינס',t:'הצורך בצמיחה',m:'כל אדם צריך להרגיש שהוא צומח. בלי צמיחה – גם הצלחה מרגישה ריקה. מה שלא גדל – נובל.',a:'מה למדת על עצמך השבוע?'},
+ {s:'רון',t:'בריאות היא הבסיס',m:'שמור על הגוף שלך – זה המקום היחיד שבאמת יש לך לגור בו. אנרגיה היא מטבע ההצלחה.',a:'שתה כוס מים ועשה 2 דקות תנועה.'},
+ {s:'רובינס',t:'תרומה מעבר לעצמך',m:'הסוד לחיים מלאים הוא לתת. כשאתה מוסיף ערך לאחרים – גם אתה מתמלא.',a:'עשה היום מחווה קטנה לאדם אחר.'},
+ {s:'רון',t:'עוצמה בכל מה שעושים',m:'אם אתה כבר עושה – עשה בלב שלם. נוכחות מלאה בדבר אחד שווה יותר מחצי ראש בעשרה.',a:'בחר משימה אחת ועשה אותה עם 100% נוכחות.'},
+ {s:'רובינס',t:'אמונות מגבילות',m:'האמונות שלך הן כמו פילטר – הן קובעות מה אתה רואה כאפשרי. אמונה היא רק תחושת ודאות שאפשר לשנות.',a:'מה אמונה אחת שמגבילה אותך? כתוב את ההפך שלה.'},
+ {s:'רון',t:'יומן אישי',m:'החיים שווים תיעוד. מי שכותב את הלקחים שלו – לא צריך ללמוד אותם פעמיים.',a:'כתוב בסיכום היום לקח אחד.'},
+ {s:'רובינס',t:'נשימות כוח',m:'נשימה עמוקה ומהירה מעירה את הגוף ומזרימה אנרגיה. שלוש נשימות חזקות יכולות לשנות מצב תוך שניות.',a:'עכשיו: 3 נשימות עמוקות וחזקות.'},
+ {s:'רון',t:'למד ממי שהגיע',m:'הדרך המהירה להצלחה היא ללמוד ממי שכבר עשה את זה. ניסיון של אחרים הוא מתנה – קח אותה.',a:'מצא אדם שהגיע למה שאתה רוצה – ולמד ממנו משהו היום.'},
+ {s:'רובינס',t:'ודאות ושינוי',m:'כולנו צריכים גם ודאות וגם גיוון. ההרגלים נותנים לך ודאות – הפתעות קטנות נותנות לך חיות.',a:'הכנס היום שינוי קטן ומרענן להרגל קבוע.'},
+ {s:'רון',t:'הזמן הוא הנכס',m:'אפשר להרוויח עוד כסף – אי אפשר להרוויח עוד זמן. כל שעה היא השקעה או בזבוז.',a:'זהה "גוזל זמן" אחד וקצר אותו היום.'},
+ {s:'רובינס',t:'תגמל את עצמך',m:'המוח לומד ממה שמתגמל אותו. חגוג ניצחונות קטנים – כך ההרגל נחקק.',a:'חגוג עכשיו את הניצחון האחרון שלך – אפילו בחיוך.'},
+ {s:'רון',t:'החלום מושך',m:'כשהעתיד ברור וחזק – הוא מושך אותך קדימה. חלום גדול הופך משמעת למשהו טבעי.',a:'דמיין 30 שניות את היום שבו החלום שלך התגשם.'},
+ {s:'רובינס',t:'פעולה מסיבית',m:'כשמשהו לא עובד – אל תוריד את החלום, תגביר את הפעולה. נסה דרכים חדשות עד שזה עובד.',a:'מה דבר אחד חדש שתנסה היום?'},
+ {s:'רון',t:'אל תתלונן',m:'כל דקה של תלונה היא דקה שלא הושקעה בפתרון. התלונה גונבת אנרגיה מהעתיד שלך.',a:'יום ללא תלונות – כל תלונה מוחלפת ב"מה אפשר לעשות?"'},
+ {s:'רובינס',t:'זהות',m:'הכוח החזק ביותר באדם הוא הצורך להיות עקבי עם מי שהוא חושב שהוא. שנה את הזהות – וההרגלים ישתנו.',a:'השלם: "אני האדם ש..."'},
+ {s:'רון',t:'קציר',m:'אם זרעת – תקצור. אם לא זרעת – אל תתפלא. מה שאתה עושה היום הוא הקציר של עוד חודש.',a:'בצע הרגל אחד עכשיו כ"זריעה" לעתיד.'},
+ {s:'רובינס',t:'רגש הוא אנרגיה בתנועה',m:'רגשות הם אותות, לא אויבים. כל רגש מביא מסר – הקשב לו ושאל מה הוא מבקש ממך.',a:'מה הרגש החזק של היום ומה הוא מנסה לומר לך?'},
+ {s:'רון',t:'לסיים חזק',m:'הדרך שבה אתה מסיים את היום קובעת איך יתחיל המחר. סגור את היום בכוונה, לא בגלילה.',a:'הערב: 10 דקות בלי מסכים לפני השינה.'}
+];
+const VALUES=['צמיחה','משפחה','חופש','בריאות','תרומה','אהבה','ודאות','הרפתקה','משמעות','יצירה','שפע','שקט פנימי','אומץ','חיבור','מצוינות','כנות'];
+const LEVELS=[{x:0,n:'זרע',e:'🌰'},{x:60,n:'נבט',e:'🌱'},{x:180,n:'שתיל',e:'🌿'},{x:400,n:'צמח',e:'🪴'},{x:750,n:'עץ צעיר',e:'🌳'},{x:1250,n:'מטפס',e:'🧗'},{x:2000,n:'נווט',e:'🧭'},{x:3000,n:'נשר',e:'🦅'},{x:4300,n:'מנהיג',e:'🦁'},{x:6000,n:'מאסטר',e:'👑'},{x:8500,n:'אגדה',e:'⭐'}];
+const MOODS=[{v:1,e:'😫',t:'קשה'},{v:2,e:'😕',t:'ככה'},{v:3,e:'😐',t:'בסדר'},{v:4,e:'🙂',t:'טוב'},{v:5,e:'🤩',t:'מעולה'}];
+const MASCOT_LINES={
+  morning:['בוקר של ניצחונות! מתחילים בהרגל קטן? 🌅','איך שאתה קם – ככה אתה מנצח. יאללה!','הבוקר שלך הוא השלט של היום כולו.'],
+  day:['זמן מיקוד! בלוק אחד של עבודה עמוקה? 🎯','שתית מים? הגוף שלך מבקש 💧','צעד קטן עכשיו = קפיצה גדולה בעוד שנה.'],
+  evening:['ערב טוב. זמן לסגור את היום בכוונה 🌙','מה היה הניצחון של היום?','פחות מסך, יותר שקט. מגיע לך.'],
+  night:['שינה טובה היא הרגל של מנצחים 😴','מחר בבוקר ממשיכים במסע ✨'],
+  done:['איזה תותח! 🔥','עוד צעד אל החלום!','ככה בונים זהות חדשה 💪','המוח שלך רשם את זה ✓','וואו, אתה בתנופה!'],
+  empty:['אין אנרגיה כרגע – בצע הרגל בעולם האמיתי ⚡','אני מחכה לך כאן אחרי ההרגל הבא 🙂']
+};
+
+/* ================= Duolingo layer: logic ================= */
+function lvlOf(xp){let i=0;LEVELS.forEach((l,j)=>{if(xp>=l.x)i=j});const cur=LEVELS[i],nx=LEVELS[i+1];return {i,cur,nx,pct:nx?(xp-cur.x)/(nx.x-cur.x):1}}
+function goal(){return +S.settings.dailyGoal||50}
+function lessonToday(){return LESSONS[(dayNum()-1)%LESSONS.length]}
+function addXP(n,why){
+  const d=day();const before=lvlOf(S.xp||0).i;
+  d.xp=(d.xp||0)+n;S.xp=(S.xp||0)+n;save();flyXP(n);
+  const after=lvlOf(S.xp).i;
+  if(after>before)queueCele(()=>levelUp(after));
+  if(!d.goalHit&&d.xp>=goal()){d.goalHit=true;save();queueCele(goalHit)}
+  renderDuo();
+}
+let celeQ=[],celeRun=false;
+function queueCele(fn){celeQ.push(fn);if(!celeRun)runCele()}
+async function runCele(){celeRun=true;while(celeQ.length){while(busy)await sleep(300);const f=celeQ.shift();await f()}celeRun=false}
+async function levelUp(i){const L=LEVELS[i];sfx.win();confetti(90);S.stars+=10;save();
+  await showCard({icon:L.e,band:'p',title:`עלית לרמה ${i+1}!`,body:`אתה עכשיו <b>${L.n}</b>.<br><small>+10 💎 מתנה</small>`,buttons:'<button class="btn" data-close>יש!</button>'})}
+async function goalHit(){sfx.win();confetti(60);mascotSay('יעד יומי הושג! 🎯 אלוף!',3500);
+  await showCard({icon:'🎯',band:'g',title:'היעד היומי הושג!',body:`${goal()} XP היום. ככה נראית משמעת.`,buttons:'<button class="btn green" data-close>ממשיכים</button>'})}
+function flyXP(n){
+  const app=$('app');const f=document.createElement('div');f.className='fly xp';f.textContent=`+${n} XP`;
+  f.style.right='18px';f.style.top='70px';app.appendChild(f);
+  f.animate([{transform:'translateY(20px) scale(.6)',opacity:0},{transform:'translateY(0) scale(1.1)',opacity:1,offset:.3},{transform:'translateY(-30px) scale(.9)',opacity:0}],{duration:1300,easing:'ease-out'}).onfinish=()=>f.remove();
+}
+function weekRow(){
+  const t=today();const w=wdOf(t);let out='<div class="weekrow">';
+  for(let i=0;i<7;i++){const k=addDays(t,i-w);const ok=counted(k)&&(k<t||doneCount(k)>=need(k));const fut=k>t;
+    out+=`<div class="wd${ok?' ok':''}${k===t?' t':''}${fut?' fut':''}"><i>${ok?'🔥':(fut?'':'·')}</i><span>${WD[i]}</span></div>`}
+  return out+'</div>';
+}
+async function streakCele(){
+  const si=streakInfo();sfx.win();confetti(80);buzz([40,40,60]);
+  await showCard({icon:'<span class="bigfire">🔥</span>',band:'',title:`${si.n} ${si.n===1?'יום':'ימים'} ברצף!`,body:`${weekRow()}<small>היום נספר כיום הצלחה. ${si.n>=7?'ג׳ים רון היה גאה בך – משמעת יומית!':'כל יום קטן בונה את השנה הגדולה.'}</small>`,buttons:'<button class="btn" data-close>המשך</button>'});
+}
+/* quests */
+const QDEF=[
+  {id:'h3',t:'בצע 3 הרגלים',e:'✅',n:()=>Math.min(3,habitsOn(today()).length)||1,p:d=>doneCount(today())},
+  {id:'h5',t:'בצע 5 הרגלים',e:'💪',n:()=>Math.min(5,habitsOn(today()).length)||1,p:d=>doneCount(today())},
+  {id:'state',t:'תרגיל שינוי מצב',e:'⚡',n:()=>1,p:d=>d.state?1:0},
+  {id:'mood',t:'צ׳ק-אין רגשי',e:'💛',n:()=>1,p:d=>(d.mood&&(d.mood.am||d.mood.pm))?1:0},
+  {id:'lesson',t:'עיקרון היום',e:'📖',n:()=>1,p:d=>d.lesson?1:0},
+  {id:'goal',t:'הגע ליעד ה-XP',e:'🎯',n:()=>goal(),p:d=>d.xp||0},
+  {id:'sec',t:'השלם מקטע שלם',e:'⛩️',n:()=>1,p:d=>secs().some(s=>{const hs=habitsOn(today()).filter(h=>h.sec===s.id);return hs.length&&hs.every(h=>d.done[h.id])})?1:0}
+];
+function questsToday(){
+  const t=today();let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))%9973;
+  const first=QDEF[h%2];const rest=QDEF.slice(2);const a=rest[h%rest.length],b=rest[(h+3)%rest.length];
+  return [first,a,b===a?rest[(h+1)%rest.length]:b];
+}
+function questState(){const d=day();return questsToday().map(q=>{const n=q.n(),p=Math.min(n,q.p(d));return {q,n,p,ok:p>=n}})}
+function checkQuests(){
+  const d=day();const qs=questState();
+  qs.forEach(o=>{if(o.ok&&!(d.qDone||{})[o.q.id]){d.qDone=d.qDone||{};d.qDone[o.q.id]=1;save();toast(`${o.q.e} משימה הושלמה: ${o.q.t}`)}});
+}
+async function claimChest(){
+  const d=day();if(d.qChest)return;if(!questState().every(o=>o.ok)){toast('השלם את כל 3 המשימות');return}
+  d.qChest=true;S.stars+=15;save();closeSheet();sfx.win();confetti(80);
+  await showCard({icon:'🧰',band:'p',title:'תיבת המשימות נפתחה!',body:'+15 💎 על יום מלא בעשייה.',buttons:'<button class="btn" data-close>אסוף</button>'});
+  addXP(10);render(false);
+}
+/* mood */
+function moodSlot(){return nowMins()>=mins((secById('e')||{start:'18:00'}).start)?'pm':'am'}
+function moodButtons(slot){return `<div class="moods">${MOODS.map(m=>`<button data-mood="${m.v}" data-slot="${slot}"><b>${m.e}</b><span>${m.t}</span></button>`).join('')}</div>`}
+function bindMoods(root,after){
+  root.querySelectorAll('[data-mood]').forEach(b=>b.onclick=()=>{
+    const d=day();d.mood=d.mood||{};const first=!d.mood[b.dataset.slot];d.mood[b.dataset.slot]=+b.dataset.mood;save();sfx.pop();
+    root.querySelectorAll('[data-mood]').forEach(x=>x.classList.toggle('sel',x===b));
+    if(first)addXP(5);checkQuests();if(after)after(+b.dataset.mood);
+  });
+}
+function moodReply(v){return v<=2?'זה בסדר להרגיש ככה. רגש הוא אות, לא גזר דין. בוא נשנה מצב יחד – 30 שניות.':v===3?'בסדר זה בסיס טוב. צעד קטן אחד יעלה אותך שלב.':'מצוין! תשתמש באנרגיה הזו לצעד שמקדם את החלום.'}
+/* lesson */
+async function openLesson(){
+  const L=lessonToday();const d=day();closeSheet();
+  await showCard({icon:L.s==='רון'?'📘':'🔥',band:L.s==='רון'?'b':'',title:L.t,body:`<span class="src">${L.s==='רון'?'ברוח ג׳ים רון':'ברוח טוני רובינס'}</span><br>${L.m}<div class="act">🎯 <b>הפעולה של היום:</b> ${L.a}</div>`,buttons:`<button class="btn" data-close>${d.lesson?'סגור':'קיבלתי · +5 XP'}</button>`});
+  if(!d.lesson){d.lesson=true;save();addXP(5);checkQuests()}
+}
+/* state change (Robbins triad) */
+async function stateChange(){
+  closeSheet();const m=S.profile.mantra||'אני חזק, ממוקד ומלא אנרגיה. היום אני מתקדם אל החלום שלי.';
+  const steps=[
+    {icon:'💪',band:'',title:'1 · הגוף',body:'קום, זקוף גב, חזה פתוח, סנטר למעלה.<br>קח <b>3 נשימות חזקות</b> מהאף והוצא בכוח.'},
+    {icon:'🎯',band:'b',title:'2 · המיקוד',body:'חשוב על <b>3 דברים</b> שאתה מודה עליהם עכשיו.<br>הרגש אותם בגוף.'},
+    {icon:'🗣️',band:'p',title:'3 · השפה',body:`אמור בקול, בעוצמה:<br><b>"${esc(m)}"</b>`}
+  ];
+  for(const s of steps){await showCard(Object.assign({auto:12000,timer:true,buttons:'<button class="btn ghost" data-close>הבא ←</button>'},s))}
+  const d=day();const first=!d.state;d.state=true;save();sfx.win();confetti(50);
+  await showCard({icon:'⚡',band:'g',title:'המצב שונה!',body:'גוף, מיקוד ושפה – שלושת המפתחות לרגש.<br>עכשיו לך לעשות את ההרגל הבא.',buttons:`<button class="btn green" data-close>${first?'+10 XP':'יאללה'}</button>`});
+  if(first)addXP(10);checkQuests();
+}
+/* daily panel */
+function openToday(){
+  const d=day();const L=lessonToday();const slot=moodSlot();const lv=lvlOf(S.xp||0);const g=goal();const qs=questState();const all=qs.every(o=>o.ok);
+  let html=`<div class="mhead">${mascotSVG('happy',64)}<div class="bubble">${greeting()}</div></div>
+  <div class="goalcard"><div class="ring" style="--p:${Math.min(1,(d.xp||0)/g)}"><b>${d.xp||0}</b><small>/${g} XP</small></div>
+   <div class="gtxt"><b>${lv.cur.e} רמה ${lv.i+1} · ${lv.cur.n}</b><div class="lbar"><i style="width:${lv.pct*100}%"></i></div><small>${lv.nx?`עוד ${lv.nx.x-(S.xp||0)} XP ל${lv.nx.n}`:'הגעת לפסגה!'}</small></div></div>
+  <div class="sech"><span>💛 איך אתה מרגיש ${slot==='am'?'הבוקר':'הערב'}?</span>${d.mood&&d.mood[slot]?'<span class="badge open">✓</span>':''}</div>
+  ${moodButtons(slot)}<div class="hint" id="moodR"></div>
+  <div class="tiles2">
+   <button class="tbtn ${d.lesson?'ok':''}" id="tLesson"><span>📖</span><b>עיקרון היום</b><small>${esc(L.t)}</small></button>
+   <button class="tbtn ${d.state?'ok':''}" id="tState"><span>⚡</span><b>שינוי מצב</b><small>30 שניות · גוף, מיקוד, שפה</small></button>
+  </div>
+  <div class="sech"><span>🏅 משימות יומיות</span><span class="badge open">${qs.filter(o=>o.ok).length}/3</span></div>
+  ${qs.map(o=>`<div class="quest${o.ok?' ok':''}"><span class="qe">${o.q.e}</span><div class="qt"><b>${o.q.t}</b><div class="qbar"><i style="width:${o.p/o.n*100}%"></i></div></div><span class="qn">${o.p}/${o.n}</span></div>`).join('')}
+  <button class="chest${all&&!d.qChest?' ready':''}${d.qChest?' open':''}" id="qChest">${d.qChest?'🧰 נאסף היום ✓':(all?'🧰 פתח את תיבת המשימות!':'🔒 תיבת המשימות')}</button>`;
+  openSheet(html);
+  bindMoods($('sheet'),v=>{$('moodR').textContent=moodReply(v)});
+  $('tLesson').onclick=openLesson;$('tState').onclick=stateChange;$('qChest').onclick=claimChest;
+}
+function greeting(){
+  const c=currentSec();const n=nowMins();const P=S.profile;
+  const key=!c?(n<mins(secs()[0].start)||n>=mins(secs()[secs().length-1].end)?'night':'day'):(c.id==='m'?'morning':c.id==='e'?'evening':'day');
+  const arr=MASCOT_LINES[key];let s=arr[Math.floor(Math.random()*arr.length)];
+  if(P.purpose&&Math.random()<.3)s=`זוכר את היעוד שלך? "${esc(P.purpose)}"`;
+  return s;
+}
+/* morning / evening flows */
+async function dailyFlow(){
+  if(!S.profile.onboarded)return;const d=day();
+  const slot=moodSlot();
+  if(slot==='am'&&!d.greetAm){
+    d.greetAm=true;save();let goL=false;
+    const h=e=>{if(e.target.id==='goL')goL=true};$('card').addEventListener('click',h);
+    await showCard({icon:mascotSVG('happy',86),band:'',title:'בוקר טוב! 🌅',body:`איך אתה מרגיש?${moodButtons('am')}<div class="hint" id="cardMoodR"></div>`,buttons:'<button class="btn" data-close id="goL">לעיקרון היום ←</button><button class="btn ghost" data-close>אחר כך</button>'});
+    $('card').removeEventListener('click',h);
+    if(goL&&!day().lesson)await openLesson();
+  }else if(slot==='pm'&&!d.greetPm&&doneCount(today())>0){
+    d.greetPm=true;save();
+    await showCard({icon:mascotSVG('calm',86),band:'b',title:'ערב טוב 🌙',body:`איך היה היום?${moodButtons('pm')}<div class="hint" id="cardMoodR"></div>`,buttons:'<button class="btn" data-close>סגור יום</button>'});
+  }
+}
+const cardObs=new MutationObserver(()=>{const c=$('card');if(c.querySelector('[data-mood]')){if(!c.dataset.mb){c.dataset.mb=1;bindMoods(c,v=>{const r=$('cardMoodR');if(r)r.textContent=moodReply(v)})}}else delete c.dataset.mb});
+cardObs.observe($('card'),{childList:true});
+/* mascot */
+function mascotSVG(mood='happy',sz=70){
+  const eye=mood==='calm'?'<path d="M30 46 q4 4 8 0 M52 46 q4 4 8 0" stroke="#24330d" stroke-width="3" fill="none" stroke-linecap="round"/>':'<circle cx="34" cy="46" r="6" fill="#fff"/><circle cx="56" cy="46" r="6" fill="#fff"/><circle cx="35" cy="47" r="3.4" fill="#24330d"/><circle cx="57" cy="47" r="3.4" fill="#24330d"/><circle cx="36.2" cy="45.6" r="1.2" fill="#fff"/><circle cx="58.2" cy="45.6" r="1.2" fill="#fff"/>';
+  return `<svg class="mascot-svg" width="${sz}" height="${sz}" viewBox="0 0 90 90"><ellipse cx="45" cy="84" rx="22" ry="4" fill="rgba(0,0,0,.15)"/>
+  <path d="M45 22 C40 8 26 6 20 12 C30 12 38 18 43 26Z" fill="#6fd13a"/><path d="M47 24 C52 8 68 4 74 10 C64 11 55 17 49 27Z" fill="#8fe35a"/>
+  <path d="M45 24 L45 30" stroke="#4fa52a" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="45" cy="54" rx="28" ry="28" fill="url(#mg)"/><ellipse cx="36" cy="40" rx="9" ry="6" fill="rgba(255,255,255,.35)"/>
+  ${eye}<path d="M37 60 q8 8 16 0" stroke="#24330d" stroke-width="3" fill="#ff7a80" stroke-linecap="round"/>
+  <circle cx="27" cy="58" r="4" fill="#ff9aa2" opacity=".6"/><circle cx="63" cy="58" r="4" fill="#ff9aa2" opacity=".6"/>
+  <defs><radialGradient id="mg" cx=".35" cy=".3"><stop offset="0" stop-color="#d9ff9c"/><stop offset=".6" stop-color="#7fd84a"/><stop offset="1" stop-color="#4cb21f"/></radialGradient></defs></svg>`;
+}
+let sayT=null;
+function mascotSay(t,ms=3200){const b=$('mBubble');if(!b)return;b.innerHTML=t;b.classList.add('show');$('mascot').classList.remove('jump');void $('mascot').offsetWidth;$('mascot').classList.add('jump');clearTimeout(sayT);sayT=setTimeout(()=>b.classList.remove('show'),ms)}
+function renderDuo(){
+  const d=day();const g=goal();const lv=lvlOf(S.xp||0);
+  const x=$('cXp');if(x)x.innerHTML=`<span class="mini" style="--p:${Math.min(1,(d.xp||0)/g)}"></span>${d.xp||0}/${g} XP`;
+  const l=$('cLvl');if(l)l.textContent=`${lv.cur.e} ${lv.i+1}`;
+  const s=$('cStars');if(s)s.textContent='💎 '+S.stars;
+  const tb=$('todayDot');if(tb){const qs=questState();tb.style.display=(qs.every(o=>o.ok)&&!d.qChest)||!d.lesson?'block':'none'}
 }
 
 /* ================= wire ================= */
 $('markBtn').onclick=openHabits;$('progBtn').onclick=openHistory;$('bHist').onclick=openHistory;
-$('bAv').onclick=openAvatars;$('bSet').onclick=openSettings;$('bYear').onclick=openYear;$('dream').onclick=openYear;$('go').onclick=go;
+$('bAv').onclick=openAvatars;$('bToday').onclick=openToday;$('mascot').onclick=()=>mascotSay(greeting(),4200);$('bSet').onclick=openSettings;$('bYear').onclick=openYear;$('dream').onclick=openYear;$('go').onclick=go;
 let lastDay=today();
 setInterval(()=>{if(busy)return;if(today()!==lastDay){lastDay=today();render(true)}else render(false)},60000);
 document.addEventListener('visibilitychange',async()=>{if(document.hidden||busy)return;try{if(await pull())render(true);else render(false);setCloud('ok')}catch(e){setCloud('off')}});
@@ -1028,7 +1324,7 @@ let rT;window.addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(()=>
 render(true);
 (async()=>{
   await Promise.race([initCloud(),sleep(6000)]);
-  if(!S.profile.onboarded)openOnboarding();
+  if(!S.profile.onboarded)openOnboarding();else{await dailyFlow();setTimeout(()=>mascotSay(greeting(),4500),600)}
 })();
 })();
 </script>

@@ -497,6 +497,16 @@ textarea.inp{width:100%;resize:none}
 .hbf{background:linear-gradient(#ff7a80,var(--red));color:#fff;box-shadow:0 2px 0 var(--red3)}
 .hbm{background:#eaf8dc;color:#2f7d0e;box-shadow:0 2px 0 #c4e6a2}
 #remind .hbf,#remind .hbm{flex:1;padding:9px}
+
+/* grounded: nothing floats without reason */
+.ico{top:23px;transform:translate(-50%,-62%);font-size:24px}
+.ico.small{font-size:21px;transform:translate(-50%,-60%)}
+.ico.q{font-size:30px;transform:translate(-50%,-58%)}
+.env{width:24px;height:28px;margin-left:-12px;transform:translateY(5px);box-shadow:0 3px 0 #9e1712}
+.env::before{height:11px}.env::after{top:7px;width:9px;height:9px;margin-left:-4.5px}
+.pin{margin:-74px 0 0 -31px}
+.pin .sh{bottom:-6px;width:30px;height:9px;margin-left:-15px}
+.tile .ico[style*="font-size:34px"],.tile .ico[style*="font-size:36px"]{font-size:27px!important}
 </style>
 </head>
 <body class="th-d">
@@ -907,7 +917,6 @@ function renderBoard(scroll){
     html+=`<div class="${cls}" data-i="${i}" style="left:${p.x}px;top:${p.y}px;z-index:${Math.round(p.y)}">${tileSVG(kind)}${ico}</div>`;
   });
   const e=pts[pts.length-1];
-  html+=`<div class="dest" style="left:${boardW/2}px;top:${e.y-170}px;z-index:1"><div class="em">${CH.mark}</div><div class="nm">פרק ה${esc(CH.short)}</div></div>`;
   html=scatterDecor(pts,boardW,boardH,11,[{x:boardW/2,y:e.y-110}])+html;
   const pp=pts[Math.min(ch.pos,pts.length-1)];html+=pinHTML(pp.x,pp.y,'pin');
   board.innerHTML=html;

@@ -507,6 +507,73 @@ textarea.inp{width:100%;resize:none}
 .pin{margin:-74px 0 0 -31px}
 .pin .sh{bottom:-6px;width:30px;height:9px;margin-left:-15px}
 .tile .ico[style*="font-size:34px"],.tile .ico[style*="font-size:36px"]{font-size:27px!important}
+
+/* ===== v6: polished today, NLP, tasks, purposeful motion ===== */
+.tHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.ring.sm{width:60px;height:60px;background:radial-gradient(circle,#fffdf6 56%,transparent 57%),conic-gradient(#ffb020 calc(var(--p)*360deg),#f3e6c7 0)}
+.ring.sm b{font-size:18px}.ring.sm small{font-size:9.5px}
+.secH{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 8px;font-weight:900;font-size:15.5px}
+.secH small{font-weight:800;color:var(--muted);font-size:12px;margin-right:4px}
+.subH{font-size:12px;font-weight:900;color:var(--muted);margin:8px 4px 5px}
+.lnk{background:none;color:var(--red2);font-weight:900;font-size:12.5px;padding:4px 2px}
+.lnk.sweep{background:#eaf8dc;color:#2f7d0e;border-radius:99px;padding:5px 11px}
+.card2{background:#fff;border-radius:20px;padding:12px 14px;box-shadow:0 3px 0 #efe5c9,0 8px 18px rgba(120,90,20,.05);margin-bottom:10px}
+.card2.shab{background:linear-gradient(135deg,#efeaff,#f7f3ff);box-shadow:0 3px 0 #ddd3fa;font-size:14px}
+.blk{margin-bottom:10px}
+.task{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f3eddf}
+.task:last-of-type{border-bottom:0}
+.tck{background:none;padding:0}
+.tck i{width:24px;height:24px;border-radius:8px;border:2.5px solid #d9cfb2;display:grid;place-items:center;font-style:normal;font-size:14px;color:#fff;transition:background .2s,border-color .2s}
+.task.on .tck i{background:#58c22a;border-color:#58c22a}
+.ttx{flex:1;font-weight:700;font-size:14.5px;cursor:text}
+.task.on .ttx{color:#9aa287;text-decoration:line-through}
+.tdel{background:none;color:#c9bfa2;font-size:13px;font-weight:900;padding:4px}
+.nlpRec{width:100%;display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#eef4ff,#f4efff);border-radius:20px;padding:12px 14px;box-shadow:0 3px 0 #d9dcf5;text-align:right;margin-bottom:6px}
+.nlpRec .ne,.nlpI .ne{width:46px;height:46px;border-radius:15px;background:#fff;display:grid;place-items:center;font-size:24px;flex:none;box-shadow:0 2px 0 #e3e5f6}
+.nlpRec div,.nlpI div{flex:1}.nlpRec b,.nlpI b{font-size:15px;font-weight:900;display:block}.nlpRec small,.nlpI small{font-size:12px;color:var(--muted);font-weight:700}
+.nlpRec i,.nlpI i{font-style:normal;font-weight:900;color:#6a5bd6;font-size:16px}
+.nlpList{display:flex;flex-direction:column;gap:8px}
+.nlpI{display:flex;align-items:center;gap:12px;background:#fff;border-radius:18px;padding:10px 12px;box-shadow:0 3px 0 #efe5c9;text-align:right}
+.nlpI.nx{box-shadow:0 0 0 2px #a99cff,0 3px 0 #d9dcf5}
+.jq{font-weight:900;font-size:14px;margin-bottom:8px;color:#6b5a2a}
+.jI{background:#fff;border-radius:16px;padding:10px 12px;margin-bottom:8px;box-shadow:0 3px 0 #efe5c9}
+.jH{display:flex;align-items:center;gap:8px}.jH b{flex:1;font-size:14px}.jH small{color:var(--muted);font-weight:700;font-size:11px}
+.jx{background:#f6efe0;color:#a79c7c;border-radius:99px;padding:3px 8px;font-size:11px;font-weight:900}
+.jI p{margin:6px 0 0;font-size:13.5px;line-height:1.55;color:#3e4a24}
+#guide{position:absolute;inset:0;z-index:130;display:none;overflow-y:auto;background:linear-gradient(180deg,#eef4ff,#f6f1ff 50%,#fffdf6);padding:calc(14px + var(--safeT)) 18px 30px}
+#guide.show{display:block}
+.gTop{display:flex;align-items:center;gap:10px;margin-bottom:10px}.gTop span{font-weight:900;color:var(--muted);font-size:13px}
+.gBar{flex:1;height:10px;border-radius:9px;background:#e4e2f5;overflow:hidden}.gBar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#9b8cff,#6a5bd6);transition:width .4s ease}
+.gIn{text-align:center;max-width:440px;margin:0 auto;padding-top:5vh}
+.gEm{font-size:64px;line-height:1;margin-bottom:10px}.gEm.sm{font-size:44px}
+.gIn h2{font-family:'Secular One';font-weight:400;font-size:26px;margin:4px 0 8px}
+.gIn p{font-size:16px;line-height:1.6;color:#3e4a24;margin:0 0 14px}
+.gT{font-size:18px!important;font-weight:700;line-height:1.65!important}
+.gMeta{font-size:12.5px;font-weight:800;color:var(--muted);margin-bottom:18px}
+.gIn textarea{text-align:right;font-size:15px;margin-top:6px}
+.gTimer{position:relative;width:120px;height:120px;margin:6px auto 10px}
+.gTimer svg{width:120px;height:120px;transform:rotate(-90deg)}
+.gTimer .tb{fill:none;stroke:#e4e2f5;stroke-width:10}
+.gTimer .tf{fill:none;stroke:#6a5bd6;stroke-width:10;stroke-linecap:round;stroke-dasharray:327;stroke-dashoffset:0}
+.gTimer b{position:absolute;inset:0;display:grid;place-items:center;font-family:'Secular One';font-size:34px;color:#4b3fb0}
+/* purposeful motion */
+@keyframes stepIn{from{opacity:0;transform:translateX(var(--dx,24px))}}
+.gStep{animation:stepIn .32s ease both!important}
+@keyframes popchk{0%{transform:scale(1)}40%{transform:scale(1.35)}100%{transform:scale(1)}}
+.popchk i{animation:popchk .38s ease!important}
+@keyframes tabBump{0%,100%{transform:scale(1)}40%{transform:scale(1.35) translateY(-4px)}}
+.tab.bump b{animation:tabBump .5s ease!important;filter:none;opacity:1}
+.ghostfly{box-shadow:0 10px 24px rgba(0,0,0,.18);border-radius:14px;background:#fff}
+.hab2.done .tag{animation:popchk .35s ease}
+.sheet{animation:up .22s ease!important}
+.veil.show{animation:fade .18s!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.secMini{display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:9px 12px;margin-bottom:7px;box-shadow:0 2px 0 #efe5c9;font-size:13px;font-weight:900}
+.secMini .mE{flex:1;display:flex;gap:4px;justify-content:flex-start}
+.secMini .mE i{font-style:normal;font-size:18px;filter:grayscale(1);opacity:.45}
+.secMini .mE i.ok{filter:none;opacity:1}
+.secMini small{color:var(--muted);font-weight:800;font-size:11.5px}
 </style>
 </head>
 <body class="th-d">
@@ -555,6 +622,7 @@ textarea.inp{width:100%;resize:none}
   </div>
   <div id="year"></div>
   <div id="onb"></div>
+  <div id="guide"></div>
   <div id="toast"></div>
 </div>
 
@@ -806,7 +874,7 @@ function day(k=today()){
     Object.keys(S.days).forEach(o=>{if(o<k){const od=S.days[o];const dn={};Object.keys(od.done||{}).forEach(id=>dn[id]=1);S.days[o]={done:dn};if(od.bridge)S.days[o].bridge=true;if(od.xp)S.days[o].xp=od.xp;if(od.mood)S.days[o].mood=od.mood;if(od.minDone)S.days[o].minDone=od.minDone}});
     const hasHistory=Object.keys(S.days).length>0;
     const y=prevWork(k),yy=prevWork(y);
-    S.days[k]={done:{},queue:[],pos:0,landed:{},opened:{},bridge:false,
+    S.days[k]={nlpOn:true,done:{},queue:[],pos:0,landed:{},opened:{},bridge:false,
       cb:!isRestDay(k)&&hasHistory&&!counted(y)&&counted(yy),cbTask:COMEBACK[Math.floor(Math.random()*COMEBACK.length)]};
     save();
   }
@@ -874,7 +942,8 @@ function buildTiles(){
   tiles=[];CH=activeSec();if(!CH)return;const d=day();
   tiles.push({t:'start'});if(d.cb)tiles.push({t:'comeback'});
   const hs=habitsOn(today()).filter(h=>h.sec===CH.id);
-  hs.forEach((h,i)=>{tiles.push({t:'habit'});if(i===0&&hs.length>1)tiles.push({t:'anchor'});if(i===1&&hs.length>2)tiles.push({t:'surprise'})});
+  const firstCh=secs().find(s=>habitsOn(today()).some(h=>h.sec===s.id));
+  hs.forEach((h,i)=>{tiles.push({t:'habit'});if(i===0&&d.nlpOn&&firstCh&&firstCh.id===CH.id)tiles.push({t:'nlp'});else if(i===0&&hs.length>1)tiles.push({t:'anchor'});if(i===1&&hs.length>2)tiles.push({t:'surprise'})});
   const ix=secs().findIndex(s=>s.id===CH.id);
   tiles.push({t:ix===secs().length-1?'chest':(ix===0?'gate':'insight'),end:true});
 }
@@ -911,6 +980,7 @@ function renderBoard(scroll){
     else if(t.t==='habit'){const hid=ch.landed[i];
       if(hid){const h=habitById(hid);kind='done';ico=`<div class="ico small">${h?h.emoji:'✓'}</div><span class="chk">✓</span>`}
       else if(i===nt)cls+=' next'}
+    else if(t.t==='nlp'){const R=nlpRecommend();const dn=nlpDoneToday(R.x.id)||Object.keys(d.nlpDone||{}).length;kind=dn?'done':'blue';ico=`<div class="ico small">${dn?'🧠':R.x.e}</div>${dn?'<span class="chk">✓</span>':''}`;if(!dn)cls+=' tap nlpT'}
     else if(t.t==='anchor'){const near=i<=ch.pos+2;ico=ch.opened[i]?'':(near?'<div class="env"></div>':'')}
     else if(t.t==='surprise'){const near=i<=ch.pos+2;ico=ch.opened[i]?'':(near?'<div class="ico q bob">?</div>':'')}
     else if(t.end){kind=ch.opened[i]?'done':'gold';const ic={gate:'⛩️',insight:'💡',chest:'🎁'}[t.t];ico=`<div class="ico ${ch.opened[i]?'':'bob'}" style="font-size:34px">${ch.opened[i]?'🚩':ic}</div>`}
@@ -920,7 +990,7 @@ function renderBoard(scroll){
   html=scatterDecor(pts,boardW,boardH,11,[{x:boardW/2,y:e.y-110}])+html;
   const pp=pts[Math.min(ch.pos,pts.length-1)];html+=pinHTML(pp.x,pp.y,'pin');
   board.innerHTML=html;
-  board.querySelectorAll('.tile.tap').forEach(el=>el.onclick=openComeback);
+  board.querySelectorAll('.tile.tap').forEach(el=>el.onclick=el.classList.contains('nlpT')?()=>openNLP(nlpRecommend().x.id):openComeback);
   if(scroll)scrollToY(pp.y,false);
 }
 function scrollToY(y,smooth=true){const sc=$('scroller');sc.scrollTo({top:Math.max(0,y-sc.clientHeight*.6),behavior:smooth?'smooth':'auto'})}
@@ -1071,7 +1141,7 @@ async function go(){
   const events=[];
   for(let i=ch.pos+1;i<=target;i++){
     await hopTo(i);await sleep(60);
-    const t=tiles[i];if((t.t==='anchor'||t.t==='surprise')&&!ch.opened[i]){ch.opened[i]=true;events.push(t.t)}
+    const t=tiles[i];if((t.t==='anchor'||t.t==='surprise'||t.t==='nlp')&&!ch.opened[i]){ch.opened[i]=true;events.push(t.t)}
   }
   ch.pos=target;ch.landed[target]=hid;save();render(false);buzz(20);
   for(const ev of events)await runEvent(ev);
@@ -1102,6 +1172,9 @@ function pickAnchor(){
   return ANCHORS[Math.floor(Math.random()*ANCHORS.length)];
 }
 async function runEvent(ev){
+  if(ev==='nlp'){const R=nlpRecommend();let go=false;const c=$('card');const fn=e=>{if(e.target.id==='nlpGo')go=true};c.addEventListener('click',fn,true);
+    await showCard({icon:R.x.e,band:'b',title:'תחנת NLP · '+esc(R.x.t),body:`${R.x.intro}<br><small>${esc(R.why)} · ${R.x.dur} דק׳</small>`,buttons:'<button class="btn green" data-close id="nlpGo">▶ התחל עכשיו</button><button class="btn ghost" data-close>אחר כך</button>'});
+    c.removeEventListener('click',fn,true);if(go)setTimeout(()=>openNLP(R.x.id),200);return}
   if(ev==='anchor'){const a=pickAnchor();
     await showCard({icon:'💌',band:'b',title:'עוגן NLP · '+a.t,body:a.m,auto:5000,timer:true,buttons:'<button class="btn ghost" data-close>קיבלתי · +5 XP</button>'});addXP(5);
   }else{
@@ -1569,6 +1642,10 @@ const BADGES=[
  {id:'plan',e:'🗺️',n:'תוכנית לחלום',t:()=>!!S.plan},
  {id:'chest5',e:'🧰',n:'5 תיבות משימות',t:()=>(S.chests||0)>=5},
  {id:'lvl6',e:'🧗',n:'רמה 6',t:()=>lvlOf(S.xp||0).i>=5},
+ {id:'nlp3',e:'🧠',n:'3 תרגילי NLP',t:()=>((S.assets||{}).nlp||0)>=3},
+ {id:'nlpall',e:'🎓',n:'מסלול NLP מלא',t:()=>NLP_ORDER.every(id=>nlpDone(id))},
+ {id:'tasks10',e:'✅',n:'10 משימות',t:()=>((S.assets||{}).tasks||0)>=10},
+ {id:'jour7',e:'✍️',n:'7 רשומות יומן',t:()=>(S.journal||[]).length>=7},
  {id:'year',e:'🏆',n:'שנה שלמה',t:()=>successDays()>=365}
 ];
 function flagsTotal(){const f=S.flags||{};return Object.values(f).reduce((a,b)=>a+(+b||0),0)}
@@ -1588,15 +1665,20 @@ function renderCol(){
    <div class="asset"><div class="ae">🧰</div><b>${S.chests||0}</b><span>תיבות</span></div>
    <div class="asset"><div class="ae">📖</div><b>${read.length}</b><span>עקרונות</span></div>
    <div class="asset"><div class="ae">⚡</div><b>${S.stateCount||0}</b><span>שינויי מצב</span></div>
+   <div class="asset"><div class="ae">✅</div><b>${(S.assets||{}).tasks||0}</b><span>משימות שהושלמו</span></div>
+   <div class="asset"><div class="ae">🧠</div><b>${(S.assets||{}).nlp||0}</b><span>תרגילי NLP</span></div>
+   <div class="asset"><div class="ae">✍️</div><b>${(S.journal||[]).length}</b><span>רשומות יומן</span></div>
+   <div class="asset"><div class="ae">🗺️</div><b>${(S.assets||{}).plan||0}</b><span>צעדי מפה</span></div>
    <div class="asset"><div class="ae">🎭</div><b>${S.unlocked.length}</b><span>דמויות</span></div>
   </div>
   <div class="h3"><span>🏅 תגים</span><span class="badge open">${Object.keys(S.badges||{}).length}/${BADGES.length}</span></div>
   <div class="badges">${BADGES.map(b=>`<div class="badge2${S.badges&&S.badges[b.id]?'':' lock'}"><div class="be">${b.e}</div><span>${b.n}</span></div>`).join('')}</div>
   <div class="h3"><span>📚 ספריית העקרונות שלי</span><span class="badge open">${read.length}/${LESSONS.length}</span></div>
   <div class="lib">${read.length?read.slice().reverse().map(i=>{const L=LESSONS[i];return L?`<button class="libi" data-les="${i}"><span class="le">${L.s==='רון'?'📘':'🔥'}</span><div>${esc(L.t)}<small>${L.s==='רון'?'ג׳ים רון':'טוני רובינס'} · ${esc(L.a)}</small></div></button>`:''}).join(''):'<div class="hint">כל "עיקרון היום" שתקרא יישמר כאן לחזרה.</div>'}</div>
+  <div class="row" style="margin-bottom:10px"><button class="btn ghost" id="cJour">✍️ היומן שלי</button><button class="btn ghost" id="cNlp">🧠 תרגילי NLP</button></div>
   <div class="row"><button class="btn ghost" id="cHist">📜 היסטוריה ומעקב מלא</button><button class="btn ghost" id="cYear">🗺️ מפת השנה</button></div>`;
   $('pCol').innerHTML=h;
-  $('cAv').onclick=openAvatars;$('cHist').onclick=openHistory;$('cYear').onclick=openYear;
+  $('cAv').onclick=openAvatars;$('cJour').onclick=openJournal;$('cNlp').onclick=()=>openNLPLib();$('cHist').onclick=openHistory;$('cYear').onclick=openYear;
   $('pCol').querySelectorAll('[data-les]').forEach(b=>b.onclick=()=>{const L=LESSONS[+b.dataset.les];showCard({icon:L.s==='רון'?'📘':'🔥',band:L.s==='רון'?'b':'',title:esc(L.t),body:`<span class="src">${L.s==='רון'?'ברוח ג׳ים רון':'ברוח טוני רובינס'}</span><br>${L.m}<div class="act">🎯 <b>פעולה:</b> ${L.a}</div>`,buttons:'<button class="btn" data-close>סגור</button>'})});
 }
 
@@ -1732,7 +1814,7 @@ function renderPlan(){
     </div></div>`).join('')}
     <div class="stp loop"><div class="sdot">♾️</div><div class="sbody"><b>מסע חדש</b> <small>אחרי יום 365</small><div class="sf">חלום גדול יותר, סטנדרט גבוה יותר.</div></div></div></div></div>
     <div class="pcard"><h4>🎯 הצעד של היום</h4><button class="chk-row${d.planStep?' on':''}" id="pStep"><i>${d.planStep?'✓':''}</i><span>${esc(pl.todayStep||(pl.thisWeek||[])[0]||'')}</span></button></div>
-    <div class="pcard"><h4>📅 השבוע</h4>${(pl.thisWeek||[]).map((a,i)=>`<button class="chk-row${wc[i]?' on':''}" data-wk="${i}"><i>${wc[i]?'✓':''}</i><span>${esc(a)}</span></button>`).join('')}</div>`;
+    <div class="pcard"><h4 style="justify-content:space-between">📅 השבוע ${Object.values(wc).filter(v=>v===1).length?'<button class="lnk sweep" id="pClearW">🧹 נקה שהושלמו</button>':''}</h4>${(pl.thisWeek||[]).map((a,i)=>wc[i]==='c'?'':`<button class="chk-row${wc[i]?' on':''}" data-wk="${i}"><i>${wc[i]?'✓':''}</i><span>${esc(a)}</span></button>`).join('')||'<div class="hint">כל משימות השבוע הושלמו ונאספו 🏆</div>'}</div>`;
     const sec=(id,title,inner,open)=>`<details class="acc"${open?' open':''}><summary>${title}</summary><div class="accb">${inner}</div></details>`;
     const chk=(k,label,sub)=>`<button class="chk-row${PD[k]?' on':''}" data-pd="${k}"><i>${PD[k]?'✓':''}</i><span>${esc(label)}${sub?`<small class="subt">${esc(sub)}</small>`:''}</span></button>`;
     if((pl.habits||[]).length)h+=sec('h','🌱 הרגלים מותאמים',pl.habits.map((x,i)=>{const has=habits().some(y=>y.name===x.name);return `<div class="sugg"><span class="se">${esc(x.emoji)}</span><div>${esc(x.name)}<small>${esc(x.why||'')} · ${esc((secById(x.sec)||{}).short||'')}</small></div><button class="btn ${has?'ghost':'green'} sm" data-addh="${i}" ${has?'disabled':''}>${has?'✓ קיים':'+ הוסף'}</button></div>`}).join(''),true);
@@ -1753,7 +1835,8 @@ function renderPlan(){
   if($('pTalk'))$('pTalk').onclick=()=>openIntake(()=>generatePlan('update','עדכון לפי שיחה חדשה עם הסוכן'));
   if($('pUpd'))$('pUpd').onclick=openPlanUpdate;
   if($('pStep'))$('pStep').onclick=()=>{const d=day();if(d.planStep)return;d.planStep=true;save();sfx.pop();addXP(10);toast('🎯 צעד אל החלום! +10 XP');renderPlan()};
-  pg.querySelectorAll('[data-wk]').forEach(b=>b.onclick=()=>{const wk=weekIdx();S.planChecks=S.planChecks||{};const wc=S.planChecks[wk]=S.planChecks[wk]||{};const i=b.dataset.wk;if(wc[i])delete wc[i];else{wc[i]=1;addXP(5);sfx.pop()}save();renderPlan()});
+  if($('pClearW'))$('pClearW').onclick=async()=>{const wk=weekIdx();const wc=S.planChecks[wk];const ks=Object.keys(wc).filter(k=>wc[k]===1);await flyToAssets(ks.map(k=>pg.querySelector(`[data-wk="${k}"]`)).filter(Boolean));ks.forEach(k=>wc[k]='c');bumpAsset('plan',ks.length);save();sfx.win();toast(`🧹 ${ks.length} צעדים עברו לאוסף`);renderPlan()};
+  pg.querySelectorAll('[data-wk]').forEach(b=>b.onclick=()=>{const wk=weekIdx();S.planChecks=S.planChecks||{};const wc=S.planChecks[wk]=S.planChecks[wk]||{};const i=b.dataset.wk;if(wc[i])delete wc[i];else{wc[i]=1;addXP(5);sfx.pop();b.classList.add('on','popchk')}save();setTimeout(renderPlan,wc[i]?380:0)});
   pg.querySelectorAll('[data-pd]').forEach(b=>b.onclick=()=>{const PD=pdKey();const k=b.dataset.pd;if(PD[k])delete PD[k];else{PD[k]=today();addXP(5);sfx.pop()}save();const open=[...pg.querySelectorAll('details[open] summary')].map(x=>x.textContent);renderPlan();pg.querySelectorAll('details summary').forEach(x=>{if(open.includes(x.textContent))x.parentElement.open=true})});
   pg.querySelectorAll('[data-mantra]').forEach(b=>b.onclick=()=>{S.profile.mantra=S.plan.affirmations[+b.dataset.mantra];save();toast('🗣️ המנטרה עודכנה');renderPlan()});
   pg.querySelectorAll('[data-addh]').forEach(b=>b.onclick=()=>{const x=S.plan.habits[+b.dataset.addh];const sec=secById(x.sec)?x.sec:'d';
@@ -1782,31 +1865,46 @@ function refreshPage(){if(TAB==='today')renderToday();else if(TAB==='plan')rende
 
 function renderToday(){
   const d=day();const L=lessonToday();const slot=moodSlot();const lv=lvlOf(S.xp||0);const g=goal();const qs=questState();const all=qs.every(o=>o.ok);
-  const hs=habitsOn(today());
-  let html=`<h1>🎯 היום שלי</h1><div class="sub">${new Date().toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'})} · יום ${Math.min(dayNum(),365)} מתוך 365</div>
-  <div class="mhead">${mascotSVG('happy',60)}<div class="bubble">${greeting()}</div></div>
-  <div class="goalcard"><div class="ring" style="--p:${Math.min(1,(d.xp||0)/g)}"><b>${d.xp||0}</b><small>/${g} XP</small></div>
-   <div class="gtxt"><b>${lv.cur.e} רמה ${lv.i+1} · ${lv.cur.n}</b><div class="lbar"><i style="width:${lv.pct*100}%"></i></div><small>${lv.nx?`עוד ${lv.nx.x-(S.xp||0)} XP ל${lv.nx.n}`:'הגעת לפסגה!'}</small></div></div>`;
-  if(!S.settings.push)html+=`<div id="tPush" style="margin-bottom:12px">${pushBox()}</div>`;
-  if(S.plan)html+=`<div class="pcard"><h4>🗺️ הצעד של היום מהתוכנית</h4><button class="chk-row${d.planStep?' on':''}" id="tStep"><i>${d.planStep?'✓':''}</i><span>${esc(S.plan.todayStep||'')}</span></button></div>`;
-  html+=`<div class="sech"><span>💛 איך אתה מרגיש ${slot==='am'?'הבוקר':'הערב'}?</span>${d.mood&&d.mood[slot]?'<span class="badge open">✓</span>':''}</div>
-  ${moodButtons(slot)}<div class="hint" id="moodR"></div>
-  <div class="tiles2">
-   <button class="tbtn ${d.lesson?'ok':''}" id="tLesson"><span>📖</span><b>עיקרון היום</b><small>${esc(L.t)}</small></button>
-   <button class="tbtn ${d.state?'ok':''}" id="tState"><span>⚡</span><b>שינוי מצב</b><small>30 שניות · גוף, מיקוד, שפה</small></button>
-  </div>
-  <div class="sech"><span>✅ ההרגלים של היום</span><span class="badge open">${doneCount(today())}/${hs.length}</span></div>`;
-  secs().forEach(s=>{const sh=hs.filter(h=>h.sec===s.id);if(!sh.length)return;const st=secState(s);
-    html+=`<div class="hint" style="margin:8px 0 4px;font-weight:900">${s.mark} ${esc(s.short)} · ${st==='open'?'פתוח עכשיו':st==='past'?'נסגר':'נפתח ב-'+s.start} ${chOf(s.id).flag?'🚩':''}</div>`;
-    sh.forEach(h=>{html+=habRow(h,st,d)})});
-  html+=`<div class="sech" style="margin-top:14px"><span>🏅 משימות יומיות</span><span class="badge open">${qs.filter(o=>o.ok).length}/3</span></div>
-  ${qs.map(o=>`<div class="quest${o.ok?' ok':''}"><span class="qe">${o.q.e}</span><div class="qt"><b>${o.q.t}</b><div class="qbar"><i style="width:${o.p/o.n*100}%"></i></div></div><span class="qn">${o.p}/${o.n}</span></div>`).join('')}
-  <button class="chest${all&&!d.qChest?' ready':''}${d.qChest?' open':''}" id="qChest">${d.qChest?'🧰 נאסף היום ✓':(all?'🧰 פתח את תיבת המשימות!':'🔒 תיבת המשימות')}</button>`;
-  const pg=$('pToday');pg.innerHTML=html;
+  const hs=habitsOn(today());const shab=isShabbatNow();const T=S.tasks||[];const doneT=T.filter(t=>t.done).length;const R=nlpRecommend();
+  const H=(ic,title,act)=>`<div class="secH"><span>${ic} ${title}</span>${act||''}</div>`;
+  let h=`<div class="tHead"><div><h1>היום שלי</h1><div class="sub" style="margin:0">${new Date().toLocaleDateString('he-IL',{weekday:'long',day:'numeric',month:'long'})} · יום ${Math.min(dayNum(),365)}/365</div></div>
+   <div class="ring sm" style="--p:${Math.min(1,(d.xp||0)/g)}"><b>${d.xp||0}</b><small>/${g}</small></div></div>`;
+  if(shab)h+=`<div class="card2 shab">🕯️ <b>שבת שלום</b> – מנוחה מלאה. היומן והתרגילים פתוחים אם תרצה, בלי חובה.</div>`;
+  if(!S.settings.push&&!shab)h+=`<div id="tPush" class="blk">${pushBox()}</div>`;
+  if(S.plan&&!shab)h+=`<div class="card2"><div class="secH" style="margin:0 0 6px"><span>🗺️ הצעד של היום</span></div><button class="chk-row${d.planStep?' on':''}" id="tStep"><i>${d.planStep?'✓':''}</i><span>${esc(S.plan.todayStep||'')}</span></button></div>`;
+  if(!shab){
+    h+=H('✅',`הרגלים <small>${doneCount(today())}/${hs.length}</small>`,'<button class="lnk" id="tEditH">✏️ עריכה</button>');
+    secs().forEach(s=>{const sh=hs.filter(x=>x.sec===s.id);if(!sh.length)return;const st=secState(s);
+      if(st==='open'||S.settings.testMode){h+=`<div class="subH">${s.mark} ${esc(s.short)} · פתוח עכשיו ${chOf(s.id).flag?'🚩':''}</div>`;sh.forEach(x=>{h+=habRow(x,st,d)})}
+      else h+=`<div class="secMini${st==='past'?' past':''}"><span>${s.mark} ${esc(s.short)}</span><span class="mE">${sh.map(x=>`<i class="${d.done[x.id]?'ok':''}">${esc(x.emoji)}</i>`).join('')}</span><small>${st==='past'?(chOf(s.id).flag?'🚩 הושלם':`${sh.filter(x=>d.done[x.id]).length}/${sh.length}`):'נפתח ב-'+s.start}</small></div>`});
+  }
+  h+=H('📝',`משימות <small>${T.length-doneT} פתוחות</small>`,doneT?`<button class="lnk sweep" id="tClear">🧹 נקה ${doneT} שהושלמו</button>`:'');
+  h+=`<div class="card2 tasks">${T.map(t=>`<div class="task${t.done?' on':''}" data-task="${t.id}"><button class="tck" data-tt="${t.id}"><i>${t.done?'✓':''}</i></button><span class="ttx" data-te="${t.id}">${esc(t.text)}</span><button class="tdel" data-td="${t.id}">✕</button></div>`).join('')}
+   <div class="addrow" style="margin-top:${T.length?8:0}px"><input class="inp" id="tNew" placeholder="משימה חדשה… (Enter להוספה)"><button class="btn sm" id="tAdd">+</button></div></div>`;
+  h+=H('🧠','תרגיל NLP מומלץ','<button class="lnk" id="tLib">כל התרגילים ›</button>');
+  h+=`<button class="nlpRec" id="tNlp"><span class="ne">${R.x.e}</span><div><b>${esc(R.x.t)}</b><small>${esc(R.why)} · ${R.x.dur} דק׳</small></div><i>${nlpDoneToday(R.x.id)?'✓':'▶'}</i></button>`;
+  h+=H('💛',`איך אתה מרגיש ${slot==='am'?'הבוקר':'הערב'}?`,d.mood&&d.mood[slot]?'<span class="badge open">✓</span>':'');
+  h+=`${moodButtons(slot)}<div class="hint" id="moodR"></div>`;
+  h+=`<div class="tiles2"><button class="tbtn ${d.lesson?'ok':''}" id="tLesson"><span>📖</span><b>עיקרון היום</b><small>${esc(L.t)}</small></button><button class="tbtn ${d.state?'ok':''}" id="tState"><span>⚡</span><b>שינוי מצב</b><small>30 שניות</small></button></div>`;
+  h+=H('✍️','כתיבה','<button class="lnk" id="tJour">היומן שלי ›</button>');
+  h+=`<div class="card2"><div class="jq">${esc(jPrompt())}</div><textarea class="inp" id="tJ" rows="2" placeholder="כמה מילים מספיקות…"></textarea><div class="row" style="justify-content:flex-start;margin-top:8px"><button class="btn sm" id="tJSave">שמור ביומן</button></div></div>`;
+  if(!shab){h+=H('🏅',`משימות יומיות <small>${qs.filter(o=>o.ok).length}/3</small>`);
+    h+=qs.map(o=>`<div class="quest${o.ok?' ok':''}"><span class="qe">${o.q.e}</span><div class="qt"><b>${o.q.t}</b><div class="qbar"><i style="width:${o.p/o.n*100}%"></i></div></div><span class="qn">${o.p}/${o.n}</span></div>`).join('')+
+    `<button class="chest${all&&!d.qChest?' ready':''}${d.qChest?' open':''}" id="qChest">${d.qChest?'🧰 נאסף היום ✓':(all?'🧰 פתח את תיבת המשימות!':'🔒 תיבת המשימות')}</button>`}
+  const pg=$('pToday');pg.innerHTML=h;
   bindMoods(pg,v=>{$('moodR').textContent=moodReply(v)});if($('tPush'))bindPushBox($('tPush'),renderToday);
-  $('tLesson').onclick=openLesson;$('tState').onclick=stateChange;$('qChest').onclick=claimChest;
-  if($('tStep'))$('tStep').onclick=()=>{const d=day();if(d.planStep)return;d.planStep=true;save();sfx.pop();addXP(10);toast('🎯 צעד אל החלום! +10 XP');renderToday()};
+  $('tLesson').onclick=openLesson;$('tState').onclick=stateChange;if($('qChest'))$('qChest').onclick=claimChest;
+  if($('tStep'))$('tStep').onclick=()=>{const d=day();if(d.planStep)return;d.planStep=true;save();sfx.pop();addXP(10);$('tStep').classList.add('on','popchk');setTimeout(renderToday,400)};
+  if($('tEditH'))$('tEditH').onclick=openSettings;
   bindHabRows(pg);
+  $('tNlp').onclick=()=>openNLP(R.x.id);$('tLib').onclick=()=>openNLPLib();$('tJour').onclick=openJournal;
+  $('tJSave').onclick=()=>{if(saveJournal($('tJ').value))renderToday()};
+  $('tAdd').onclick=()=>addTask($('tNew').value);$('tNew').onkeydown=e=>{if(e.key==='Enter')addTask(e.target.value)};
+  pg.querySelectorAll('[data-tt]').forEach(b=>b.onclick=()=>toggleTask(b.dataset.tt,b.closest('.task')));
+  pg.querySelectorAll('[data-td]').forEach(b=>b.onclick=()=>{S.tasks=S.tasks.filter(t=>t.id!==b.dataset.td);save();renderToday()});
+  pg.querySelectorAll('[data-te]').forEach(sp=>sp.onclick=()=>{const t=S.tasks.find(x=>x.id===sp.dataset.te);if(!t||t.done)return;const i=document.createElement('input');i.className='inp';i.value=t.text;i.style.flex='1';sp.replaceWith(i);i.focus();
+    const fin=()=>{t.text=i.value.trim()||t.text;save();renderToday()};i.onblur=fin;i.onkeydown=e=>{if(e.key==='Enter')i.blur()}});
+  if($('tClear'))$('tClear').onclick=clearDoneTasks;
 }
 
 /* ================= phone reminders (web push) ================= */
@@ -1844,6 +1942,157 @@ function bindPushBox(root,after){
   if(q('pOn'))q('pOn').onclick=async()=>{await enablePush();after&&after()};
   if(q('pOff'))q('pOff').onclick=async()=>{await disablePush();after&&after()};
   if(q('pTest'))q('pTest').onclick=testPush;
+}
+
+/* ================= NLP exercises (guided) ================= */
+const NLP=[
+ {id:'outcome',e:'🎯',t:'יעד מנוסח היטב',tags:['החלטה','חלום','מוטיבציה'],dur:6,intro:'הופכים רצון כללי ליעד ברור שהמוח יודע לרדוף אחריו.',steps:[
+  {t:'נסח מה אתה <b>כן</b> רוצה (לא מה אתה לא רוצה).',in:'אני רוצה…'},
+  {t:'איך תדע שהגעת? מה תראה, תשמע ותרגיש באותו רגע?',in:'אני אראה / אשמע / ארגיש…'},
+  {t:'מה מזה תלוי רק בך? נסח את החלק שבשליטתך.',in:'החלק שבשליטתי…'},
+  {t:'בדיקת אקולוגיה: מה זה יעלה לך? על מה תצטרך לוותר? האם זה שווה?',in:'המחיר / מה שווה את זה…'},
+  {t:'מה הצעד הראשון – קטן, ברור, ב-24 השעות הקרובות?',in:'הצעד הראשון שלי…'}]},
+ {id:'anchor',e:'⚓',t:'עוגן משאב',tags:['ביטחון','מוטיבציה','לפני אתגר'],dur:4,intro:'יוצרים "כפתור" גופני שמחזיר אותך למצב חזק בכל רגע.',steps:[
+  {t:'בחר מצב שתרצה שיהיה זמין לך: ביטחון, רוגע, אנרגיה, שמחה.',in:'המצב שאני רוצה…'},
+  {t:'היזכר ברגע אמיתי שבו הרגשת את זה במלואו. ראה מה ראית, שמע מה שמעת, הרגש בגוף.',sec:30},
+  {t:'הגבר: צבעים חזקים יותר, קול ברור יותר. כשהתחושה בשיא – לחץ אגודל ואצבע אמה יחד ל-5 שניות.',sec:20},
+  {t:'שחרר. נער ידיים, נשום, חשוב על משהו אחר לגמרי.',sec:10},
+  {t:'חזור על זה עוד פעמיים – אותו זיכרון, אותה לחיצה, בשיא.',sec:40},
+  {t:'בדיקה: לחץ שוב את האצבעות. מרגיש את המצב עולה? זה העוגן שלך.',in:'מה הרגשתי…'}]},
+ {id:'future',e:'🔭',t:'מסע אל העתיד',tags:['חלום','מוטיבציה'],dur:5,intro:'מבקרים ביום שבו החלום התגשם – וחוזרים עם צעד.',steps:[
+  {t:'עצום עיניים. דמיין קו זמן לפניך – העבר מאחור, העתיד קדימה.',sec:15},
+  {t:'רחף לאורך הקו אל היום שבו החלום שלך התגשם. ראה איפה אתה, מי איתך.',sec:30},
+  {t:'היכנס לגוף שלך שם. מה אתה מרגיש? מה אתה שומע? איך אתה עומד?',sec:30},
+  {t:'הסתכל אחורה לעבר ההווה. אילו צעדים הביאו אותך לכאן?',in:'הצעדים שאני רואה…'},
+  {t:'חזור להווה עם צעד אחד שתעשה השבוע.',in:'הצעד שלי השבוע…'}]},
+ {id:'reframe',e:'🖼️',t:'שינוי מסגור',tags:['כעס','עצב','לחץ'],dur:4,intro:'אותו מצב – משמעות אחרת. המשמעות היא בחירה.',steps:[
+  {t:'כתוב במשפט אחד מה קרה ומה זה אומר עליך/עליהם.',in:'מה קרה…'},
+  {t:'מה עוד זה יכול להיות? כתוב 3 פרשנויות אחרות.',in:'1… 2… 3…'},
+  {t:'במה המצב הזה יכול לשרת אותך או ללמד אותך?',in:'זה יכול ללמד אותי…'},
+  {t:'איזו משמעות חדשה אתה בוחר לתת לזה – מעכשיו?',in:'אני בוחר לראות את זה כ…'}]},
+ {id:'breath',e:'🌬️',t:'נשימת ריבוע',tags:['לחץ','שינה','כעס'],dur:2,intro:'4 שניות לכל צד. מרגיע את מערכת העצבים תוך דקה.',steps:[
+  {t:'שאף 4 · החזק 4 · נשוף 4 · החזק 4. סבב ראשון.',sec:16},{t:'סבב שני – הארך את הנשיפה.',sec:16},{t:'סבב שלישי – שחרר כתפיים ולסת.',sec:16},{t:'סבב רביעי – הרגש את הרוגע מתפשט.',sec:16}]},
+ {id:'circle',e:'⭕',t:'מעגל המצוינות',tags:['ביטחון','לפני אתגר'],dur:5,intro:'מעגל דמיוני שמכיל את הגרסה הכי טובה שלך.',steps:[
+  {t:'דמיין מעגל על הרצפה לפניך. תן לו צבע, אור, אולי צליל.',sec:15},
+  {t:'היזכר ברגע שבו היית במיטבך. כשהתחושה עולה – צעד לתוך המעגל.',sec:25},
+  {t:'בתוך המעגל: הגבר את התחושה בכל הגוף. עמוד כמו המנצח שאתה.',sec:20},
+  {t:'צא מהמעגל. חשוב על מצב קרוב שבו תרצה את התחושה הזו.',in:'המצב שמחכה לי…'},
+  {t:'צעד שוב פנימה ודמיין את עצמך מתמודד שם בהצלחה – בפרטים.',sec:30}]},
+ {id:'belief',e:'🧱',t:'שינוי אמונה מגבילה',tags:['פחד','ביטחון'],dur:6,intro:'אמונה היא רק תחושת ודאות – ואפשר להחליף אותה.',steps:[
+  {t:'כתוב אמונה שעוצרת אותך. למשל: "אני לא מספיק טוב ב…"',in:'האמונה…'},
+  {t:'מצא 3 הוכחות שהאמונה הזו לא תמיד נכונה.',in:'1… 2… 3…'},
+  {t:'מה האמונה הזו עלתה לך עד היום? מה תעלה לך בעוד 5 שנים?',in:'המחיר…'},
+  {t:'נסח אמונה חדשה ומחזקת – בזמן הווה.',in:'האמונה החדשה שלי…'},
+  {t:'"תתנהג כאילו": מה פעולה אחת שאדם עם האמונה החדשה היה עושה היום?',in:'הפעולה…'}]},
+ {id:'swish',e:'🔄',t:'סוויש – החלפת דפוס',tags:['דחיינות','פיתוי'],dur:4,intro:'מלמדים את המוח לקפוץ מהטריגר ישר לגרסה הרצויה שלך.',steps:[
+  {t:'זהה את הרגע שמפעיל את ההרגל הלא רצוי (למשל: היד מושיטה לטלפון).',in:'הטריגר…'},
+  {t:'צור תמונה של עצמך הרצוי – האדם שכבר לא צריך את זה. ראה אותו בבירור.',sec:20},
+  {t:'ראה את תמונת הטריגר גדולה, ובפינה תמונה קטנה וכהה של עצמך הרצוי.',sec:10},
+  {t:'סוויש! בבת אחת – הטריגר מתכווץ ונעלם, והתמונה הרצויה מתפוצצת גדולה ובהירה. חזור 5 פעמים מהר.',sec:25},
+  {t:'בדיקה: נסה לחשוב על הטריגר. מה קורה עכשיו?',in:'מה שמתי לב…'}]},
+ {id:'meta',e:'❓',t:'שאלות מטה-מודל',tags:['עצב','פחד','לחץ'],dur:4,intro:'שואלים את המחשבה שאלות – והיא מאבדת כוח.',steps:[
+  {t:'כתוב מחשבה מחלישה, למשל "אני תמיד דוחה" או "אני לא יכול".',in:'המחשבה…'},
+  {t:'"תמיד"? מתי זה לא קרה? "אף אחד"? מי כן?',in:'החריגים…'},
+  {t:'"לא יכול" – מה בדיוק מונע? ומה היה קורה אם כן?',in:'מה מונע / מה אם…'},
+  {t:'נסח את המחשבה מחדש – מדויקת ומחזקת.',in:'הניסוח החדש…'}]},
+ {id:'positions',e:'👥',t:'שלוש עמדות תפיסה',tags:['כעס','קונפליקט'],dur:6,intro:'רואים מצב מתוח משלוש זוויות – ומוצאים דרך.',steps:[
+  {t:'עמדה 1 – אתה: מה אתה מרגיש ורוצה במצב הזה?',in:'אני…'},
+  {t:'עמדה 2 – הנעליים של האדם השני: מה הוא מרגיש, מה חשוב לו?',in:'הוא/היא…'},
+  {t:'עמדה 3 – צופה ניטרלי מהצד: מה אתה רואה ששניכם מפספסים?',in:'הצופה רואה…'},
+  {t:'חזור לעצמך. מה הצעד הבא שלך, עם כל מה שהבנת?',in:'הצעד שלי…'}]},
+ {id:'submod',e:'🎚️',t:'הנמכת זיכרון מעיק',tags:['לחץ','עצב','פחד'],dur:4,intro:'משנים את "הפורמט" של זיכרון – והרגש נחלש. (לטראומה – רק עם איש מקצוע.)',steps:[
+  {t:'בחר זיכרון מעיק קל-בינוני. דרג את העוצמה 1-10.',in:'הזיכרון והציון…'},
+  {t:'ראה אותו כתמונה. הפוך אותה לשחור-לבן.',sec:10},{t:'הקטן אותה ודחוף רחוק, עד שהיא בגודל בול.',sec:10},
+  {t:'הוסף לה מוזיקה מצחיקה או קול מצויר.',sec:10},{t:'דרג שוב 1-10. מה השתנה?',in:'הציון עכשיו…'}]},
+ {id:'gratitude',e:'🙏',t:'הודיה עמוקה',tags:['עצב','שינה','מוטיבציה'],dur:3,intro:'הודיה היא הדרך הכי מהירה ממצב חלש למצב חזק.',steps:[
+  {t:'כתוב 3 דברים שאתה מודה עליהם היום – גם קטנים.',in:'1… 2… 3…'},
+  {t:'בחר אחד ותן לתחושה להתפשט בגוף. נשום אותה.',sec:20},
+  {t:'מי האדם שהיית רוצה להודות לו? מה היית אומר לו?',in:'תודה ל…'}]}
+];
+const NLP_ORDER=['outcome','anchor','future','reframe','breath','circle','belief','swish','meta','positions','submod','gratitude'];
+const SITU=['לחץ','פחד','דחיינות','מוטיבציה','ביטחון','כעס','עצב','החלטה','שינה','חלום'];
+const nlpById=id=>NLP.find(x=>x.id===id);
+function nlpDone(id){return ((S.nlp||{}).done||{})[id]||0}
+function nlpNext(){return nlpById(NLP_ORDER.find(id=>!nlpDone(id))||NLP_ORDER[(Object.keys((S.nlp||{}).done||{}).length)%NLP_ORDER.length])}
+function nlpRecommend(){
+  const d=day();const m=d.mood?(d.mood.pm||d.mood.am):0;const I=S.profile.intake||{};
+  if(m&&m<=2)return {x:nlpById(Math.random()<.5?'breath':'reframe'),why:'כי הרגשת קשה היום'};
+  if(moodSlot()==='pm'&&nowMins()>=20*60&&!nlpDoneToday('gratitude'))return {x:nlpById('gratitude'),why:'סוגרים את היום במצב טוב'};
+  const ob=(I.obstacles||[]);
+  if(ob.includes('פחד')&&!nlpDone('belief'))return {x:nlpById('belief'),why:'ציינת שפחד עלול לעצור אותך'};
+  if(ob.includes('מוטיבציה')&&!nlpDone('future'))return {x:nlpById('future'),why:'כדי לחבר אותך לחלום'};
+  return {x:nlpNext(),why:'התרגיל הבא במסלול שלך'};
+}
+function nlpDoneToday(id){return ((day().nlpDone)||{})[id]}
+/* guided player */
+let G=null;
+function openNLP(id){
+  const x=nlpById(id);if(!x)return;closeSheet();G={x,i:-1,ans:[]};drawGuide();$('guide').classList.add('show');
+}
+function drawGuide(dir=1){
+  const {x,i}=G;const total=x.steps.length;let h;
+  if(i<0){h=`<div class="gIn"><div class="gEm">${x.e}</div><h2>${esc(x.t)}</h2><p>${x.intro}</p><div class="gMeta">⏱️ ${x.dur} דק׳ · ${total} שלבים · ${x.tags.map(esc).join(' · ')}</div>
+    <div class="row"><button class="btn green" id="gNext">התחל ←</button><button class="btn ghost" id="gClose">לא עכשיו</button></div><div class="hint" style="margin-top:14px">כלי לעבודה עצמית – לא תחליף לטיפול מקצועי.</div></div>`}
+  else if(i>=total){h=`<div class="gIn"><div class="gEm">✅</div><h2>סיימת: ${esc(x.t)}</h2><p>מה שכתבת נשמר ביומן שלך, והתרגיל נוסף לנכסים.</p><div class="row"><button class="btn green" id="gDone">+15 XP · סיום</button></div></div>`}
+  else{const s=x.steps[i];h=`<div class="gTop"><button class="xbtn" id="gClose" style="position:static">✕</button><div class="gBar"><i style="width:${(i)/total*100}%"></i></div><span>${i+1}/${total}</span></div>
+    <div class="gIn gStep" style="--dx:${dir*24}px"><div class="gEm sm">${x.e}</div><p class="gT">${s.t}</p>
+    ${s.sec?`<div class="gTimer" id="gTm"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="tb"/><circle cx="60" cy="60" r="52" class="tf" id="gRing" style="--len:327"/></svg><b id="gSec">${s.sec}</b></div><button class="btn ghost sm" id="gStart">▶ הפעל טיימר</button>`:''}
+    ${s.in?`<textarea class="inp" id="gAns" rows="3" placeholder="${esc(s.in)}">${esc(G.ans[i]||'')}</textarea>`:''}
+    <div class="row" style="margin-top:16px"><button class="btn" id="gNext">${i===total-1?'סיום ✓':'הבא ←'}</button>${i>0?'<button class="btn ghost" id="gBack">חזרה</button>':''}</div></div>`}
+  const el=$('guide');el.innerHTML=h;
+  const save1=()=>{const a=$('gAns');if(a)G.ans[G.i]=a.value.trim()};
+  if($('gClose'))$('gClose').onclick=()=>{clearInterval(G.tm);el.classList.remove('show')};
+  if($('gNext'))$('gNext').onclick=()=>{save1();clearInterval(G.tm);G.i++;drawGuide(1)};
+  if($('gBack'))$('gBack').onclick=()=>{save1();clearInterval(G.tm);G.i--;drawGuide(-1)};
+  if($('gStart'))$('gStart').onclick=()=>{const s=x.steps[G.i];let left=s.sec;const ring=$('gRing');ring.style.transition=`stroke-dashoffset ${s.sec}s linear`;requestAnimationFrame(()=>ring.style.strokeDashoffset='327');
+    $('gStart').remove();clearInterval(G.tm);G.tm=setInterval(()=>{left--;const b=$('gSec');if(b)b.textContent=Math.max(0,left);if(left<=0){clearInterval(G.tm);sfx.pop();buzz(40)}},1000)};
+  if($('gDone'))$('gDone').onclick=()=>finishNLP();
+}
+function finishNLP(){
+  const {x,ans}=G;const d=day();S.nlp=S.nlp||{done:{}};S.nlp.done[x.id]=(S.nlp.done[x.id]||0)+1;d.nlpDone=d.nlpDone||{};const first=!d.nlpDone[x.id];d.nlpDone[x.id]=1;
+  const text=x.steps.map((s,i)=>ans[i]?`${s.in||''}\n${ans[i]}`:'').filter(Boolean).join('\n\n');
+  if(text){S.journal=S.journal||[];S.journal.unshift({id:'j'+Date.now().toString(36),date:today(),type:'ex',title:`${x.e} ${x.t}`,text})}
+  bumpAsset('nlp');save();$('guide').classList.remove('show');sfx.win();if(first)addXP(15);checkBadges();toast(`🧠 ${x.t} – נוסף לנכסים`);render(false);
+}
+function openNLPLib(filter){
+  const f=filter||'';const list=NLP.filter(x=>!f||x.tags.includes(f));
+  const nx=nlpNext();const doneN=NLP_ORDER.filter(nlpDone).length;
+  let h=`<h2>🧠 תרגילי NLP</h2><div class="hint">בחר לפי מה שאתה מרגיש עכשיו, או המשך במסלול (${doneN}/${NLP_ORDER.length}).</div>
+  <div class="fbchips"><button class="ch${!f?' on':''}" data-sf="">הכל</button>${SITU.map(t=>`<button class="ch${f===t?' on':''}" data-sf="${t}">${t}</button>`).join('')}</div>
+  <div class="nlpList">${list.map(x=>`<button class="nlpI${x.id===nx.id?' nx':''}" data-nlp="${x.id}"><span class="ne">${x.e}</span><div><b>${esc(x.t)}</b><small>${x.dur} דק׳ · ${x.tags.slice(0,3).join(' · ')}${x.id===nx.id?' · הבא במסלול':''}</small></div><i>${nlpDone(x.id)?'✓'+(nlpDone(x.id)>1?'×'+nlpDone(x.id):''):'›'}</i></button>`).join('')}</div>`;
+  openSheet(h);
+  $('sheet').querySelectorAll('[data-sf]').forEach(b=>b.onclick=()=>openNLPLib(b.dataset.sf));
+  $('sheet').querySelectorAll('[data-nlp]').forEach(b=>b.onclick=()=>openNLP(b.dataset.nlp));
+}
+/* journal */
+const JPROMPTS=['מה הניצחון של היום?','על מה אני מודה עכשיו?','מה למדתי על עצמי?','מה אני משחרר היום?','מה הצעד הבא אל החלום?','מה הרגשתי היום ומה הוא ביקש ממני?'];
+function jPrompt(){return JPROMPTS[(dayNum()+(moodSlot()==='pm'?1:0))%JPROMPTS.length]}
+function saveJournal(text,title){text=String(text||'').trim();if(!text)return false;S.journal=S.journal||[];const first=!(S.journal.some(j=>j.date===today()&&j.type==='free'));
+  S.journal.unshift({id:'j'+Date.now().toString(36),date:today(),type:'free',title:title||jPrompt(),text});bumpAsset('journal');save();if(first)addXP(5);toast('✍️ נשמר ביומן');return true}
+function openJournal(){
+  const J=S.journal||[];
+  let h=`<h2>✍️ היומן שלי</h2><div class="hint">כל מה שכתבת – בתרגילים ובכתיבה חופשית. ${J.length} רשומות.</div>`;
+  h+=J.length?J.slice(0,60).map(j=>`<div class="jI"><div class="jH"><b>${esc(j.title||'')}</b><small>${j.date}</small><button class="jx" data-jdel="${j.id}">✕</button></div><p>${esc(j.text).replace(/\n/g,'<br>')}</p></div>`).join(''):'<div class="hint">עוד אין רשומות. התחל מכתיבה קצרה בלשונית "היום".</div>';
+  openSheet(h);
+  $('sheet').querySelectorAll('[data-jdel]').forEach(b=>b.onclick=()=>{if(!b.dataset.c){b.dataset.c=1;b.textContent='מחק?';return}S.journal=(S.journal||[]).filter(j=>j.id!==b.dataset.jdel);save();openJournal()});
+}
+/* tasks + clearing into assets */
+function bumpAsset(k,n=1){S.assets=S.assets||{};S.assets[k]=(S.assets[k]||0)+n;const t=document.querySelector('.tab[data-tab=col]');if(t){t.classList.remove('bump');void t.offsetWidth;t.classList.add('bump')}}
+function addTask(text){text=String(text||'').trim();if(!text)return;S.tasks=S.tasks||[];S.tasks.push({id:'t'+Date.now().toString(36),text,done:false});save();renderToday()}
+function toggleTask(id,el){const t=(S.tasks||[]).find(x=>x.id===id);if(!t)return;t.done=!t.done;t.doneAt=t.done?Date.now():null;save();
+  if(t.done){sfx.pop();buzz(20);addXP(3);if(el){el.classList.add('on','popchk')}setTimeout(renderToday,420)}else renderToday()}
+function flyToAssets(els){
+  const tab=document.querySelector('.tab[data-tab=col]');if(!tab||!els.length)return Promise.resolve();
+  const tr=tab.getBoundingClientRect();const ar=$('app').getBoundingClientRect();
+  return Promise.all(els.map((el,i)=>{const r=el.getBoundingClientRect();const g=el.cloneNode(true);g.classList.add('ghostfly');
+    g.style.cssText=`position:absolute;left:${r.left-ar.left}px;top:${r.top-ar.top}px;width:${r.width}px;margin:0;z-index:500;pointer-events:none`;$('app').appendChild(g);el.style.visibility='hidden';
+    const dx=tr.left+tr.width/2-(r.left+r.width/2),dy=tr.top+tr.height/2-(r.top+r.height/2);
+    return new Promise(res=>{const a=g.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dx*.4}px,${dy*.3-30}px) scale(.7)`,opacity:.9,offset:.4},{transform:`translate(${dx}px,${dy}px) scale(.12)`,opacity:.2}],{duration:620,delay:i*70,easing:'cubic-bezier(.5,0,.7,1)',fill:'forwards'});a.onfinish=()=>{g.remove();res()}})}));
+}
+async function clearDoneTasks(){
+  const done=(S.tasks||[]).filter(t=>t.done);if(!done.length)return;
+  const els=done.map(t=>document.querySelector(`[data-task="${t.id}"]`)).filter(Boolean);
+  await flyToAssets(els);S.tasks=S.tasks.filter(t=>!t.done);bumpAsset('tasks',done.length);save();sfx.win();toast(`🧹 ${done.length} משימות עברו לאוסף`);renderToday();
 }
 
 /* ================= wire ================= */

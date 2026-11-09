@@ -574,6 +574,35 @@ textarea.inp{width:100%;resize:none}
 .secMini .mE i{font-style:normal;font-size:18px;filter:grayscale(1);opacity:.45}
 .secMini .mE i.ok{filter:none;opacity:1}
 .secMini small{color:var(--muted);font-weight:800;font-size:11.5px}
+
+.hbs3{display:flex;gap:5px;flex:none;align-items:center}
+.hbs3 .hbm,.hbs3 .hbu{width:36px;height:36px;padding:0;border-radius:50%;font-size:16px}
+.hbu{background:#e6eeff;color:#3554c8;box-shadow:0 2px 0 #c3d0f5}
+.hbs3 .hbf{padding:9px 12px}
+.hm{display:flex;flex-wrap:wrap;gap:4px 8px}
+.stdTag{font-weight:900;color:#6c7457}
+.stdTag.ok{color:#2f7d0e}.stdTag.warn{color:#c26a00}
+.tag.lv-min{background:#fff1d0!important;color:#a86400!important;box-shadow:none!important}
+.tag.lv-up{background:#e6eeff!important;color:#3554c8!important;box-shadow:none!important}
+.nm[data-std]{cursor:pointer}
+.stdSvg{display:block}
+.lgnd{display:flex;gap:12px;justify-content:center;font-size:11.5px;font-weight:800;color:var(--muted);margin-top:4px}
+.lgnd i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:4px;vertical-align:-1px}
+.stdHist{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-weight:800;font-size:13px}
+.stdHist span{background:#f3eddc;border-radius:99px;padding:3px 9px;color:#8a8266}.stdHist b{background:#e1f8cb;color:#2f7d0e;border-radius:99px;padding:3px 10px}.stdHist i{font-style:normal;color:#b8ad8c}
+.stdJump{display:flex;align-items:baseline;justify-content:center;gap:10px;margin:12px 0 0;font-family:'Secular One'}
+.stdJump span{font-size:26px;color:#a79c7c;text-decoration:line-through}.stdJump i{font-style:normal;color:#b8ad8c}.stdJump b{font-size:44px;color:#2f9a14}.stdJump small{font-family:Rubik;font-weight:800;color:var(--muted)}
+.stdRow{width:100%;display:flex;align-items:center;gap:10px;background:#fff;border-radius:18px;padding:8px 12px;margin-bottom:8px;box-shadow:0 3px 0 #efe5c9;text-align:right}
+.stdRow .em{width:40px;height:40px;border-radius:13px;background:#fff8e4;display:grid;place-items:center;font-size:21px;flex:none}
+.stdRow div{flex:1;min-width:0}.stdRow b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stdRow small{font-size:11.5px;font-weight:800;color:var(--muted)}
+.stdRow.ok small{color:#2f7d0e}.stdRow.warn{box-shadow:0 0 0 2px #ffd08a,0 3px 0 #efe5c9}.stdRow.warn small{color:#c26a00}
+.stdRow svg{width:120px;flex:none}
+.upPick{display:flex;gap:8px;justify-content:center;margin:6px 0 12px}.upPick .ch{font-size:18px;font-weight:900;padding:10px 18px}
+
+.hab2.open{flex-wrap:wrap}
+.hab2.open .hbs3{width:100%;margin-top:9px;gap:6px}
+.hab2.open .hbs3 button{flex:1;width:auto;height:auto;border-radius:99px;padding:9px 6px;font-size:12.5px}
+.hab2.open .hbs3 .hbf{flex:1.6}
 </style>
 </head>
 <body class="th-d">
@@ -662,15 +691,15 @@ const DEFAULTS={
       {id:'e',name:'שקט וסגירת יום',short:'ערב',start:'18:00',end:'22:30',mark:'🌙'}
     ],
     habits:[
-      {id:'h1',emoji:'💧',name:'שתיית מים',sec:'m',days:ALLDAYS.slice()},
-      {id:'h2',emoji:'🏃',name:'תנועה / אימון בוקר',sec:'m',days:ALLDAYS.slice()},
-      {id:'h3',emoji:'🙏',name:'נשימות ועוגן הודיה',sec:'m',days:ALLDAYS.slice()},
-      {id:'h4',emoji:'🎯',name:'בלוק עבודה עמוקה',sec:'d',days:ALLDAYS.slice()},
+      {id:'h1',emoji:'💧',name:'שתיית מים',sec:'m',days:ALLDAYS.slice(),std:{val:2,unit:'כוסות',dim:'כמות',step:.1,win:7}},
+      {id:'h2',emoji:'🏃',name:'תנועה / אימון בוקר',sec:'m',days:ALLDAYS.slice(),std:{val:20,unit:'דק׳',dim:'זמן',step:.1,win:7}},
+      {id:'h3',emoji:'🙏',name:'נשימות ועוגן הודיה',sec:'m',days:ALLDAYS.slice(),std:{val:5,unit:'נשימות',dim:'כמות',step:.1,win:7}},
+      {id:'h4',emoji:'🎯',name:'בלוק עבודה עמוקה',sec:'d',days:ALLDAYS.slice(),std:{val:45,unit:'דק׳',dim:'זמן',step:.1,win:7}},
       {id:'h5',emoji:'🥗',name:'תזונה מודעת',sec:'d',days:ALLDAYS.slice()},
       {id:'h6',emoji:'🧠',name:'תרגול NLP קצר',sec:'d',days:ALLDAYS.slice()},
-      {id:'h7',emoji:'📖',name:'קריאה',sec:'e',days:ALLDAYS.slice()},
+      {id:'h7',emoji:'📖',name:'קריאה',sec:'e',days:ALLDAYS.slice(),std:{val:10,unit:'עמודים',dim:'כמות',step:.1,win:7}},
       {id:'h8',emoji:'📝',name:'סיכום יום / רפלקציה',sec:'e',days:ALLDAYS.slice()},
-      {id:'h9',emoji:'📵',name:'ניתוק ממסכים',sec:'e',days:ALLDAYS.slice()}
+      {id:'h9',emoji:'📵',name:'ניתוק ממסכים',sec:'e',days:ALLDAYS.slice(),std:{val:30,unit:'דק׳',dim:'זמן',step:.1,win:7}}
     ],
     testMode:false,sound:true,dailyGoal:50,shabbat:true,city:'eilat'
   },
@@ -828,7 +857,7 @@ function secWin(sec,k=today()){let a=mins(sec.start),b=mins(sec.end);if(shabbatO
 function nextWork(k){let x=addDays(k,1);for(let i=0;i<3&&isRestDay(x);i++)x=addDays(x,1);return x}
 function prevWork(k){let x=addDays(k,-1);for(let i=0;i<3&&isRestDay(x);i++)x=addDays(x,-1);return x}
 /* minimum versions + standards */
-const MINMAP=[[/מים/,'כוס מים אחת'],[/אימון|תנועה|ריצ|כושר|ספורט|הליכה|סקוואט|מתיח/,'שכיבת סמיכה אחת'],[/קריא|ספר/,'שורה אחת'],[/נשימ|מדיטצ/,'נשימה עמוקה אחת'],[/הודי/,'הודיה אחת'],[/עבודה|מיקוד|בלוק|משימה/,'5 דקות'],[/תזונ|אוכל|ארוח/,'ארוחה אחת מודעת'],[/NLP|מסגור/,'שאלת מסגור אחת'],[/סיכום|רפלקצ|יומן|כתיב|רעיון/,'משפט אחד'],[/מסכ|טלפון/,'10 דקות בלי מסך'],[/שינה/,'למיטה 15 דק׳ מוקדם'],[/למיד|לימוד|שיעור/,'דקה אחת של למידה'],[/משפח|ילד|זמן איכות/,'מילה טובה אחת'],[/יציר|ציור|כתיבה/,'שורה אחת']];
+const MINMAP=[[/שכיב|סמיכה|שמיכה/,'שכיבת סמיכה אחת'],[/מים/,'כוס מים אחת'],[/אימון|תנועה|ריצ|כושר|ספורט|הליכה|סקוואט|מתיח/,'שכיבת סמיכה אחת'],[/קריא|ספר/,'שורה אחת'],[/נשימ|מדיטצ/,'נשימה עמוקה אחת'],[/הודי/,'הודיה אחת'],[/עבודה|מיקוד|בלוק|משימה/,'5 דקות'],[/תזונ|אוכל|ארוח/,'ארוחה אחת מודעת'],[/NLP|מסגור/,'שאלת מסגור אחת'],[/סיכום|רפלקצ|יומן|כתיב|רעיון/,'משפט אחד'],[/מסכ|טלפון/,'10 דקות בלי מסך'],[/שינה/,'למיטה 15 דק׳ מוקדם'],[/למיד|לימוד|שיעור/,'דקה אחת של למידה'],[/משפח|ילד|זמן איכות/,'מילה טובה אחת'],[/יציר|ציור|כתיבה/,'שורה אחת']];
 function minOf(h){if(h.min)return h.min;const f=MINMAP.find(m=>m[0].test(h.name));return f?f[1]:'גרסת 2 דקות'}
 const LVL_REPS=[7,21,45,90,150,240,365];
 function habitRate(h,days=14){let n=0,dn=0;for(let i=0;i<days;i++){const k=addDays(today(),-i);if(k<startKey())break;if(!habitsOn(k).some(x=>x.id===h.id))continue;n++;const d=S.days[k];if(d&&d.done&&d.done[h.id]&&!(d.minDone&&d.minDone[h.id]))dn++}return n?dn/n:0}
@@ -845,17 +874,115 @@ async function levelUpHabit(h){
   c.removeEventListener('click',fn,true);
   if(ans){const list=habits();const x=list.find(y=>y.id===h.id);if(x){x.hist=(x.hist||[]).concat([x.name]);x.name=ans;x.lvl=(x.lvl||1)+1;save();addXP(20);toast(`🆙 ${x.emoji} רמה ${x.lvl}: ${ans}`);render(false)}}
 }
-/* habit row (full / minimum) */
-function habRow(h,st,d){
-  const done=d.done[h.id],isMin=d.minDone&&d.minDone[h.id];const nr=nextLvlReps(h);
-  const meta=`🌱 מינימום: ${esc(minOf(h))}${h.lvl>1?` · רמה ${h.lvl}`:''}${nr?` · ${h.reps||0}/${nr} חזרות`:''}`;
-  let right;
-  if(done)right=`<span class="tag">${isMin?'🌱 מינימום':'✓ בוצע'}</span>`;
-  else if(st==='open')right=`<span class="hbs"><button class="hbf" data-full="${h.id}">✓ ביצעתי</button><button class="hbm" data-min="${h.id}">🌱 מינימום</button></span>`;
-  else right=`<span class="tag">${st==='past'?'—':'🔒'}</span>`;
-  return `<div class="hab hab2${done?' done':(st!=='open'?' locked':'')}"><span class="em">${esc(h.emoji)}</span><span class="nm">${esc(h.name)}<small class="hm">${meta}</small></span>${right}</div>`;
+/* ================= standard line ================= */
+const UNIT_RE=/(\d+(?:\.\d+)?)\s*(דק[׳']?|דקות|שניות|שכיבות(?: סמיכה| שמיכה)?|עמודים|עמוד|כוסות|ליטר|ק״מ|קמ|ק"מ|חזרות|פעמים|שורות|סטים|צעדים|פניות|שיחות|מילים)?/;
+function stdOf(h){
+  if(h.std)return h.std;const m=String(h.name||'').match(UNIT_RE);if(!m)return null;
+  const u=(m[2]||'').trim()||'יחידות';const dim=/דק|שני/.test(u)?'זמן':'כמות';
+  h.std={val:parseFloat(m[1]),unit:u,dim,step:.1,win:7,since:null};return h.std;
 }
-function bindHabRows(root){root.querySelectorAll('[data-full]').forEach(b=>b.onclick=()=>markHabit(b.dataset.full,'full'));root.querySelectorAll('[data-min]').forEach(b=>b.onclick=()=>markHabit(b.dataset.min,'min'))}
+function lvOf(d,id){if(!d)return null;if(d.lv&&d.lv[id])return d.lv[id];if(d.minDone&&d.minDone[id])return 'min';return d.done&&d.done[id]?'std':null}
+function stdHistory(h,n=14){const out=[];let k=today();for(let i=0;out.length<n&&i<60;i++){if(k<startKey())break;if(habitsOn(k).some(x=>x.id===h.id))out.push({k,d:S.days[k]});k=addDays(k,-1)}return out}
+function stdStreak(h){
+  const st=stdOf(h);const since=(st&&st.since)||startKey();let n=0;const hist=stdHistory(h,30);
+  for(let i=0;i<hist.length;i++){const {k,d}=hist[i];if(k<since)break;const lv=lvOf(d,h.id);if(i===0&&!lv)continue;if(lv==='std'||lv==='up')n++;else break}
+  return n;
+}
+function minRun(h){let n=0;const hist=stdHistory(h,10);for(let i=0;i<hist.length;i++){const lv=lvOf(hist[i].d,h.id);if(i===0&&!lv)continue;if(lv==='min')n++;else break}return n}
+function fmtStd(st){return st?`${st.val} ${st.unit}`:''}
+function raiseVal(st,mult=1){const v=st.val;let x=v*(1+(st.step||.1)*mult);x=v>=10?Math.round(x):Math.round(x*2)/2;if(x<=v)x=v+(v>=10?1:.5);return +x.toFixed(1)}
+function applyStd(h,newVal,opts={}){
+  const st=stdOf(h);if(!st)return;h.stdHist=(h.stdHist||[]).concat([{date:today(),val:st.val,unit:st.unit,dim:st.dim}]);
+  const old=st.val;st.val=newVal;if(opts.unit)st.unit=opts.unit;if(opts.dim)st.dim=opts.dim;st.since=addDays(today(),1);
+  if(String(h.name).includes(String(old)))h.name=h.name.replace(String(old),String(newVal));
+  h.lvl=(h.lvl||1)+1;save();
+}
+async function raiseStd(h){
+  const st=stdOf(h);if(!st)return;const a=raiseVal(st),b=raiseVal(st,2);let pick=null;const c=$('card');
+  const fn=e=>{const v=e.target.dataset&&e.target.dataset.rv;if(v!==undefined)pick=v};c.addEventListener('click',fn,true);
+  await showCard({icon:'🆙',band:'g',title:'הסטנדרט עולה!',body:`<b>${esc(h.emoji)} ${esc(h.name)}</b><br>עמדת בסטנדרט ${st.win} ימים ברצף.<br><small>מה שהיה מאמץ – הפך להרגל. עכשיו מזיזים את הקו למעלה.</small>
+    <div class="stdJump"><span>${st.val}</span><i>→</i><b>${a}</b><small>${esc(st.unit)}</small></div>`,
+    buttons:`<button class="btn green" data-close data-rv="${a}">✓ ${a} ${esc(st.unit)}</button><button class="btn" data-close data-rv="${b}">🚀 ${b}</button><button class="btn ghost" data-close data-rv="keep">עוד שבוע</button>`});
+  c.removeEventListener('click',fn,true);
+  if(pick&&pick!=='keep'){applyStd(h,+pick);addXP(20);toast(`📏 סטנדרט חדש: ${pick} ${st.unit}`);
+    if((h.stdHist||[]).length>=3&&!h.dimHint){h.dimHint=true;save();queueCele(()=>showCard({icon:'🔀',band:'b',title:'זמן לממד חדש?',body:`העלית את הסטנדרט ${(h.stdHist||[]).length} פעמים. אפשר להמשיך בכמות – או לקבוע אותו מחדש <b>בזמן</b> או <b>באיכות</b> (טכניקה, קושי, ריכוז).`,buttons:`<button class="btn" data-close onclick="setTimeout(()=>window.__openStd&&window.__openStd('${h.id}'),250)">ערוך סטנדרט</button><button class="btn ghost" data-close>אחר כך</button>`}))}}
+  else if(pick==='keep'){st.since=today();save()}
+  render(false);
+}
+async function driftWarn(h,n){
+  const st=stdOf(h);
+  await showCard({icon:'⚓',band:'',title:'עוגן מינימליסטי',body:`${n} ימים ברצף של מינימום ב<b>${esc(h.emoji)} ${esc(h.name)}</b>.<br><small>מינימום מציל יום בודד – אבל יום אחרי יום הוא הופך להרגל החדש.</small><br><br>מחר חוזרים לקו: <b>${st?fmtStd(st):'ביצוע מלא'}</b>`,buttons:'<button class="btn" data-close>מחר אני על הקו 💪</button><button class="btn ghost" data-close id="drEdit">להתאים סטנדרט</button>'});
+}
+function afterMark(h,kind){
+  const d=day();
+  if(kind==='min'){const n=minRun(h);d.drift=d.drift||{};if(n>=3&&!d.drift[h.id]){d.drift[h.id]=1;save();queueCele(()=>driftWarn(h,n))}return}
+  const st=stdOf(h);
+  if(!st){const n=stdStreak(h);if(n>=7&&!h.askedMeasure){h.askedMeasure=true;save();queueCele(()=>showCard({icon:'📏',band:'b',title:'בוא נמדוד את זה',body:`7 ימים ברצף של <b>${esc(h.name)}</b>! כדי שהסטנדרט יוכל לעלות – תן לו מספר: דקות, חזרות, עמודים…`,buttons:`<button class="btn" data-close onclick="setTimeout(()=>window.__openStd&&window.__openStd('${h.id}'),250)">הגדר סטנדרט</button><button class="btn ghost" data-close>אחר כך</button>`}))}return}
+  if(stdStreak(h)>=(st.win||7))queueCele(()=>raiseStd(h));
+}
+/* chart */
+function stdChart(h,w=300,hh=110){
+  const st=stdOf(h);const hist=stdHistory(h,14).reverse();const n=hist.length||1;const bw=Math.min(18,(w-20)/n-4);const base=hh-18,line=base-60;
+  let bars='';hist.forEach((o,i)=>{const lv=lvOf(o.d,h.id);const v=o.d&&o.d.val&&o.d.val[h.id];const sv=o.d&&o.d.sv&&o.d.sv[h.id];
+    let r=lv==='up'?Math.min(1.6,(v&&sv)?v/sv:1.25):lv==='std'?1:lv==='min'?.35:.04;const H=r*60;const x=w-14-(i+1)*(bw+4);
+    const col=lv==='up'?'#5b8cff':lv==='std'?'#4cb21f':lv==='min'?'#ffb020':'#e4dcc6';
+    bars+=`<rect x="${x}" y="${base-H}" width="${bw}" height="${H}" rx="5" fill="${col}"/>`;
+    if(i===n-1)bars+=`<text x="${x+bw/2}" y="${base+13}" text-anchor="middle" font-size="9" font-weight="800" fill="#8a8266">היום</text>`});
+  return `<svg class="stdSvg" viewBox="0 0 ${w} ${hh}" width="100%" style="direction:ltr"><line x1="6" x2="${w-6}" y1="${line}" y2="${line}" stroke="#2f7d0e" stroke-width="2" stroke-dasharray="6 5"/><text x="${w-8}" y="${line-5}" text-anchor="end" font-size="10" font-weight="900" fill="#2f7d0e">קו הסטנדרט${st?' · '+esc(fmtStd(st)):''}</text>${bars}<line x1="6" x2="${w-6}" y1="${base}" y2="${base}" stroke="#eadfc2"/></svg>`;
+}
+function stdStatus(h){
+  const st=stdOf(h);const s=stdStreak(h),mr=minRun(h);
+  if(mr>=2)return {cls:'warn',txt:`⚓ ${mr} ימי מינימום ברצף`};
+  if(!st)return {cls:'',txt:s?`✓ ${s} ימים ברצף · הגדר סטנדרט מדיד`:'הגדר סטנדרט מדיד'};
+  return {cls:s?'ok':'',txt:`📏 ${fmtStd(st)} · ${Math.min(s,st.win)}/${st.win} ימים להעלאה`};
+}
+function openStd(id){
+  const h=habitById(id);if(!h)return;const st=stdOf(h);const hist=stdHistory(h,14);const c={min:0,std:0,up:0};hist.forEach(o=>{const l=lvOf(o.d,h.id);if(l)c[l]++});
+  const s=stdStreak(h);const S2=st||{val:'',unit:'',dim:'כמות',step:.1,win:7};
+  let html=`<h2>${esc(h.emoji)} ${esc(h.name)}</h2><div class="hint">הסטנדרט הוא ההרגל. המינימום הוא עוגן ליום חלש – לא שגרה.</div>
+  <div class="card2">${stdChart(h)}<div class="lgnd"><span><i style="background:#ffb020"></i>מינימום ${c.min}</span><span><i style="background:#4cb21f"></i>סטנדרט ${c.std}</span><span><i style="background:#5b8cff"></i>מעל ${c.up}</span></div></div>
+  <div class="card2"><b>${st?`${s}/${st.win} ימים ברצף על הקו`:'עוד לא הוגדר סטנדרט מדיד'}</b><div class="lbar"><i style="width:${st?Math.min(1,s/st.win)*100:0}%"></i></div><small class="hint" style="margin:0">${st?`כשתגיע ל-${st.win} – הסטנדרט יעלה ל-${raiseVal(st)} ${esc(st.unit)}`:'תן להרגל מספר כדי שיוכל לעלות.'}</small></div>
+  <h4 style="margin:14px 0 6px">✏️ הגדרת סטנדרט</h4>
+  <div class="hrow"><input class="inp" id="sVal" type="number" step="0.5" value="${S2.val}" placeholder="20" style="width:90px"><input class="inp n" id="sUnit" value="${esc(S2.unit)}" placeholder="שכיבות / דק׳ / עמודים"></div>
+  <div class="trow"><span class="lab">ממד</span><select class="inp" id="sDim">${['כמות','זמן','איכות'].map(x=>`<option${S2.dim===x?' selected':''}>${x}</option>`).join('')}</select></div>
+  <div class="hrow"><input class="inp n" id="sQual" value="${esc(h.qual||'')}" placeholder="איכות: למשל טכניקה מלאה, בלי טלפון, קצב קבוע"></div>
+  <div class="trow"><span class="lab">העלאה כל</span><select class="inp" id="sWin">${[5,7,10,14].map(x=>`<option value="${x}"${(S2.win||7)==x?' selected':''}>${x} ימים</option>`).join('')}</select><span>ב-</span><select class="inp" id="sStep">${[5,10,15,20].map(x=>`<option value="${x/100}"${Math.round((S2.step||.1)*100)==x?' selected':''}>${x}%</option>`).join('')}</select></div>
+  <div class="hrow"><input class="inp n" id="sMin" value="${esc(h.min||minOf(h))}" placeholder="🌱 גרסת מינימום"></div>
+  <div class="row" style="margin-top:10px"><button class="btn" id="sSave">שמור</button>${st?`<button class="btn green" id="sUp">🆙 העלה עכשיו ל-${raiseVal(st)}</button>`:''}</div>
+  ${(h.stdHist||[]).length?`<h4 style="margin:16px 0 6px">📈 היסטוריית הסטנדרט</h4><div class="stdHist">${(h.stdHist||[]).map(x=>`<span>${x.val} ${esc(x.unit)}</span>`).join('<i>→</i>')}<i>→</i><b>${st?esc(fmtStd(st)):''}</b></div>`:''}`;
+  openSheet(html);
+  $('sSave').onclick=()=>{const v=parseFloat($('sVal').value);const list=habits();const x=list.find(y=>y.id===h.id);
+    if(v>0){const old=x.std;x.std={val:v,unit:$('sUnit').value.trim()||'יחידות',dim:$('sDim').value,step:+$('sStep').value,win:+$('sWin').value,since:old&&old.val===v?old.since:today()};if(old&&old.val!==v){x.stdHist=(x.stdHist||[]).concat([{date:today(),val:old.val,unit:old.unit,dim:old.dim}]);if(String(x.name).includes(String(old.val)))x.name=x.name.replace(String(old.val),String(v))}}
+    x.qual=$('sQual').value.trim();x.min=$('sMin').value.trim()||x.min;save();closeSheet();render(false);toast('📏 הסטנדרט נשמר')};
+  if($('sUp'))$('sUp').onclick=()=>{applyStd(h,raiseVal(st));addXP(20);closeSheet();render(false);toast(`🆙 ${fmtStd(stdOf(h))}`)};
+}
+window.__openStd=openStd;
+function openStdAll(){
+  const hs=habits();
+  openSheet(`<h2>📏 קו הסטנדרט</h2><div class="hint">איפה אתה ביחס לסטנדרט בכל הרגל. ⚓ = עוגן מינימליסטי שחוזר – זמן לחזור לקו.</div>
+  ${hs.map(h=>{const t=stdStatus(h);return `<button class="stdRow ${t.cls}" data-sd="${h.id}"><span class="em">${esc(h.emoji)}</span><div><b>${esc(h.name)}</b><small>${t.txt}</small></div>${stdChart(h,120,46).replace('קו הסטנדרט','')}</button>`}).join('')}`);
+  $('sheet').querySelectorAll('[data-sd]').forEach(b=>b.onclick=()=>openStd(b.dataset.sd));
+}
+function askUp(id){
+  const h=habitById(id);const st=stdOf(h);if(!st){markHabit(id,'up');return}
+  openSheet(`<h2>🚀 מעל הסטנדרט</h2><div class="hint">כמה עשית? הסטנדרט: ${esc(fmtStd(st))}</div>
+  <div class="upPick">${[1.1,1.25,1.5].map(m=>{const v=Math.round(st.val*m*2)/2;return `<button class="ch" data-uv="${v}">${v}</button>`}).join('')}</div>
+  <div class="hrow"><input class="inp n" id="upV" type="number" step="0.5" value="${Math.round(st.val*1.2)}"><span style="font-weight:800">${esc(st.unit)}</span><button class="btn green sm" id="upGo">שמור</button></div>`);
+  $('sheet').querySelectorAll('[data-uv]').forEach(b=>b.onclick=()=>markHabit(id,'up',+b.dataset.uv));
+  $('upGo').onclick=()=>markHabit(id,'up',+$('upV').value);
+}
+
+/* habit row (min / std / up) */
+function habRow(h,st,d){
+  const lv=lvOf(d,h.id);const sd=stdOf(h);const t=stdStatus(h);const v=d.val&&d.val[h.id];
+  const meta=`<span class="stdTag ${t.cls}">${t.txt}</span><span>🌱 ${esc(minOf(h))}</span>`;
+  let right;
+  if(lv)right=`<span class="tag lv-${lv}">${lv==='min'?'🌱 מינימום':lv==='up'?`🚀 ${v||'מעל'}`:'✓ סטנדרט'}</span>`;
+  else if(st==='open')right=`<span class="hbs3"><button class="hbm" data-min="${h.id}">🌱 מינימום</button><button class="hbf" data-full="${h.id}">✓ ${sd?esc(fmtStd(sd)):'סטנדרט'}</button><button class="hbu" data-up="${h.id}">🚀 מעל</button></span>`;
+  else right=`<span class="tag">${st==='past'?'—':'🔒'}</span>`;
+  return `<div class="hab hab2${lv?' done':(st!=='open'?' locked':' open')}"><span class="em">${esc(h.emoji)}</span><span class="nm" data-std="${h.id}">${esc(h.name)}<small class="hm">${meta}</small></span>${right}</div>`;
+}
+function bindHabRows(root){root.querySelectorAll('[data-full]').forEach(b=>b.onclick=()=>markHabit(b.dataset.full,'std'));root.querySelectorAll('[data-min]').forEach(b=>b.onclick=()=>markHabit(b.dataset.min,'min'));root.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>askUp(b.dataset.up));root.querySelectorAll('[data-std]').forEach(b=>b.onclick=()=>openStd(b.dataset.std))}
 /* in-app reminder banner */
 function renderRemind(){
   const el=$('remind');if(!el)return;el.style.display='none';
@@ -863,7 +990,7 @@ function renderRemind(){
   const w=secWin(CH);if(!w)return;const left=w.b-nowMins();
   const und=habitsOn(today()).filter(h=>h.sec===CH.id&&!d.done[h.id]);
   if(!und.length||left>90||left<=0)return;const h=und[0];
-  el.innerHTML=`<button class="rx" id="remX">✕</button><b>⏰ עוד ${left} דק׳ נסגר פרק ה${esc(CH.short)}</b><div class="rt">${esc(h.emoji)} ${esc(h.name)}${und.length>1?` · ועוד ${und.length-1}`:''}<br><small>ביום חלש מספיק מינימום: <b>${esc(minOf(h))}</b></small></div><div class="rb"><button class="hbm" data-min="${h.id}">🌱 עשיתי מינימום</button><button class="hbf" data-full="${h.id}">✓ ביצעתי</button></div>`;
+  el.innerHTML=`<button class="rx" id="remX">✕</button><b>⏰ עוד ${left} דק׳ נסגר פרק ה${esc(CH.short)}</b><div class="rt">${esc(h.emoji)} ${esc(h.name)}${und.length>1?` · ועוד ${und.length-1}`:''}<br><small>ביום חלש מספיק מינימום: <b>${esc(minOf(h))}</b></small></div><div class="rb"><button class="hbm" data-min="${h.id}">🌱 מינימום</button><button class="hbf" data-full="${h.id}">✓ ${stdOf(h)?esc(fmtStd(stdOf(h))):"סטנדרט"}</button></div>`;
   el.style.display='block';bindHabRows(el);$('remX').onclick=()=>{d.remHide[CH.id]=true;save();el.style.display='none'};
 }
 
@@ -871,7 +998,7 @@ const dreamEmoji=()=>S.profile.dreamEmoji||'🏔️';
 const msEmoji=m=>m.e==='DREAM'?dreamEmoji():m.e;
 function day(k=today()){
   if(!S.days[k]){
-    Object.keys(S.days).forEach(o=>{if(o<k){const od=S.days[o];const dn={};Object.keys(od.done||{}).forEach(id=>dn[id]=1);S.days[o]={done:dn};if(od.bridge)S.days[o].bridge=true;if(od.xp)S.days[o].xp=od.xp;if(od.mood)S.days[o].mood=od.mood;if(od.minDone)S.days[o].minDone=od.minDone}});
+    Object.keys(S.days).forEach(o=>{if(o<k){const od=S.days[o];const dn={};Object.keys(od.done||{}).forEach(id=>dn[id]=1);S.days[o]={done:dn};if(od.bridge)S.days[o].bridge=true;if(od.xp)S.days[o].xp=od.xp;if(od.mood)S.days[o].mood=od.mood;if(od.minDone)S.days[o].minDone=od.minDone;if(od.lv)S.days[o].lv=od.lv;if(od.val)S.days[o].val=od.val;if(od.sv)S.days[o].sv=od.sv}});
     const hasHistory=Object.keys(S.days).length>0;
     const y=prevWork(k),yy=prevWork(y);
     S.days[k]={nlpOn:true,done:{},queue:[],pos:0,landed:{},opened:{},bridge:false,
@@ -1107,7 +1234,7 @@ function openHabits(){
   openSheet(html);
   bindHabRows($('sheet'));
 }
-function markHabit(id,kind='full'){
+function markHabit(id,kind='std',val){if(kind==='full')kind='std';
   const d=day(),h=habitById(id);if(!h)return;if(isShabbatNow()){toast('שבת שלום 🕯️');return}
   if(d.done[id]){toast('כבר סימנת את זה היום ✓');return}
   const sec=secById(h.sec);const st=secState(sec);
@@ -1116,10 +1243,12 @@ function markHabit(id,kind='full'){
   const left=COOLDOWN-(Date.now()-lastMark);
   if(left>0){toast(`כל הרגל בנפרד… (${Math.ceil(left/1000)})`);return}
   lastMark=Date.now();d.done[id]=Date.now();d.queue.push(id);
+  const sd=stdOf(h);d.lv=d.lv||{};d.lv[id]=kind;if(sd){d.sv=d.sv||{};d.sv[id]=sd.val}
+  if(kind==='up'){d.val=d.val||{};d.val[id]=val||(sd?Math.round(sd.val*1.2):0)}
   if(kind==='min'){d.minDone=d.minDone||{};d.minDone[id]=1;h.minReps=(h.minReps||0)+1}else h.reps=(h.reps||0)+1;
   save();sfx.pop();buzz(30);
-  closeSheet();render(false);toast(kind==='min'?`🌱 מינימום נשמר – ${h.emoji} ההרגל ניצל!`:`${h.emoji} +1 ⚡ – לחץ GO`);
-  S.totalDone=(S.totalDone||0)+1;addXP(kind==='min'?5:10);checkQuests();checkBadges();if(kind!=='min')checkLevelUp(h);
+  closeSheet();render(false);toast(kind==='min'?`🌱 עוגן מינימום – היום ניצל. מחר על הקו.`:kind==='up'?`🚀 מעל הסטנדרט! +1 ⚡`:`${h.emoji} על הקו ✓ +1 ⚡`);
+  S.totalDone=(S.totalDone||0)+1;addXP(kind==='min'?5:kind==='up'?15:10);checkQuests();checkBadges();afterMark(h,kind);
   const ml=MASCOT_LINES.done;mascotSay(ml[Math.floor(Math.random()*ml.length)]+' לחץ GO!');
   if(!d.streakShown&&need(today())&&doneCount(today())>=need(today())){d.streakShown=true;save();queueCele(streakCele)}
 }
@@ -1187,6 +1316,7 @@ async function runEvent(ev){
   }
 }
 $('card').addEventListener('click',e=>{
+  if(e.target.id==='drEdit'){const id=(Object.keys(day().drift||{}).slice(-1)[0]);if(id)setTimeout(()=>openStd(id),250)}
   if(e.target.id==='useAv'){S.avatar=S.unlocked[S.unlocked.length-1];save();render(false)}
   if(e.target.id==='seeYear')setTimeout(openYear,250);
 });
@@ -1675,10 +1805,10 @@ function renderCol(){
   <div class="badges">${BADGES.map(b=>`<div class="badge2${S.badges&&S.badges[b.id]?'':' lock'}"><div class="be">${b.e}</div><span>${b.n}</span></div>`).join('')}</div>
   <div class="h3"><span>📚 ספריית העקרונות שלי</span><span class="badge open">${read.length}/${LESSONS.length}</span></div>
   <div class="lib">${read.length?read.slice().reverse().map(i=>{const L=LESSONS[i];return L?`<button class="libi" data-les="${i}"><span class="le">${L.s==='רון'?'📘':'🔥'}</span><div>${esc(L.t)}<small>${L.s==='רון'?'ג׳ים רון':'טוני רובינס'} · ${esc(L.a)}</small></div></button>`:''}).join(''):'<div class="hint">כל "עיקרון היום" שתקרא יישמר כאן לחזרה.</div>'}</div>
-  <div class="row" style="margin-bottom:10px"><button class="btn ghost" id="cJour">✍️ היומן שלי</button><button class="btn ghost" id="cNlp">🧠 תרגילי NLP</button></div>
+  <div class="row" style="margin-bottom:10px"><button class="btn ghost" id="cJour">✍️ היומן שלי</button><button class="btn ghost" id="cNlp">🧠 תרגילי NLP</button><button class="btn ghost" id="cStd">📏 הסטנדרטים</button></div>
   <div class="row"><button class="btn ghost" id="cHist">📜 היסטוריה ומעקב מלא</button><button class="btn ghost" id="cYear">🗺️ מפת השנה</button></div>`;
   $('pCol').innerHTML=h;
-  $('cAv').onclick=openAvatars;$('cJour').onclick=openJournal;$('cNlp').onclick=()=>openNLPLib();$('cHist').onclick=openHistory;$('cYear').onclick=openYear;
+  $('cAv').onclick=openAvatars;$('cJour').onclick=openJournal;$('cNlp').onclick=()=>openNLPLib();$('cStd').onclick=openStdAll;$('cHist').onclick=openHistory;$('cYear').onclick=openYear;
   $('pCol').querySelectorAll('[data-les]').forEach(b=>b.onclick=()=>{const L=LESSONS[+b.dataset.les];showCard({icon:L.s==='רון'?'📘':'🔥',band:L.s==='רון'?'b':'',title:esc(L.t),body:`<span class="src">${L.s==='רון'?'ברוח ג׳ים רון':'ברוח טוני רובינס'}</span><br>${L.m}<div class="act">🎯 <b>פעולה:</b> ${L.a}</div>`,buttons:'<button class="btn" data-close>סגור</button>'})});
 }
 
@@ -1873,7 +2003,7 @@ function renderToday(){
   if(!S.settings.push&&!shab)h+=`<div id="tPush" class="blk">${pushBox()}</div>`;
   if(S.plan&&!shab)h+=`<div class="card2"><div class="secH" style="margin:0 0 6px"><span>🗺️ הצעד של היום</span></div><button class="chk-row${d.planStep?' on':''}" id="tStep"><i>${d.planStep?'✓':''}</i><span>${esc(S.plan.todayStep||'')}</span></button></div>`;
   if(!shab){
-    h+=H('✅',`הרגלים <small>${doneCount(today())}/${hs.length}</small>`,'<button class="lnk" id="tEditH">✏️ עריכה</button>');
+    h+=H('✅',`הרגלים <small>${doneCount(today())}/${hs.length}</small>`,'<span><button class="lnk" id="tStdAll">📏 קו הסטנדרט</button> <button class="lnk" id="tEditH">✏️</button></span>');
     secs().forEach(s=>{const sh=hs.filter(x=>x.sec===s.id);if(!sh.length)return;const st=secState(s);
       if(st==='open'||S.settings.testMode){h+=`<div class="subH">${s.mark} ${esc(s.short)} · פתוח עכשיו ${chOf(s.id).flag?'🚩':''}</div>`;sh.forEach(x=>{h+=habRow(x,st,d)})}
       else h+=`<div class="secMini${st==='past'?' past':''}"><span>${s.mark} ${esc(s.short)}</span><span class="mE">${sh.map(x=>`<i class="${d.done[x.id]?'ok':''}">${esc(x.emoji)}</i>`).join('')}</span><small>${st==='past'?(chOf(s.id).flag?'🚩 הושלם':`${sh.filter(x=>d.done[x.id]).length}/${sh.length}`):'נפתח ב-'+s.start}</small></div>`});
@@ -1895,7 +2025,7 @@ function renderToday(){
   bindMoods(pg,v=>{$('moodR').textContent=moodReply(v)});if($('tPush'))bindPushBox($('tPush'),renderToday);
   $('tLesson').onclick=openLesson;$('tState').onclick=stateChange;if($('qChest'))$('qChest').onclick=claimChest;
   if($('tStep'))$('tStep').onclick=()=>{const d=day();if(d.planStep)return;d.planStep=true;save();sfx.pop();addXP(10);$('tStep').classList.add('on','popchk');setTimeout(renderToday,400)};
-  if($('tEditH'))$('tEditH').onclick=openSettings;
+  if($('tEditH'))$('tEditH').onclick=openSettings;if($('tStdAll'))$('tStdAll').onclick=openStdAll;
   bindHabRows(pg);
   $('tNlp').onclick=()=>openNLP(R.x.id);$('tLib').onclick=()=>openNLPLib();$('tJour').onclick=openJournal;
   $('tJSave').onclick=()=>{if(saveJournal($('tJ').value))renderToday()};

@@ -354,6 +354,19 @@ header{padding:calc(8px + var(--safeT)) 10px 18px}
 .jr .jme{position:absolute;top:-14px;width:16px;height:16px;margin-right:-8px;border-radius:50%;background:#fff;border:3px solid #e3233a;box-shadow:0 1px 4px rgba(0,0,0,.3)}
 .jr .jl{display:flex;justify-content:space-between;align-items:center;margin-top:5px;font-size:11.5px;font-weight:800;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.2)}
 .jr .jl b{font-family:'Secular One',Rubik;font-weight:400;font-size:13px}
+.tower{margin:10px 12px 0;display:flex;flex-direction:column;gap:0}
+.flr{display:flex;gap:10px;align-items:stretch;position:relative;padding-bottom:8px}
+.flr::before{content:"";position:absolute;right:19px;top:38px;bottom:-2px;width:4px;background:#fff7;border-radius:2px}
+.flr.gnd::before{display:none}
+.flr .fno{flex:none;width:42px;height:42px;border-radius:50%;background:#fff;display:grid;place-items:center;font-family:'Secular One';font-size:20px;color:var(--red2);box-shadow:0 3px 0 rgba(160,110,0,.25);z-index:1}
+.flr.past .fno{background:#4fb51f;color:#fff}.flr.now .fno{background:#ff9d2e;color:#fff;outline:3px solid #fff}
+.flr .fbody{flex:1;background:#fff;border-radius:16px;padding:9px 11px;box-shadow:0 3px 0 rgba(160,110,0,.2)}
+.flr.now .fbody{outline:3px solid #ff9d2e}.flr.fut .fbody{opacity:.82}
+.flr.roof .fbody{background:linear-gradient(#fff,#fff3c9)}
+.flr .h{display:flex;justify-content:space-between;gap:6px;font-weight:800;font-size:14px}.flr .h small{color:var(--muted);font-weight:700;font-size:11px;white-space:nowrap}
+.flr .bar{height:7px;border-radius:5px;background:#efe8d6;margin-top:6px;overflow:hidden}.flr .bar i{display:block;height:100%;background:linear-gradient(90deg,#ffd45e,#ff9d2e)}
+.flr p{margin:6px 0 0;font-size:12px;color:var(--muted);line-height:1.45}.flr p.ex{color:#6b4a00;font-weight:700}
+.flr ul{margin:6px 0 0;padding:0 16px 0 0;font-size:12px;line-height:1.5}
 .jstages{margin:10px 12px 0;display:grid;gap:7px}
 .jst{background:#fff;border-radius:16px;padding:9px 11px;box-shadow:0 3px 0 rgba(160,110,0,.2)}
 .jst.now{outline:3px solid #ff9d2e}.jst.fut{opacity:.7}
@@ -1441,7 +1454,12 @@ function openYear(){
   html=scatterDecor(P,W,H,5,[])+html;
   const ap=P[avIdx];html+=pinHTML(ap.x,ap.y,'ypin');
   const dn2=Math.min(dn,365),curSt=stageIdx();
-  const stagesH=`<div class="jstages">${STAGES.map((g,i)=>{const len=g.d[1]-g.d[0]+1;const f=dn2>g.d[1]?100:Math.max(0,Math.round((dn2-g.d[0]+1)/len*100));return `<div class="jst${i===curSt?' now':''}${dn2<g.d[0]?' fut':''}"><div class="h"><span>${g.e} ${esc(g.n)}${i===curSt?' · אתה כאן':''}</span><small>ימים ${g.d[0]}–${g.d[1]}</small></div><div class="bar"><i style="width:${f}%"></i></div>${i===curSt||i===curSt+1?`<p>${esc(g.f)}</p>`:''}</div>`}).join('')}</div>
+  const PS=(S.plan&&S.plan.stages)||[];const dream=(S.profile.dream||'').trim();
+  const floor=(g,i)=>{const p=PS[i]||{};const len=g.d[1]-g.d[0]+1;const f=dn2>g.d[1]?100:Math.max(0,Math.round((dn2-g.d[0]+1)/len*100));
+    const st=dn2>g.d[1]?'past':(i===curSt?'now':'fut');const left=Math.max(0,g.d[1]-dn2+1);
+    const acts=(p.actions||[]).slice(0,3);
+    return `<div class="flr ${st}"><div class="fno">${i+1}</div><div class="fbody"><div class="h"><span>${g.e} ${esc(p.name||g.n)}</span><small>${st==='past'?'✓ הושלמה':st==='now'?'אתה כאן · עוד '+left+' ימים':'ימים '+g.d[0]+'–'+g.d[1]}</small></div>${st==='now'?`<div class="bar"><i style="width:${f}%"></i></div>`:''}<p>${esc(p.focus||g.f)}</p><p class="ex">🎯 לעלות לקומה הבאה: ${esc(p.exit||g.x)}</p>${acts.length?`<ul>${acts.map(a=>`<li>${esc(a)}</li>`).join('')}</ul>`:''}</div></div>`};
+  const stagesH=`<div class="tower"><div class="flr roof ${dn2>=365?'past':''}"><div class="fno">${S.profile.dreamEmoji||'🏔️'}</div><div class="fbody"><div class="h"><span>החלום · הפסגה</span><small>יום 365</small></div><p><b>${dream?esc(dream):'החלום שלי'}</b></p></div></div>${STAGES.map((g,i)=>floor(g,i)).reverse().join('')}<div class="flr gnd past"><div class="fno">🚩</div><div class="fbody"><div class="h"><span>נקודת הפתיחה</span><small>יום 1</small></div></div></div></div>
     <div class="jheat"><h4>365 הימים שלי – כל משבצת יום</h4><div class="heat">${heatmap()}</div></div>`;
   $('year').innerHTML=`<div class="ytop"><button class="xbtn" id="yClose">✕</button><h2>המסע השנתי</h2>
     <div class="ystats"><div><b>${Math.min(dn,365)}</b><span>יום מתוך 365</span></div><div><b>${sd}</b><span>ימי הצלחה</span></div><div><b>${Math.min(100,Math.round(sd/365*100))}%</b><span>מהדרך לחלום</span></div></div>

@@ -608,6 +608,17 @@ textarea.inp{width:100%;resize:none}
 .secMini .mE i.ok{filter:none;opacity:1}
 .secMini small{color:var(--muted);font-weight:800;font-size:11.5px}
 
+.night.close{justify-content:flex-start;align-items:stretch;text-align:right;pointer-events:auto;overflow-y:auto;padding:0 14px 150px;gap:10px}
+.clT{display:flex;align-items:center;gap:10px}.clT .moon2{font-size:38px}.clT h2{margin:0;font-size:22px}.clT small{font-weight:700;opacity:.85;font-size:12px}
+.clT .x2{margin-right:auto;background:#ffd45e;color:#5a3a00;border-radius:99px;padding:6px 12px;font-family:'Secular One';font-weight:400;font-size:15px;white-space:nowrap;box-shadow:0 3px 0 #c9960c}
+.anchor{background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.35);border-radius:20px;padding:14px;text-align:center}
+.anchor .aE{font-size:46px;line-height:1}
+.anchor .aW{font-family:'Secular One',Rubik;font-size:19px;line-height:1.35;margin-top:6px}.anchor .aW small{display:block;font-family:Rubik;font-weight:800;font-size:11px;opacity:.8;letter-spacing:.5px}
+.anchor .aM{margin-top:8px;font-weight:700;font-size:14px;opacity:.95}
+.anchor .aV{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:8px}.anchor .aV i{font-style:normal;font-size:11.5px;font-weight:800;background:rgba(255,255,255,.2);border-radius:99px;padding:3px 10px}
+.anchor .aS{margin-top:10px;font-weight:800;font-size:13px;color:#ffe08a}
+.clH{display:grid;gap:8px;color:var(--ink,#3a2a10)}.clN{text-align:center;font-weight:700;font-size:12.5px;opacity:.85}
+.stdTag.x2t{background:#3b2f7a;color:#ffe08a!important;border-radius:99px;padding:1px 7px}
 .hbs3{display:flex;gap:5px;flex:none;align-items:center}
 .hbs3 .hbm,.hbs3 .hbu{width:36px;height:36px;padding:0;border-radius:50%;font-size:16px}
 .hbu{background:#e6eeff;color:#3554c8;box-shadow:0 2px 0 #c3d0f5}
@@ -945,7 +956,7 @@ async function raiseStd(h){
 }
 async function driftWarn(h,n){
   const st=stdOf(h);
-  await showCard({icon:'⚓',band:'',title:'עוגן מינימליסטי',body:`${n} ימים ברצף של מינימום ב<b>${esc(h.emoji)} ${esc(h.name)}</b>.<br><small>מינימום מציל יום בודד – אבל יום אחרי יום הוא הופך להרגל החדש.</small><br><br>מחר חוזרים לקו: <b>${st?fmtStd(st):'ביצוע מלא'}</b>`,buttons:'<button class="btn" data-close>מחר אני על הקו 💪</button><button class="btn ghost" data-close id="drEdit">להתאים סטנדרט</button>'});
+  await showCard({icon:'⚓',band:'',title:'מתחת לסטנדרט – כבר כמה ימים',body:`${n} ימים ברצף מתחת לסטנדרט ב<b>${esc(h.emoji)} ${esc(h.name)}</b>.<br><small>יום אחד מתחת לקו – בסדר גמור. יום אחרי יום – זה כבר הסטנדרט החדש שלך.</small><br><br>מחר חוזרים לקו: <b>${st?fmtStd(st):'ביצוע מלא'}</b>`,buttons:'<button class="btn" data-close>מחר אני על הקו 💪</button><button class="btn ghost" data-close id="drEdit">להתאים סטנדרט</button>'});
 }
 function afterMark(h,kind){
   const d=day();
@@ -966,22 +977,22 @@ function stdChart(h,w=300,hh=110){
 }
 function stdStatus(h){
   const st=stdOf(h);const s=stdStreak(h),mr=minRun(h);
-  if(mr>=2)return {cls:'warn',txt:`⚓ ${mr} ימי מינימום ברצף`};
+  if(mr>=2)return {cls:'warn',txt:`⚓ ${mr} ימים מתחת לסטנדרט`};
   if(!st)return {cls:'',txt:s?`✓ ${s} ימים ברצף · הגדר סטנדרט מדיד`:'הגדר סטנדרט מדיד'};
   return {cls:s?'ok':'',txt:`📏 ${fmtStd(st)} · ${Math.min(s,st.win)}/${st.win} ימים להעלאה`};
 }
 function openStd(id){
   const h=habitById(id);if(!h)return;const st=stdOf(h);const hist=stdHistory(h,14);const c={min:0,std:0,up:0};hist.forEach(o=>{const l=lvOf(o.d,h.id);if(l)c[l]++});
   const s=stdStreak(h);const S2=st||{val:'',unit:'',dim:'כמות',step:.1,win:7};
-  let html=`<h2>${esc(h.emoji)} ${esc(h.name)}</h2><div class="hint">הסטנדרט הוא ההרגל. המינימום הוא עוגן ליום חלש – לא שגרה.</div>
-  <div class="card2">${stdChart(h)}<div class="lgnd"><span><i style="background:#ffb020"></i>מינימום ${c.min}</span><span><i style="background:#4cb21f"></i>סטנדרט ${c.std}</span><span><i style="background:#5b8cff"></i>מעל ${c.up}</span></div></div>
+  let html=`<h2>${esc(h.emoji)} ${esc(h.name)}</h2><div class="hint">המשחק: לנצח את הסטנדרט. מתחת לסטנדרט שומר על היום – אבל הוא לא היעד.</div>
+  <div class="card2">${stdChart(h)}<div class="lgnd"><span><i style="background:#ffb020"></i>מתחת ${c.min}</span><span><i style="background:#4cb21f"></i>סטנדרט ${c.std}</span><span><i style="background:#5b8cff"></i>ניצחתי ${c.up}</span></div></div>
   <div class="card2"><b>${st?`${s}/${st.win} ימים ברצף על הקו`:'עוד לא הוגדר סטנדרט מדיד'}</b><div class="lbar"><i style="width:${st?Math.min(1,s/st.win)*100:0}%"></i></div><small class="hint" style="margin:0">${st?`כשתגיע ל-${st.win} – הסטנדרט יעלה ל-${raiseVal(st)} ${esc(st.unit)}`:'תן להרגל מספר כדי שיוכל לעלות.'}</small></div>
   <h4 style="margin:14px 0 6px">✏️ הגדרת סטנדרט</h4>
   <div class="hrow"><input class="inp" id="sVal" type="number" step="0.5" value="${S2.val}" placeholder="20" style="width:90px"><input class="inp n" id="sUnit" value="${esc(S2.unit)}" placeholder="שכיבות / דק׳ / עמודים"></div>
   <div class="trow"><span class="lab">ממד</span><select class="inp" id="sDim">${['כמות','זמן','איכות'].map(x=>`<option${S2.dim===x?' selected':''}>${x}</option>`).join('')}</select></div>
   <div class="hrow"><input class="inp n" id="sQual" value="${esc(h.qual||'')}" placeholder="איכות: למשל טכניקה מלאה, בלי טלפון, קצב קבוע"></div>
   <div class="trow"><span class="lab">העלאה כל</span><select class="inp" id="sWin">${[5,7,10,14].map(x=>`<option value="${x}"${(S2.win||7)==x?' selected':''}>${x} ימים</option>`).join('')}</select><span>ב-</span><select class="inp" id="sStep">${[5,10,15,20].map(x=>`<option value="${x/100}"${Math.round((S2.step||.1)*100)==x?' selected':''}>${x}%</option>`).join('')}</select></div>
-  <div class="hrow"><input class="inp n" id="sMin" value="${esc(h.min||minOf(h))}" placeholder="🌱 גרסת מינימום"></div>
+  <div class="hrow"><input class="inp n" id="sMin" value="${esc(h.min||minOf(h))}" placeholder="↘ גרסה מקוצרת (מתחת לסטנדרט)"></div>
   <div class="row" style="margin-top:10px"><button class="btn" id="sSave">שמור</button>${st?`<button class="btn green" id="sUp">🆙 העלה עכשיו ל-${raiseVal(st)}</button>`:''}</div>
   ${(h.stdHist||[]).length?`<h4 style="margin:16px 0 6px">📈 היסטוריית הסטנדרט</h4><div class="stdHist">${(h.stdHist||[]).map(x=>`<span>${x.val} ${esc(x.unit)}</span>`).join('<i>→</i>')}<i>→</i><b>${st?esc(fmtStd(st)):''}</b></div>`:''}`;
   openSheet(html);
@@ -999,7 +1010,7 @@ function openStdAll(){
 }
 function askUp(id){
   const h=habitById(id);const st=stdOf(h);if(!st){markHabit(id,'up');return}
-  openSheet(`<h2>🚀 מעל הסטנדרט</h2><div class="hint">כמה עשית? הסטנדרט: ${esc(fmtStd(st))}</div>
+  openSheet(`<h2>🚀 לנצח את הסטנדרט</h2><div class="hint">כמה עשית? הסטנדרט: ${esc(fmtStd(st))}</div>
   <div class="upPick">${[1.1,1.25,1.5].map(m=>{const v=Math.round(st.val*m*2)/2;return `<button class="ch" data-uv="${v}">${v}</button>`}).join('')}</div>
   <div class="hrow"><input class="inp n" id="upV" type="number" step="0.5" value="${Math.round(st.val*1.2)}"><span style="font-weight:800">${esc(st.unit)}</span><button class="btn green sm" id="upGo">שמור</button></div>`);
   $('sheet').querySelectorAll('[data-uv]').forEach(b=>b.onclick=()=>markHabit(id,'up',+b.dataset.uv));
@@ -1008,12 +1019,13 @@ function askUp(id){
 
 /* habit row (min / std / up) */
 function habRow(h,st,d){
-  const lv=lvOf(d,h.id);const sd=stdOf(h);const t=stdStatus(h);const v=d.val&&d.val[h.id];
-  const meta=`<span class="stdTag ${t.cls}">${t.txt}</span><span>🌱 ${esc(minOf(h))}</span>`;
+  if(st==='past')st=habSt(h);const late=st==='late';if(late)st='open';
+  const lv=lvOf(d,h.id);const sd=stdOf(h);const t=stdStatus(h);const v=d.val&&d.val[h.id];const wasLate=d.late&&d.late[h.id];
+  const meta=`<span class="stdTag ${t.cls}">${t.txt}</span><span>↘ ${esc(minOf(h))}</span>${late?`<span class="stdTag x2t">🌙 ×${LATE_X} XP</span>`:''}`;
   let right;
-  if(lv)right=`<span class="tag lv-${lv}">${lv==='min'?'🌱 מינימום':lv==='up'?`🚀 ${v||'מעל'}`:'✓ סטנדרט'}</span>`;
-  else if(st==='open')right=`<span class="hbs3"><button class="hbm" data-min="${h.id}">🌱 מינימום</button><button class="hbf" data-full="${h.id}">✓ ${sd?esc(fmtStd(sd)):'סטנדרט'}</button><button class="hbu" data-up="${h.id}">🚀 מעל</button></span>`;
-  else right=`<span class="tag">${st==='past'?'—':'🔒'}</span>`;
+  if(lv)right=`<span class="tag lv-${lv}">${lv==='min'?'↘ מתחת לסטנדרט':lv==='up'?`🚀 ניצחתי${v?' · '+v:''}`:'✓ סטנדרט'}${wasLate?' 🌙':''}</span>`;
+  else if(st==='open')right=`<span class="hbs3"><button class="hbm" data-min="${h.id}">↘ מתחת</button><button class="hbf" data-full="${h.id}">✓ ${sd?esc(fmtStd(sd)):'סטנדרט'}</button><button class="hbu" data-up="${h.id}">🚀 לנצח</button></span>`;
+  else right=`<span class="tag">${st==='wait'?'🌙 '+hhmm(closeWin().a):st==='past'?'—':'🔒'}</span>`;
   return `<div class="hab hab2${lv?' done':(st!=='open'?' locked':' open')}"><span class="em">${esc(h.emoji)}</span><span class="nm" data-std="${h.id}">${esc(h.name)}<small class="hm">${meta}</small></span>${right}</div>`;
 }
 function bindHabRows(root){root.querySelectorAll('[data-full]').forEach(b=>b.onclick=()=>markHabit(b.dataset.full,'std'));root.querySelectorAll('[data-min]').forEach(b=>b.onclick=()=>markHabit(b.dataset.min,'min'));root.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>askUp(b.dataset.up));root.querySelectorAll('[data-std]').forEach(b=>b.onclick=()=>openStd(b.dataset.std))}
@@ -1024,7 +1036,7 @@ function renderRemind(){
   const w=secWin(CH);if(!w)return;const left=w.b-nowMins();
   const und=habitsOn(today()).filter(h=>h.sec===CH.id&&!d.done[h.id]);
   if(!und.length||left>90||left<=0)return;const h=und[0];
-  el.innerHTML=`<button class="rx" id="remX">✕</button><b>⏰ עוד ${left} דק׳ נסגר פרק ה${esc(CH.short)}</b><div class="rt">${esc(h.emoji)} ${esc(h.name)}${und.length>1?` · ועוד ${und.length-1}`:''}<br><small>ביום חלש מספיק מינימום: <b>${esc(minOf(h))}</b></small></div><div class="rb"><button class="hbm" data-min="${h.id}">🌱 מינימום</button><button class="hbf" data-full="${h.id}">✓ ${stdOf(h)?esc(fmtStd(stdOf(h))):"סטנדרט"}</button></div>`;
+  el.innerHTML=`<button class="rx" id="remX">✕</button><b>⏰ עוד ${left} דק׳ נסגר פרק ה${esc(CH.short)}</b><div class="rt">${esc(h.emoji)} ${esc(h.name)}${und.length>1?` · ועוד ${und.length-1}`:''}<br><small>יום חלש? גם מתחת לסטנדרט נספר: <b>${esc(minOf(h))}</b></small></div><div class="rb"><button class="hbm" data-min="${h.id}">↘ מתחת לסטנדרט</button><button class="hbf" data-full="${h.id}">✓ ${stdOf(h)?esc(fmtStd(stdOf(h))):"סטנדרט"}</button></div>`;
   el.style.display='block';bindHabRows(el);$('remX').onclick=()=>{d.remHide[CH.id]=true;save();el.style.display='none'};
 }
 
@@ -1041,6 +1053,25 @@ function day(k=today()){
   }
   const d=S.days[k];['queue'].forEach(x=>{if(!Array.isArray(d[x]))d[x]=[]});['landed','opened','done'].forEach(x=>{if(!d[x])d[x]={}});if(d.pos==null)d.pos=0;
   return d;
+}
+function closeWin(k=today()){
+  if(isRestDay(k))return null;const le=Math.max(...secs().map(x=>mins(x.end)));
+  if(shabbatOn()&&wdOf(k)===5){const c=candleMin(k);return {a:Math.max(0,c-60),b:c}}
+  return {a:Math.min(le,1380),b:1440};
+}
+function inClose(){if(isShabbatNow())return false;const w=closeWin();if(!w)return false;const n=nowMins();return n>=w.a&&n<w.b}
+function habSt(h){const st=secState(secById(h.sec));if(st!=='past'||S.settings.testMode||isShabbatNow())return st;const w=closeWin();if(!w)return 'past';const n=nowMins();return n<w.a?'wait':(n<w.b?'late':'past')}
+function pendingLate(){const d=day();return habitsOn(today()).filter(h=>!d.done[h.id]&&habSt(h)==='late')}
+function whyLine(){const P=S.profile;return (P.why||P.purpose||P.dream||'').trim()}
+const LATE_X=2;
+function closeHTML(pend){
+  const P=S.profile,d=day();const si=streakInfo();const nd=Math.max(0,need(today())-doneCount(today()));const w=closeWin();
+  const why=whyLine();
+  return `<div class="night close" style="padding-top:${Math.round($('hdr').getBoundingClientRect().height)+14}px"><div class="clT"><span class="moon2">🌙</span><div><h2>לפני שעוצמים עיניים</h2><small>ההזדמנות האחרונה של היום · עד ${hhmm(w.b%1440)}</small></div><b class="x2">×${LATE_X} XP</b></div>
+  <div class="anchor"><div class="aE">${esc(dreamEmoji())}</div>${why?`<div class="aW"><small>הלמה שלי</small>${esc(why)}</div>`:`<div class="aW"><small>הלמה שלי</small>בשביל מי שאני בוחר להיות.</div>`}${P.mantra?`<div class="aM">״${esc(P.mantra)}״</div>`:''}${(P.values||[]).length?`<div class="aV">${P.values.map(v=>`<i>${esc(v)}</i>`).join('')}</div>`:''}
+  <div class="aS">${nd>0?`🔥 עוד ${nd} ${nd===1?'הרגל':'הרגלים'} – והיום נרשם כניצחון${si.n?` (רצף ${si.n})`:''}`:`🔥 היום כבר ניצחון${si.n?` · רצף ${si.n}`:''}. עכשיו סוגרים את מה שנשאר.`}</div></div>
+  <div class="clH">${pend.map(h=>habRow(h,'past',d)).join('')}</div>
+  <div class="clN">דווקא עכשיו, כשהכי לא בא – זה הביצוע ששווה הכי הרבה.</div></div>`;
 }
 function secState(sec){
   if(S.settings.testMode)return 'open';
@@ -1125,6 +1156,7 @@ function renderBoard(scroll){
   if(!CH){
     boardH=sc.clientHeight;board.style.height=boardH+'px';
     if(isShabbatNow()){const t=today();board.innerHTML=`<div class="night"><div class="moon">🕯️🕯️</div><h2>שבת שלום</h2><p>מנוחה מלאה – בלי הרגלים ובלי תזכורות.<br>הרצף שלך שמור ✓</p><div class="hint" style="color:#fff;opacity:.85">${wdOf(t)===5?'השבת נכנסה ב-'+hhmm(candleMin(t)):'נתראה במוצאי שבת'}</div></div>`;return}
+    const pend=pendingLate();if(pend.length){board.innerHTML=closeHTML(pend);bindHabRows(board);return}
     const first=secs()[0];const before=nowMins()<mins(first.start);
     const fl=secs().map(s=>`<span class="${chOf(s.id).flag?'':'off'}">${s.mark}</span>`).join('');
     board.innerHTML=`<div class="night"><div class="moon">${before?'🌄':'🌙'}</div><h2>${before?'עוד רגע מתחילים':'היום נסגר'}</h2><p>${before?`פרק הבוקר נפתח ב-${first.start}`:`מחר ב-${first.start} ממשיכים במסע`}</p><div class="flags">${fl}</div></div>`;
@@ -1239,6 +1271,7 @@ function renderSky(){
   $('skybar').innerHTML=h;
   const fri=shabbatOn()&&wdOf(today())===5&&!isShabbatNow()?` · כניסת שבת ${hhmm(candleMin(today()))}`:'';
   if(isShabbatNow()){$('skylbl').textContent='🕯️ שבת שלום · מנוחה';return}
+  if(!CH&&pendingLate().length){$('skylbl').textContent=`🌙 לפני שעוצמים עיניים · ×${LATE_X} XP`;return}
   $('skylbl').textContent=(CH?`${CH.mark} פרק ה${CH.short} · ${CH.start}–${CH.end}`:(n<mins(secs()[0].start)?`🌄 פרק הבוקר נפתח ב-${secs()[0].start}`:'🌙 זמן מנוחה · מחר ממשיכים'))+fri;
 }
 function render(scroll){
@@ -1247,7 +1280,7 @@ function render(scroll){
   cs.innerHTML=(si.frozen?'❄️':'<span class="fl">🔥</span>')+` ${si.n}`;
   setCloud(cloud);
   const e=d.queue.length;const g=$('go');
-  if(!CH){g.className='empty';$('goIco').textContent=isShabbatNow()?'🕯️':'🌙';$('energyTxt').textContent=isShabbatNow()?'שבת':'מנוחה'}
+  if(!CH){g.className='empty';$('goIco').textContent=isShabbatNow()?'🕯️':'🌙';$('energyTxt').textContent=isShabbatNow()?'שבת':(pendingLate().length?'סגירת יום':'מנוחה')}
   else if(e){g.className='ready';$('goIco').textContent='GO';$('energyTxt').textContent='⚡ '+e}
   else{g.className='mk';$('goIco').textContent='+';$('energyTxt').textContent='סמן הרגל'}
   drawWheel(CH?e:0);$('plusMini').classList.toggle('show',!!(CH&&e));
@@ -1261,11 +1294,11 @@ function render(scroll){
 let lastMark=0;const COOLDOWN=3000;
 function openHabits(){
   const d=day();
-  let html=`<h2>מה ביצעת עכשיו בעולם האמיתי?</h2><div class="hint">כל הרגל = ⚡ אנרגיה לצעד אחד על הלוח. ניתן לסמן רק בחלון הזמן שלו.</div>`;
+  let html=`<h2>מה ביצעת עכשיו בעולם האמיתי?</h2><div class="hint">כל הרגל = ⚡ צעד על הלוח. מה שלא סומן בזמן לא נעלם – הוא חוזר ב״לפני שעוצמים עיניים״ עם ניקוד כפול.</div>`;
   let any=false;
   secs().forEach(s=>{
     const hs=habitsOn(today()).filter(h=>h.sec===s.id);if(!hs.length)return;any=true;
-    const st=secState(s);const stTxt={open:'פתוח עכשיו',past:'החלון נסגר',future:`נפתח ב-${s.start}`}[st];
+    const st=secState(s);const cw=closeWin();const stTxt={open:'פתוח עכשיו',past:(inClose()?`🌙 פתוח · ×${LATE_X}`:cw&&nowMins()<cw.a?`חוזר ב-${hhmm(cw.a)} 🌙`:'היום נסגר'),future:`נפתח ב-${s.start}`}[st];
     html+=`<div class="sec"><div class="sech"><span>${s.mark} ${esc(s.name)} · ${s.start}–${s.end}</span><span class="badge ${st}">${stTxt}</span></div>`;
     hs.forEach(h=>{html+=habRow(h,st,d)});
     html+='</div>';
@@ -1281,17 +1314,18 @@ function markHabit(id,kind='std',val){if(kind==='full')kind='std';
   if(d.done[id]){toast('כבר סימנת את זה היום ✓');return}
   const sec=secById(h.sec);const st=secState(sec);
   if(st==='future'){toast(`ייפתח ב-${sec.start} ⏰`);return}
-  if(st==='past'){toast('החלון נסגר – מחר הזדמנות חדשה 🌱');return}
+  let late=false;if(st==='past'){const hs=habSt(h);if(hs==='late')late=true;else if(hs==='wait'){toast(`לא אבוד 🌙 נפתח שוב ב"לפני שעוצמים עיניים" (${hhmm(closeWin().a)})`);return}else{toast('היום נסגר – מחר הזדמנות חדשה 🌱');return}}
   const left=COOLDOWN-(Date.now()-lastMark);
   if(left>0){toast(`כל הרגל בנפרד… (${Math.ceil(left/1000)})`);return}
-  lastMark=Date.now();d.done[id]=Date.now();d.queue.push(id);
+  lastMark=Date.now();d.done[id]=Date.now();if(late){d.late=d.late||{};d.late[id]=1}else d.queue.push(id);
   const sd=stdOf(h);d.lv=d.lv||{};d.lv[id]=kind;if(sd){d.sv=d.sv||{};d.sv[id]=sd.val}
   if(kind==='up'){d.val=d.val||{};d.val[id]=val||(sd?Math.round(sd.val*1.2):0)}
   if(kind==='min'){d.minDone=d.minDone||{};d.minDone[id]=1;h.minReps=(h.minReps||0)+1}else h.reps=(h.reps||0)+1;
   save();sfx.pop();buzz(30);
-  closeSheet();render(false);toast(kind==='min'?`🌱 עוגן מינימום – היום ניצל. מחר על הקו.`:kind==='up'?`🚀 מעל הסטנדרט! +1 ⚡`:`${h.emoji} על הקו ✓ +1 ⚡`);
-  S.totalDone=(S.totalDone||0)+1;addXP(kind==='min'?5:kind==='up'?15:10);checkQuests();checkBadges();afterMark(h,kind);
-  const ml=MASCOT_LINES.done;mascotSay(ml[Math.floor(Math.random()*ml.length)]+' לחץ GO!');
+  closeSheet();render(false);toast(late?`🌙 ניצחת את ההתנגדות! ×${LATE_X} XP`:kind==='min'?`↘ מתחת לסטנדרט – היום נספר. מחר מנצחים את הקו.`:kind==='up'?`🚀 ניצחת את הסטנדרט! +1 ⚡`:`${h.emoji} על הסטנדרט ✓ +1 ⚡`);
+  S.totalDone=(S.totalDone||0)+1;addXP((kind==='min'?5:kind==='up'?15:10)*(late?LATE_X:1));checkQuests();checkBadges();afterMark(h,kind);
+  if(late){if(!pendingLate().length)queueCele(()=>showCard({icon:'🌙',band:'g',title:'סגרת את היום',body:'כל מה שנשאר פתוח – בוצע, דווקא ברגע הכי קשה.<br><small>ככה נבנית זהות: עושים גם כשלא בא.</small>',buttons:'<button class="btn" data-close>לילה טוב 😴</button>'}))}
+  else{const ml=MASCOT_LINES.done;mascotSay(ml[Math.floor(Math.random()*ml.length)]+' לחץ GO!')}
   if(!d.streakShown&&need(today())&&doneCount(today())>=need(today())){d.streakShown=true;save();queueCele(streakCele)}
 }
 
@@ -1299,7 +1333,7 @@ function markHabit(id,kind='std',val){if(kind==='full')kind='std';
 let busy=false;const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function go(){
   if(busy)return;const d=day();buildTiles();
-  if(!CH){toast(isShabbatNow()?'שבת שלום 🕯️ – מנוחה':'זמן מנוחה 🌙 – מחר ממשיכים');return}
+  if(!CH){if(pendingLate().length){showTab('board');return}toast(isShabbatNow()?'שבת שלום 🕯️ – מנוחה':'זמן מנוחה 🌙 – מחר ממשיכים');return}
   flushOther(false);
   if(!d.queue.length){openHabits();return}
   showTab('board');
@@ -1501,7 +1535,7 @@ function drawSettings(){
   <h4>✅ ההרגלים שלי</h4><div class="hint">שם, מקטע וימים בשבוע לכל הרגל.</div>`;
   draft.habits.forEach((h,i)=>{const days=h.days||ALLDAYS;
     html+=`<div class="hrow"><input class="inp e" data-i="${i}" data-f="emoji" value="${esc(h.emoji)}" maxlength="4"><input class="inp n" data-i="${i}" data-f="name" value="${esc(h.name)}"><select class="inp" data-i="${i}" data-f="sec">${opt(h.sec)}</select><button class="x" data-del="${i}">✕</button></div>
-    <div class="hrow" style="padding-right:54px;margin-top:-2px"><input class="inp n" data-i="${i}" data-f="min" value="${esc(h.min||minOf(h))}" placeholder="🌱 גרסת מינימום" style="font-size:12.5px;padding:6px 9px"></div>
+    <div class="hrow" style="padding-right:54px;margin-top:-2px"><input class="inp n" data-i="${i}" data-f="min" value="${esc(h.min||minOf(h))}" placeholder="↘ גרסה מקוצרת (מתחת לסטנדרט)" style="font-size:12.5px;padding:6px 9px"></div>
     <div class="wdrow">${WD.map((w,wi)=>`<button class="${days.includes(wi)?'on':''}" data-wd="${i}:${wi}">${w}</button>`).join('')}</div>`});
   html+=`<button class="btn ghost sm" id="addH">+ הוספת הרגל</button>
   <h4>⏰ חלונות זמן</h4>`;
@@ -2056,7 +2090,8 @@ function renderToday(){
     h+=H('✅',`הרגלים <small>${doneCount(today())}/${hs.length}</small>`,'<span><button class="lnk" id="tStdAll">📏 קו הסטנדרט</button> <button class="lnk" id="tEditH">✏️</button></span>');
     secs().forEach(s=>{const sh=hs.filter(x=>x.sec===s.id);if(!sh.length)return;const st=secState(s);
       if(st==='open'||S.settings.testMode){h+=`<div class="subH">${s.mark} ${esc(s.short)} · פתוח עכשיו ${chOf(s.id).flag?'🚩':''}</div>`;sh.forEach(x=>{h+=habRow(x,st,d)})}
-      else h+=`<div class="secMini${st==='past'?' past':''}"><span>${s.mark} ${esc(s.short)}</span><span class="mE">${sh.map(x=>`<i class="${d.done[x.id]?'ok':''}">${esc(x.emoji)}</i>`).join('')}</span><small>${st==='past'?(chOf(s.id).flag?'🚩 הושלם':`${sh.filter(x=>d.done[x.id]).length}/${sh.length}`):'נפתח ב-'+s.start}</small></div>`});
+      else if(st==='past'&&inClose()&&sh.some(x=>!d.done[x.id])){h+=`<div class="subH">${s.mark} ${esc(s.short)} · 🌙 לפני שעוצמים עיניים · ×${LATE_X} XP</div>`;sh.forEach(x=>{h+=habRow(x,st,d)})}
+      else h+=`<div class="secMini${st==='past'?' past':''}"><span>${s.mark} ${esc(s.short)}</span><span class="mE">${sh.map(x=>`<i class="${d.done[x.id]?'ok':''}">${esc(x.emoji)}</i>`).join('')}</span><small>${st==='past'?(chOf(s.id).flag?'🚩 הושלם':`${sh.filter(x=>d.done[x.id]).length}/${sh.length}${sh.some(x=>!d.done[x.id])&&closeWin()&&nowMins()<closeWin().a?' · חוזר 🌙 '+hhmm(closeWin().a):''}`):'נפתח ב-'+s.start}</small></div>`});
   }
   h+=H('📝',`משימות <small>${T.length-doneT} פתוחות</small>`,doneT?`<button class="lnk sweep" id="tClear">🧹 נקה ${doneT} שהושלמו</button>`:'');
   h+=`<div class="card2 tasks">${T.map(t=>`<div class="task${t.done?' on':''}" data-task="${t.id}"><button class="tck" data-tt="${t.id}"><i>${t.done?'✓':''}</i></button><span class="ttx" data-te="${t.id}">${esc(t.text)}</span><button class="tdel" data-td="${t.id}">✕</button></div>`).join('')}
@@ -2114,7 +2149,7 @@ async function testPush(){
 function pushBox(){
   const on=!!S.settings.push;
   return `<div class="syncbox" style="background:linear-gradient(135deg,#fff7e0,#fff0f0)"><div style="font-weight:900;font-size:14px">${on?'🔔 תזכורות פעילות':'🔕 תזכורות כבויות'}</div>
-  <div class="hint" style="margin:6px 0 8px">תזכורת מגיעה <b>רק אם לא ביצעת</b> – שעה ו-15 דקות לפני שהפרק נסגר, עם גרסת המינימום. בשבת – שקט.${isIOS&&!isStandalone()?'<br>📱 באייפון: קודם "הוסף למסך הבית" ופתח משם.':''}</div>
+  <div class="hint" style="margin:6px 0 8px">תזכורת מגיעה <b>רק אם לא ביצעת</b> – שעה ו-15 דקות לפני שהפרק נסגר, עם הגרסה המקוצרת. בשבת – שקט.${isIOS&&!isStandalone()?'<br>📱 באייפון: קודם "הוסף למסך הבית" ופתח משם.':''}</div>
   <div class="row">${on?'<button class="btn ghost sm" id="pTest">שלח בדיקה</button><button class="btn ghost sm" id="pOff">כבה</button>':'<button class="btn green sm" id="pOn">🔔 הפעל תזכורות</button>'}</div></div>`;
 }
 function bindPushBox(root,after){
